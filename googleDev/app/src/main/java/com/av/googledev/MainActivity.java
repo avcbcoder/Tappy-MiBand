@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
 
-    private Button mconnect, mlisten, mstart, mstop, mShort;
+    private Button mconnect, mlisten, mstart, mstop, mShort, mBattery;
     private EditText mAddress;
     private TextView mPhysicalAddress, mState;
 
@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mState = findViewById(R.id.ble_state);
         mAddress = findViewById(R.id.macAddress);
         mShort = findViewById(R.id.ble_shortVibrate);
+        mBattery = findViewById(R.id.ble_battery);
 
         mconnect.setOnClickListener(this);
         mlisten.setOnClickListener(this);
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mstop.setOnClickListener(this);
         mShort.setOnClickListener(this);
         mState.setOnClickListener(this);
+        mBattery.setOnClickListener(this);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -83,7 +85,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.ble_state:
                 showNotification();
                 break;
+            case R.id.ble_battery:
+                getBatteryInfo();
+                break;
         }
+    }
+
+    private void getBatteryInfo() {
+        Log.e(TAG, "listen: Battery");
+        BluetoothGattCharacteristic bchar = bluetoothGatt.getService(BLEConstants.Basic.service)
+                .getCharacteristic(BLEConstants.Basic.batteryCharacteristic);
+        bluetoothGatt.setCharacteristicNotification(bchar, true);
+        BluetoothGattDescriptor descriptor = bchar.getDescriptor(BLEConstants.HeartRate.descriptor);
+        descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+        bluetoothGatt.writeDescriptor(descriptor);
     }
 
     private void showNotification() {

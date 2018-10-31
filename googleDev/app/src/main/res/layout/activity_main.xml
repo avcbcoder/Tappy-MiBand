@@ -10,14 +10,14 @@
     tools:context="com.av.googledev.MainActivity">
 
     <TextView
-        android:layout_marginTop="20dp"
-        android:text="STATE"
         android:id="@+id/ble_state"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="STATE"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/macAddress"
@@ -55,12 +55,14 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:text="START VIBRATE" />
+
         <Button
             android:id="@+id/ble_shortVibrate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="SHORT VIBRATE" />
+
         <Button
             android:id="@+id/ble_stopVibrate"
             android:layout_width="wrap_content"
@@ -70,6 +72,13 @@
             android:text="STOP VIBRATE" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/ble_battery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Battery INFO" />
 
     <TextView
         android:id="@+id/ble_physicalAddress"
