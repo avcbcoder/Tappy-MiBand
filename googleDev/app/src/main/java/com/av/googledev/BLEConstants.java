@@ -27,3 +27,4 @@ public class BLEConstants {
         public static UUID controlCharacteristic = UUID.fromString("00002a39-0000-1000-8000-00805f9b34fb");
     }
 }
+//0000ff0c-0000-1000-8000-00805f9b34fb

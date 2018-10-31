@@ -20,6 +20,7 @@
         android:textStyle="bold" />
 
     <EditText
+        android:text="E5:E7:F4:75:6F:C1"
         android:id="@+id/macAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
