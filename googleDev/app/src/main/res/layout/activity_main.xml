@@ -13,39 +13,39 @@
         android:id="@+id/ble_state"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="STATE"
         android:textSize="30sp"
         android:textStyle="bold" />
 
     <EditText
-        android:text="E5:E7:F4:75:6F:C1"
         android:id="@+id/macAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
-        android:hint="Enter MAC address" />
+        android:hint="Enter MAC address"
+        android:text="E5:E7:F4:75:6F:C1" />
 
     <Button
         android:id="@+id/ble_connect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="CONNECT" />
 
     <Button
         android:id="@+id/ble_listen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:text="LISTEN" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -78,14 +78,27 @@
         android:id="@+id/ble_battery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:text="Battery INFO" />
+
+    <Button
+        android:id="@+id/ble_notify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Notify" />
+
+    <EditText
+        android:id="@+id/ble_notify_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2" />
 
     <TextView
         android:id="@+id/ble_physicalAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="TEST"
         android:textSize="20sp"

@@ -20,6 +20,11 @@ public class BLEConstants {
 //        public static UUID alertCharacteristic = UUID.fromString("00002a45-0000-1000-8000-00805f9b34fb");
     }
 
+    public static class Notify{
+        public static UUID _1811 = UUID.fromString("00001811-0000-1000-8000-00805f9b34fb");
+        public static UUID _2a46 = UUID.fromString("00002a46-0000-1000-8000-00805f9b34fb");
+    }
+
     public static class HeartRate {
         public static UUID service = UUID.fromString("0000180d-0000-1000-8000-00805f9b34fb");
         public static UUID measurementCharacteristic = UUID.fromString("00002a37-0000-1000-8000-00805f9b34fb");

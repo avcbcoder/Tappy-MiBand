@@ -21,7 +21,9 @@ import android.widget.Toast;
 import com.av.googledev.model.Battery;
 import com.av.googledev.model.LeParams;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.UUID;
@@ -44,8 +46,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final UUID UUID_CHAR_pair = UUID
             .fromString("0000ff0f-0000-1000-8000-00805f9b34fb");
 
-    private Button mconnect, mlisten, mstart, mstop, mShort, mBattery;
-    private EditText mAddress;
+    private Button mconnect, mlisten, mstart, mstop, mShort, mBattery, mNotify;
+    private EditText mAddress, mInput;
     private TextView mPhysicalAddress, mState;
 
     BluetoothAdapter bluetoothAdapter;
@@ -70,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mAddress = findViewById(R.id.macAddress);
         mShort = findViewById(R.id.ble_shortVibrate);
         mBattery = findViewById(R.id.ble_battery);
+        mNotify = findViewById(R.id.ble_notify);
+        mInput = findViewById(R.id.ble_notify_input);
 
         mconnect.setOnClickListener(this);
         mlisten.setOnClickListener(this);
@@ -78,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mShort.setOnClickListener(this);
         mState.setOnClickListener(this);
         mBattery.setOnClickListener(this);
+        mNotify.setOnClickListener(this);
+        mInput.setOnClickListener(this);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -107,6 +113,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.ble_battery:
                 getBatteryInfo();
+                break;
+            case R.id.ble_notify:
+                try {
+                    notifyCall();
+                }catch(Exception e){
+                    Log.e(TAG, "onClick: Exception" );
+                }
                 break;
         }
     }
@@ -281,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicWrite(gatt, characteristic, status);
-            Log.e("test", "onCharacteristicWrite with request");
+            Log.e("test", "onCharacteristicWrite notify call");
 //            request(UUID_CHAR_REALTIME_STEPS); // start with steps
         }
 
@@ -295,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            byte[] data = characteristic.getValue();
 //            mPhysicalAddress.setText(Arrays.toString(data));
             byte[] data = characteristic.getValue();
-            Log.e(TAG, "onCharacteristicChanged: "+ Arrays.toString(data));
+            Log.e(TAG, "onCharacteristicChanged: " + Arrays.toString(data));
             mPhysicalAddress.setText(Arrays.toString(data));
         }
 
@@ -344,7 +357,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             super.onMtuChanged(gatt, mtu, status);
         }
     };
-//[15, 70, 0, -30, 7, 9, 8, 22, 30, 19, 22, -30, 7, 10, 15, 9, 10, 38, 22, 99]
+
+    //[15, 70, 0, -30, 7, 9, 8, 22, 30, 19, 22, -30, 7, 10, 15, 9, 10, 38, 22, 99]
     void getBoundedDevice() {
         mDeviceName = getIntent().getStringExtra(EXTRAS_DEVICE_NAME);
         mDeviceAddress = getIntent().getStringExtra(EXTRAS_DEVICE_ADDRESS);
@@ -362,5 +376,99 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.e(TAG, "getBoundedDevice: else case " + bd.getName());
             }
         }
+    }
+
+    private void notifyCall() throws UnsupportedEncodingException {
+        Byte incomingCall = 3;
+        Byte missedCall = 3;
+        Byte sms = 5;
+        Byte highPriorityAlert = 8;//Sale un corazon pero sin confirmación de vibrado;
+        Byte schedule = 7;//Sale un corazon pero sin confirmación de vibrado;
+        //Byte any = 255;
+        Byte custom = -1;
+        Byte customHuami = -6;
+        Byte alarmClock = 13;
+        Byte alarmClockOrdinal = 6;
+
+
+        Byte ALERT_LEVEL_NONE = 0;
+        Byte ALERT_LEVEL_MESSAGE = 1;
+        Byte ALERT_LEVEL_PHONE_CALL = 2;
+        Byte ALERT_LEVEL_VIBRATE_ONLY = 3;
+
+
+        Byte WECHAT = 0;
+        Byte PENGUIN_1 = 1;
+        Byte MI_CHAT_2 = 2;
+        Byte FACEBOOK = 3;
+        Byte TWITTER = 4;
+        Byte MI_APP_5 = 5;
+        Byte SNAPCHAT = 6;
+        Byte WHATSAPP = 7;
+        Byte RED_WHITE_FIRE_8 = 8;
+        Byte CHINESE_9 = 9;
+        Byte ALARM_CLOCK = 10;
+        Byte APP_11 = 11;
+        Byte INSTAGRAM = 12; //Con la llamada (3) , simbolo de llamada
+        Byte CHAT_BLUE_13 = 13;
+        Byte COW_14 = 14;
+        Byte CHINESE_15 = 15;
+        Byte CHINESE_16 = 16;
+        Byte STAR_17 = 17;
+        Byte APP_18 = 18;
+        Byte CHINESE_19 = 19;
+        Byte CHINESE_20 = 20;
+        Byte CALENDAR = 21;
+        Byte FACEBOOK_MESSENGER = 22;
+        Byte VIBER = 23;
+        Byte LINE = 24;
+        Byte TELEGRAM = 25;
+        Byte KAKAOTALK = 26;
+        Byte SKYPE = 27;
+        Byte VKONTAKTE = 28;
+        Byte POKEMONGO = 29;
+        Byte HANGOUTS = 30;
+        Byte MI_31 = 31;
+        Byte CHINESE_32 = 32;
+        Byte CHINESE_33 = 33;
+        Byte EMAIL = 34;
+        Byte WEATHER = 35;
+        Byte HR_WARNING_36 = 36;
+
+        String value = "hello world 1234";
+
+        String []ip=mInput.getText().toString().split(" ");
+        byte[] b = new byte[ip.length];
+        for (int i=0;i<ip.length;i++)
+            b[i]=new Byte(ip[i]);
+
+        byte notif = incomingCall;
+        byte alert = MI_APP_5;
+
+        byte[] param = new byte[]{notif, alert};
+//        byte[] param = b;
+        byte[] bytes = value.getBytes(StandardCharsets.US_ASCII);
+
+        Log.e(TAG, "notifyCall: " + Arrays.toString(param) + Arrays.toString(bytes));
+        //byte[] bytes      = value.getBytes();
+
+        //join params and bytes
+        byte[] mensaje = new byte[param.length + bytes.length];
+        System.arraycopy(param, 0, mensaje, 0, param.length);
+        System.arraycopy(bytes, 0, mensaje, param.length, bytes.length);
+
+        Log.e(TAG, "notifyCall: "+(new String(mensaje, "UTF-8")).toString() );
+
+        Log.e(TAG, "notifyCall: " + Arrays.toString(mensaje));
+//        byte[] msg = new bytes(parametros, bytes);
+
+        BluetoothGattCharacteristic bchar = bluetoothGatt.getService(BLEConstants.Notify._1811)
+                .getCharacteristic(BLEConstants.Notify._2a46);
+//        byte[]bc=bchar.getValue();
+//        Log.e(TAG, "notifyCall: "+Arrays.toString(bc) );
+
+        Log.e(TAG, "notifyCall: " + Arrays.toString(mensaje));
+        bchar.setValue(mensaje);
+        bluetoothGatt.writeCharacteristic(bchar);
     }
 }
