@@ -435,12 +435,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Byte WEATHER = 35;
         Byte HR_WARNING_36 = 36;
 
-        String value = "hello world 1234";
+        String value = mInput.getText().toString();
 
-        String []ip=mInput.getText().toString().split(" ");
-        byte[] b = new byte[ip.length];
-        for (int i=0;i<ip.length;i++)
-            b[i]=new Byte(ip[i]);
+//        String []ip=mInput.getText().toString().split(" ");
+//        byte[] b = new byte[ip.length];
+//        for (int i=0;i<ip.length;i++)
+//            b[i]=new Byte(ip[i]);
 
         byte notif = incomingCall;
         byte alert = MI_APP_5;
