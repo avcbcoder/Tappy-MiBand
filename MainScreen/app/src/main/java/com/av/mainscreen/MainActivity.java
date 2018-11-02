@@ -19,16 +19,15 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener,
-        CompoundButton.OnCheckedChangeListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
-    private Button mButton;
+    //    private Button mButton;
     private ViewPager mViewPager;
 
     public static Context ctx;
 
-    private CardPagerAdapter mCardAdapter;
-    private ShadowTransformer mCardShadowTransformer;
+    //    private CardPagerAdapter mCardAdapter;
+//    private ShadowTransformer mCardShadowTransformer;
     private CardFragmentPageAdapter mFragmentCardAdapter;
     private ShadowTransformer mFragmentCardShadowTransformer;
 
@@ -41,16 +40,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ctx=MainActivity.this;
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        ctx = MainActivity.this;
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -63,51 +53,51 @@ public class MainActivity extends AppCompatActivity
 
         //
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
-        mButton = (Button) findViewById(R.id.cardTypeBtn);
-        ((CheckBox) findViewById(R.id.checkBox)).setOnCheckedChangeListener(this);
-        mButton.setOnClickListener(this);
+//        mButton = (Button) findViewById(R.id.cardTypeBtn);
+//        mButton.setOnClickListener(this);
 
-        mCardAdapter = new CardPagerAdapter();
-        mCardAdapter.addCardItem(new CardItem(R.string.title_1, R.string.text_1));
-        mCardAdapter.addCardItem(new CardItem(R.string.title_2, R.string.text_1));
-        mCardAdapter.addCardItem(new CardItem(R.string.title_3, R.string.text_1));
-        mCardAdapter.addCardItem(new CardItem(R.string.title_4, R.string.text_1));
+//        mCardAdapter = new CardPagerAdapter();
+//        mCardAdapter.addCardItem(new CardItem(R.string.title_1, R.string.text_1));
+//        mCardAdapter.addCardItem(new CardItem(R.string.title_2, R.string.text_1));
+//        mCardAdapter.addCardItem(new CardItem(R.string.title_3, R.string.text_1));
+//        mCardAdapter.addCardItem(new CardItem(R.string.title_4, R.string.text_1));
         mFragmentCardAdapter = new CardFragmentPageAdapter(getSupportFragmentManager(),
                 dpToPixels(2));
 
-        mCardShadowTransformer = new ShadowTransformer(mViewPager, mCardAdapter);
+//        mCardShadowTransformer = new ShadowTransformer(mViewPager, mCardAdapter);
         mFragmentCardShadowTransformer = new ShadowTransformer(mViewPager, mFragmentCardAdapter);
 
-        mViewPager.setAdapter(mCardAdapter);
-        mViewPager.setPageTransformer(false, mCardShadowTransformer);
+        mViewPager.setAdapter(mFragmentCardAdapter);
+        mViewPager.setPageTransformer(false, mFragmentCardShadowTransformer);
+
+//        mViewPager.setAdapter(mCardAdapter);
+//        mViewPager.setPageTransformer(false, mCardShadowTransformer);
         mViewPager.setOffscreenPageLimit(3);
+
+        // scale whenever a page is centred
+//        mCardShadowTransformer.enableScaling(true);
+        mFragmentCardShadowTransformer.enableScaling(true);
 
         mViewPager.setPageMargin(5);
     }
 
     @Override
     public void onClick(View view) {
-        if (!mShowingFragments) {
-            mButton.setText("Views");
-            mViewPager.setAdapter(mFragmentCardAdapter);
-            mViewPager.setPageTransformer(false, mFragmentCardShadowTransformer);
-        } else {
-            mButton.setText("Fragments");
-            mViewPager.setAdapter(mCardAdapter);
-            mViewPager.setPageTransformer(false, mCardShadowTransformer);
-        }
-
-        mShowingFragments = !mShowingFragments;
+//        if (!mShowingFragments) {
+//            mButton.setText("Views");
+//            mViewPager.setAdapter(mFragmentCardAdapter);
+//            mViewPager.setPageTransformer(false, mFragmentCardShadowTransformer);
+//        } else {
+//            mButton.setText("Fragments");
+//            mViewPager.setAdapter(mCardAdapter);
+//            mViewPager.setPageTransformer(false, mCardShadowTransformer);
+//        }
+//
+//        mShowingFragments = !mShowingFragments;
     }
 
     public static float dpToPixels(int dp) {
         return dp * (ctx.getResources().getDisplayMetrics().density);
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        mCardShadowTransformer.enableScaling(b);
-        mFragmentCardShadowTransformer.enableScaling(b);
     }
 
     @Override
