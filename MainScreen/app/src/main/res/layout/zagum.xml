@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="60dp"
+    android:layout_height="60dp"
+    android:orientation="vertical"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp">
+
+    <com.github.zagum.switchicon.SwitchIconView
+        android:id="@+id/zagum_icon"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_weight="3"
+        android:padding="8dp"
+        app:si_animation_duration="500"
+        app:si_disabled_alpha=".5"
+        app:si_disabled_color="#b7b7b7"
+        app:si_enabled="false"
+        app:si_no_dash="false"
+        app:si_tint_color="#ffaa00"
+        app:srcCompat="@drawable/volume_up" />
+
+    <TextView
+        android:textSize="12dp"
+        android:id="@+id/zagum_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:text="Vol +" />
+</LinearLayout>
