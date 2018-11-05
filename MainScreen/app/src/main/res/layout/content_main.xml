@@ -1,44 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1aaff5"
     android:orientation="vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.av.mainscreen.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <LinearLayout
+    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_marginTop="?android:attr/actionBarSize">
 
-        <!--<Button-->
-            <!--android:id="@+id/cardTypeBtn"-->
-            <!--style="@style/ButtonStyle"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Fragments" />-->
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_gravity="bottom"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:paddingBottom="30dp"
+            android:paddingEnd="@dimen/card_padding"
+            android:paddingLeft="@dimen/card_padding"
+            android:paddingRight="@dimen/card_padding"
+            android:paddingStart="@dimen/card_padding" />
+    </RelativeLayout>
 
-    </LinearLayout>
+    <include layout="@layout/content_bottom_sheet"/>
 
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="380dp"
-        android:layout_gravity="bottom"
-        android:clipToPadding="false"
-        android:overScrollMode="never"
-        android:paddingBottom="30dp"
-        android:paddingEnd="@dimen/card_padding"
-        android:paddingLeft="@dimen/card_padding"
-        android:paddingRight="@dimen/card_padding"
-        android:paddingStart="@dimen/card_padding" />
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

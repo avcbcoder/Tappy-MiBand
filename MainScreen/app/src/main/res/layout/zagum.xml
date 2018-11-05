@@ -12,6 +12,7 @@
         android:layout_width="44dp"
         android:layout_height="44dp"
         android:layout_weight="3"
+        android:background="?selectableItemBackgroundBorderless"
         android:padding="8dp"
         app:si_animation_duration="500"
         app:si_disabled_alpha=".5"
@@ -22,11 +23,11 @@
         app:srcCompat="@drawable/volume_up" />
 
     <TextView
-        android:textSize="12dp"
         android:id="@+id/zagum_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:text="Vol +" />
+        android:text="Vol +"
+        android:textSize="12dp" />
 </LinearLayout>

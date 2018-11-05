@@ -57,7 +57,6 @@ public class CardFragment extends Fragment {
 
         // Find properties(widgets) of this fragment
         TextView title = view.findViewById(R.id.card_tap_title);
-        ToggleButton toggle = view.findViewById(R.id.card_tap_toogle);
 
         /*capture.setOnClickListener(new View.OnClickListener() {
             @Override
