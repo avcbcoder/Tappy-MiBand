@@ -7,4 +7,13 @@
     <color name="transparent">@android:color/transparent</color>
     <color name="red">#F44336</color>
     <color name="green">#4CAF50</color>
+
+    <color name="mainBackground">#1AAFF5</color>
+    <color name="notificationBar">#0f99db</color>
+
+    <color name="toggle_mini_ON">#EBEBEB</color>
+    <color name="toggle_mini_OFF">#c1be07</color>
+
+    <color name="toggle_main_ON">#fffa0a</color>
+    <color name="toggle_main_OFF">#ef5807</color>
 </resources>

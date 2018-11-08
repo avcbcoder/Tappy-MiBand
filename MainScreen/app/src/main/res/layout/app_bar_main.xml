@@ -23,21 +23,45 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/my_custom_icon"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_menu_share" />
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="4dp"
+                    android:layout_toLeftOf="@id/mac_unknown"
+                    android:hint="Enter Mac Address here"
+                    android:paddingBottom="0dp"
+                    android:textSize="16sp"
+                    android:backgroundTint="@android:color/transparent"/>
 
-                <TextView
-                    android:id="@+id/my_custom_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/my_custom_icon"
-                    android:text="My Custom Title"
-                    android:textColor="@android:color/black" />
+                <ImageButton
+                    android:id="@+id/mac_unknown"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="4dp"
+                    android:layout_toLeftOf="@id/main_toggle"
+                    android:background="@color/transparent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/question" />
+
+                <com.rm.rmswitch.RMSwitch
+                    android:id="@+id/main_toggle"
+                    android:layout_width="56dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="4dp"
+                    app:checked="true"
+                    app:enabled="true"
+                    app:forceAspectRatio="false"
+                    app:switchBkgCheckedColor="@color/toggle_mini_ON"
+                    app:switchBkgNotCheckedColor="@color/toggle_mini_ON"
+                    app:switchDesign="android"
+                    app:switchToggleCheckedColor="@color/toggle_mini_OFF"
+                    app:switchToggleNotCheckedColor="@color/toggle_mini_OFF" />
             </RelativeLayout>
         </android.support.v7.widget.Toolbar>
 

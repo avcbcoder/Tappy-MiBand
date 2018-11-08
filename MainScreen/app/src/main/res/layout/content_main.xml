@@ -13,7 +13,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="?android:attr/actionBarSize">
+        android:layout_marginTop="?android:attr/actionBarSize"
+        android:paddingTop="20dp">
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPager"
@@ -29,6 +30,6 @@
             android:paddingStart="@dimen/card_padding" />
     </RelativeLayout>
 
-    <include layout="@layout/content_bottom_sheet"/>
+    <!--<include layout="@layout/content_bottom_sheet"/>-->
 
 </android.support.design.widget.CoordinatorLayout>
