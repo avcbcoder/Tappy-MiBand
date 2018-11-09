@@ -6,11 +6,41 @@
 
     <string name="action_settings">Settings</string>
 
-    <string name="title_1">Cool card</string>
-    <string name="title_2">Ok card</string>
-    <string name="title_3">Bad card</string>
-    <string name="title_4">Ugly card</string>
+    <!-- _d => will be displayed on screen-->
+    <!-- _s => will be stored on device-->
 
-    <string name="text_1">Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Etiam eget ligula eu lectus lobortis condimentum.</string>
+    <string name="CBT_d">Connect when bluetooth is turned on</string>
+    <string name="CBT_s">CONNECT_BLUETOOTH_TRIGGER</string>
+
+    <string name="CHP_d">Connect when Headphone is plugged</string>
+    <string name="CHP_s">CONNECT_HEADPHONE_PLUGGED</string>
+
+    <string name="DHR_d">Disconnect when Headphone is removed</string>
+    <string name="DHR_s">DISCONNECT_HEADPHONE_REMOVED</string>
+
+    <string name="DT_d">Delay between multiple Taps</string>
+    <string name="DT_s">DELAY_TAP</string>
+
+    <string name="T_T_s">TIME</string>
+
+    <string name="T_VAE_d">Intermediate Vibration when timer is Running</string>
+    <string name="T_VAE_s">VIBRATION_AT_END</string>
+
+    <string name="T_MAE_d">Message when Timer stops</string>
+    <string name="T_MAE_s">MESSAGE_AT_END</string>
+
+    <string name="T_MAS_d">Message when Timer starts</string>
+    <string name="T_MAS_s">MESSAGE_AT_START</string>
+
+    <string name="TAP_SWITCH">SWITCH</string>
+    <string name="TAP_VOL_INC">VOL_INC</string>
+    <string name="TAP_VOL_DEC">VOL_DEC</string>
+    <string name="TAP_NEXT">NEXT</string>
+    <string name="TAP_PREV">PREV</string>
+    <string name="TAP_PLAY_PAUSE">PLAY_PAUSE</string>
+    <string name="TAP_VIBRATE">VIBRATE</string>
+    <string name="TAP_VIBRATE_DELAY">VIBRATE_DELAY</string>
+    <string name="TAP_TIMER">TIMER</string>
+    <string name="TAP_CAMERA">CAMERA</string>
 
 </resources>

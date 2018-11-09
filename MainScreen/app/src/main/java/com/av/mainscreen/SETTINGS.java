@@ -15,6 +15,8 @@ public class SETTINGS {
     public static class TIMER {
         public static int TIME;// in milliseconds
         public static int VIBRATION_AT_END;
+        public static int MESSAGE_AT_END;
+        public static int MESSAGE_AT_START;
     }
 
     public static class TAP {
