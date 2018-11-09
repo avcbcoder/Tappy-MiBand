@@ -24,8 +24,8 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconVH> {
     private static final String TAG = "IconAdapter";
     Context ctx;
 
-    int[] iconPack = {R.drawable.volume_up, R.drawable.volume_down, R.drawable.camera, R.drawable.play, R.drawable.forward, R.drawable.rewind};
-    String[] title = {"Vol +", "Vol -", "Click", "Play", "Next", "Prev"};
+    int[] iconPack = {R.drawable.volume_up, R.drawable.volume_down, R.drawable.camera, R.drawable.play, R.drawable.forward, R.drawable.rewind, R.drawable.vibrate, R.drawable.timer};
+    String[] title = {"Vol +", "Vol -", "Click", "Play", "Next", "Prev", "Vibrate", "Timer"};
 
     public IconAdapter(Context ctx) {
         this.ctx = ctx;
@@ -57,7 +57,7 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconVH> {
 
     @Override
     public int getItemCount() {
-        return 6;
+        return iconPack.length;
     }
 
     public class IconVH extends RecyclerView.ViewHolder {

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="wrap_content"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/mainBackground"
+    android:contentInsetEnd="0dp"
+    android:contentInsetLeft="0dp"
+    android:contentInsetRight="0dp"
+    android:contentInsetStart="0dp"
+    app:contentInsetEnd="0dp"
+    app:contentInsetLeft="0dp"
+    app:contentInsetRight="0dp"
+    app:contentInsetStart="0dp"
+    app:popupTheme="@style/AppTheme.PopupOverlay">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.rm.rmswitch.RMSwitch
+            android:id="@+id/main_toggle"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="16dp"
+            app:checked="true"
+            app:enabled="true"
+            app:forceAspectRatio="false"
+            app:switchBkgCheckedColor="@color/toggle_mini_ON"
+            app:switchBkgNotCheckedColor="@color/toggle_mini_ON"
+            app:switchDesign="android"
+            app:switchToggleCheckedColor="@color/toggle_mini_OFF"
+            app:switchToggleNotCheckedColor="@color/toggle_mini_OFF" />
+    </RelativeLayout>
+</android.support.v7.widget.Toolbar>

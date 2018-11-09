@@ -1,6 +1,11 @@
 package com.av.mainscreen;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -26,13 +31,10 @@ import android.widget.CompoundButton;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
-    //    private Button mButton;
     private ViewPager mViewPager;
 
     public static Context ctx;
 
-    //    private CardPagerAdapter mCardAdapter;
-//    private ShadowTransformer mCardShadowTransformer;
     private CardFragmentPageAdapter mFragmentCardAdapter;
     private ShadowTransformer mFragmentCardShadowTransformer;
 
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
-            getSupportActionBar().setDisplayShowTitleEnabled(false); // hide built-in Title
+            getSupportActionBar().setDisplayShowTitleEnabled(true); // hide built-in Title
 
         ctx = MainActivity.this;
 
@@ -53,47 +55,32 @@ public class MainActivity extends AppCompatActivity
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this,R.color.notificationBar));
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.mainBackground));
 
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setHomeButtonEnabled(true);
+//        toolbar.setNavigationIcon(R.drawable.ic_menu_gallery);
+//
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
+//
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        AppBarLayout appBarLayout=findViewById(R.id.app_bar);
+//
+        AppBarLayout appBarLayout = findViewById(R.id.app_bar);
         appBarLayout.bringToFront();
 
-        //
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
-//        mButton = (Button) findViewById(R.id.cardTypeBtn);
-//        mButton.setOnClickListener(this);
-
-//        mCardAdapter = new CardPagerAdapter();
-//        mCardAdapter.addCardItem(new CardItem(R.string.title_1, R.string.text_1));
-//        mCardAdapter.addCardItem(new CardItem(R.string.title_2, R.string.text_1));
-//        mCardAdapter.addCardItem(new CardItem(R.string.title_3, R.string.text_1));
-//        mCardAdapter.addCardItem(new CardItem(R.string.title_4, R.string.text_1));
         mFragmentCardAdapter = new CardFragmentPageAdapter(getSupportFragmentManager(),
                 dpToPixels(2));
-
-//        mCardShadowTransformer = new ShadowTransformer(mViewPager, mCardAdapter);
         mFragmentCardShadowTransformer = new ShadowTransformer(mViewPager, mFragmentCardAdapter);
-
         mViewPager.setAdapter(mFragmentCardAdapter);
         mViewPager.setPageTransformer(false, mFragmentCardShadowTransformer);
-
-//        mViewPager.setAdapter(mCardAdapter);
-//        mViewPager.setPageTransformer(false, mCardShadowTransformer);
         mViewPager.setOffscreenPageLimit(3);
-
-        // scale whenever a page is centred
-//        mCardShadowTransformer.enableScaling(true);
         mFragmentCardShadowTransformer.enableScaling(true);
-
         mViewPager.setPageMargin(5);
     }
 
@@ -127,8 +114,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -153,4 +138,13 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    /** How to change colour of drawable bitmap
+     *
+     * Drawable drawable = getResources().getDrawable(R.drawable.menu);
+     * Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_ham);
+     * Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+     * Drawable newdrawable = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 24, 24, true));
+     * newdrawable.setColorFilter(Color.BLUE, PorterDuff.Mode.SRC_ATOP);
+     */
 }
