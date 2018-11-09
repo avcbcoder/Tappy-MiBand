@@ -15,11 +15,11 @@
         android:background="?selectableItemBackgroundBorderless"
         android:padding="8dp"
         app:si_animation_duration="500"
-        app:si_disabled_alpha=".5"
-        app:si_disabled_color="#b7b7b7"
+        app:si_disabled_alpha=".6"
+        app:si_disabled_color="@color/icon_disable"
         app:si_enabled="false"
         app:si_no_dash="false"
-        app:si_tint_color="#ffaa00"
+        app:si_tint_color="@color/icon_enable"
         app:srcCompat="@drawable/volume_up" />
 
     <TextView

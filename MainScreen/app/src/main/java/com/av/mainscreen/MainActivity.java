@@ -8,11 +8,14 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -27,13 +30,18 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
-
-    private ViewPager mViewPager;
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     public static Context ctx;
+
+    private ViewPager mViewPager;
+    private BottomSheetBehavior bottomSheet;
+    private TextView sheetTitle;
+    private ImageButton sheetIcon;
 
     private CardFragmentPageAdapter mFragmentCardAdapter;
     private ShadowTransformer mFragmentCardShadowTransformer;
@@ -44,10 +52,13 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayShowTitleEnabled(true); // hide built-in Title
+
+        setupBottomSheet();
 
         ctx = MainActivity.this;
 
@@ -55,21 +66,17 @@ public class MainActivity extends AppCompatActivity
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this, R.color.mainBackground));
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.notificationBar));
 
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setHomeButtonEnabled(true);
-//        toolbar.setNavigationIcon(R.drawable.ic_menu_gallery);
-//
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-//
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-//
+
         AppBarLayout appBarLayout = findViewById(R.id.app_bar);
         appBarLayout.bringToFront();
 
@@ -84,19 +91,54 @@ public class MainActivity extends AppCompatActivity
         mViewPager.setPageMargin(5);
     }
 
-    @Override
-    public void onClick(View view) {
-//        if (!mShowingFragments) {
-//            mButton.setText("Views");
-//            mViewPager.setAdapter(mFragmentCardAdapter);
-//            mViewPager.setPageTransformer(false, mFragmentCardShadowTransformer);
-//        } else {
-//            mButton.setText("Fragments");
-//            mViewPager.setAdapter(mCardAdapter);
-//            mViewPager.setPageTransformer(false, mCardShadowTransformer);
-//        }
-//
-//        mShowingFragments = !mShowingFragments;
+    private static final String TAG = "MainActivity";
+
+    private void setupBottomSheet() {
+        sheetTitle = findViewById(R.id.sheet_title);
+        sheetIcon = findViewById(R.id.sheet_icon);
+        sheetIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheet.setState((bottomSheet.getState() == BottomSheetBehavior.STATE_COLLAPSED)
+                        ? BottomSheetBehavior.STATE_EXPANDED
+                        : BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
+        sheetIcon.setImageResource(R.drawable.ic_more);
+        sheetTitle.setText("Tap for more Settings");
+        bottomSheet = BottomSheetBehavior.from(findViewById(R.id.bottom_sheet));
+        bottomSheet.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                switch (newState) {
+                    case BottomSheetBehavior.STATE_HIDDEN:
+                        Log.e(TAG, "onStateChanged: Hidden");
+                        break;
+                    case BottomSheetBehavior.STATE_EXPANDED:
+                        Log.e(TAG, "onStateChanged: expanded");
+                        sheetIcon.setImageResource(R.drawable.ic_close_black_24dp);
+                        sheetTitle.setText("Setting");
+                        break;
+                    case BottomSheetBehavior.STATE_COLLAPSED:
+                        Log.e(TAG, "onStateChanged: collapsed");
+                        sheetIcon.setImageResource(R.drawable.ic_more);
+                        sheetTitle.setText("Tap for more Settings");
+                        break;
+                    case BottomSheetBehavior.STATE_DRAGGING:
+                        Log.e(TAG, "onStateChanged: dragging");
+                        break;
+                    case BottomSheetBehavior.STATE_SETTLING:
+                        Log.e(TAG, "onStateChanged: settling");
+                        break;
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+        bottomSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
     public static float dpToPixels(int dp) {

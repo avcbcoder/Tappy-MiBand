@@ -4,7 +4,7 @@
     android:id="@+id/toolbar"
     android:layout_width="wrap_content"
     android:layout_height="?attr/actionBarSize"
-    android:background="@color/mainBackground"
+    android:background="@color/toolbar"
     android:contentInsetEnd="0dp"
     android:contentInsetLeft="0dp"
     android:contentInsetRight="0dp"

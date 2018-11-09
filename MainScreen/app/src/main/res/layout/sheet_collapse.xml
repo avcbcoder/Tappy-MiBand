@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:elevation="4dp"
+    android:orientation="horizontal">
+
+    <ImageButton
+        android:id="@+id/sheet_collapse_more"
+        android:layout_width="?attr/actionBarSize"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:padding="12dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_more" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:text="Tap for more Settings"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+</LinearLayout>
