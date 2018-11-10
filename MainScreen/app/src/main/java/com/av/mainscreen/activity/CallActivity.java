@@ -119,6 +119,7 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
                         else
                             SETTINGS.Call.TEXT = msg;
                         setState();
+                        dialog.cancel();
                     }
                 });
                 input.addTextChangedListener(new TextWatcher() {
@@ -161,9 +162,12 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setState() {
-        mToggle.setChecked(SETTINGS.Call.ENABLE);
-        mOneTap.setSelection(SETTINGS.Call.ONE_TAP);
-        mDoubleTap.setSelection(SETTINGS.Call.DOUBLE_TAP);
+        if (mToggle.isChecked() != SETTINGS.Call.ENABLE)
+            mToggle.setChecked(SETTINGS.Call.ENABLE);
+        if (mOneTap.getSelectedItemPosition() != SETTINGS.Call.ONE_TAP)
+            mOneTap.setSelection(SETTINGS.Call.ONE_TAP);
+        if (mDoubleTap.getSelectedItemPosition() != SETTINGS.Call.DOUBLE_TAP)
+            mDoubleTap.setSelection(SETTINGS.Call.DOUBLE_TAP);
         mReplyText.setText((SETTINGS.Call.TEXT.length() == 0) ? SETTINGS.Call.DEF_TEXT : SETTINGS.Call.TEXT);
     }
 
