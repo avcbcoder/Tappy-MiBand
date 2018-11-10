@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ff80d8ff"
+    android:minHeight="25px"
+    android:minWidth="25px"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/__title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ff40c4ff"
+        android:gravity="left"
+        android:padding="6dp"
+        android:paddingStart="12dp"
+        android:text="Enter custom message"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:typeface="sans" />
+
+    <TextView
+        android:id="@+id/activity_call_alert_limit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/__title"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="16dp"
+        android:gravity="right"
+        android:text="0/100"
+        android:textColor="#000000"
+        android:textSize="14dp"
+        android:typeface="sans" />
+
+    <EditText
+        android:id="@+id/activity_call_alert_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_call_alert_limit"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/ic_rounded_corner"
+        android:hint="@string/Default_reply_text"
+        android:maxLength="100"
+        android:paddingBottom="4dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="4dp"
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/darker_gray"
+        android:textSize="14dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/activity_call_alert_input"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="30dp">
+
+        <Button
+            android:id="@+id/activity_call_alert_cancel"
+            android:layout_width="125dp"
+            android:layout_height="35dp"
+            android:layout_marginBottom="5dp"
+            android:background="#ff0986be"
+            android:gravity="center"
+            android:text="Cancel"
+            android:textColor="#ffffffff"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            android:typeface="sans" />
+
+        <Button
+            android:id="@+id/activity_call_alert_save"
+            android:layout_width="125dp"
+            android:layout_height="35dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="#ff0986be"
+            android:gravity="center"
+            android:text="Save"
+            android:textColor="#ffffffff"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            android:typeface="sans" />
+    </LinearLayout>
+</RelativeLayout>

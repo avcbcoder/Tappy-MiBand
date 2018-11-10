@@ -22,6 +22,14 @@ public class SETTINGS {
         public static int MESSAGE_AT_START;
     }
 
+    public static class Call {
+        public static boolean ENABLE;
+        public static int ONE_TAP; // 0->Nothing 1->Mute 2->Reply
+        public static int DOUBLE_TAP; // 0->Nothing 1->Mute 2->Reply
+        public static String TEXT; // Text to send as reply to caller
+        public static String DEF_TEXT = "Can't talk to you right now! Call me later?";
+    }
+
     public static class TAP {
         public static boolean SWITCH;
         public static boolean VOL_INC;
