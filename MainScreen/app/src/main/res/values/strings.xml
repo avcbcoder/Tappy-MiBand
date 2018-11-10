@@ -1,4 +1,13 @@
 <resources>
+
+    <string-array name="array_interval">
+        <item>100</item>
+        <item>200</item>
+        <item>300</item>
+        <item>400</item>
+        <item>500</item>
+    </string-array>
+
     <string name="app_name">Main Screen</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -9,13 +18,19 @@
     <!-- _d => will be displayed on screen-->
     <!-- _s => will be stored on device-->
 
+    <string name="KR_d">Always keep running in background</string>
+    <string name="KR_s">KEEP_RUNNING</string>
+
     <string name="CBT_d">Connect when bluetooth is turned on</string>
     <string name="CBT_s">CONNECT_BLUETOOTH_TRIGGER</string>
 
-    <string name="CHP_d">Connect when Headphone is plugged</string>
+    <string name="IFT_d">Ignore first Tap</string>
+    <string name="IFT_s">IGNORE_FIRST_TAP</string>
+
+    <string name="CHP_d">Connect when the Headphone is connected</string>
     <string name="CHP_s">CONNECT_HEADPHONE_PLUGGED</string>
 
-    <string name="DHR_d">Disconnect when Headphone is removed</string>
+    <string name="DHR_d">Disconnect when the Headphone is removed</string>
     <string name="DHR_s">DISCONNECT_HEADPHONE_REMOVED</string>
 
     <string name="DT_d">Delay between multiple Taps</string>
@@ -23,7 +38,9 @@
 
     <string name="T_T_s">TIME</string>
 
-    <string name="T_VAE_d">Intermediate Vibration when timer is Running</string>
+    <string name="T_IV_d">Intermediate Vibration when timer is Running</string>
+    <string name="T_IV_s">INTERMEDIATE_VIBRATION</string>
+
     <string name="T_VAE_s">VIBRATION_AT_END</string>
 
     <string name="T_MAE_d">Message when Timer stops</string>
@@ -43,4 +60,7 @@
     <string name="TAP_TIMER">TIMER</string>
     <string name="TAP_CAMERA">CAMERA</string>
 
+    <string name="V1">Vibration for Single Tap:</string>
+    <string name="V2">Vibration for Double Tap:</string>
+    <string name="V3">Vibration for Tripple Tap:</string>
 </resources>

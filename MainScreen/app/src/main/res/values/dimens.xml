@@ -7,4 +7,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="card_padding">60dp</dimen>
+
+    <dimen name="setting_item_text">14sp</dimen>
 </resources>

@@ -27,10 +27,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
@@ -139,6 +141,22 @@ public class MainActivity extends AppCompatActivity
             }
         });
         bottomSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        final Spinner spinner = (Spinner) findViewById(R.id.DT_s);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.array_interval, R.layout.spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(0);
+        spinner.post(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(500);
+                    spinner.setSelection(0);
+                } catch (Exception e) {
+                }
+            }
+        });
     }
 
     public static float dpToPixels(int dp) {

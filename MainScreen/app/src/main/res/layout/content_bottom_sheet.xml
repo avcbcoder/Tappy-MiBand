@@ -45,11 +45,454 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/sheet_recyclerView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    </android.support.v7.widget.RecyclerView>
+        <!--Ignore First Tap-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="5"
+                android:gravity="center_vertical"
+                android:inputType="textMultiLine"
+                android:text="@string/IFT_d"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <com.rm.rmswitch.RMSwitch
+                android:id="@+id/IFT_s"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                app:checked="true"
+                app:enabled="true"
+                app:forceAspectRatio="false"
+                app:switchBkgCheckedColor="@color/toggle_mini_ON"
+                app:switchBkgNotCheckedColor="@color/toggle_mini_ON"
+                app:switchDesign="android"
+                app:switchToggleCheckedColor="@color/toggle_mini_OFF"
+                app:switchToggleNotCheckedColor="@color/toggle_mini_OFF" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/line_setting"></FrameLayout>
+
+        <!--Keep Running-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="5"
+                android:gravity="center_vertical"
+                android:inputType="textMultiLine"
+                android:text="@string/KR_d"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <com.rm.rmswitch.RMSwitch
+                android:id="@+id/KR_s"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                app:checked="true"
+                app:enabled="true"
+                app:forceAspectRatio="false"
+                app:switchBkgCheckedColor="@color/toggle_mini_ON"
+                app:switchBkgNotCheckedColor="@color/toggle_mini_ON"
+                app:switchDesign="android"
+                app:switchToggleCheckedColor="@color/toggle_mini_OFF"
+                app:switchToggleNotCheckedColor="@color/toggle_mini_OFF" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/line_setting"></FrameLayout>
+
+        <!--Connect When Bluetooth is turned On-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="5"
+                android:gravity="center_vertical"
+                android:inputType="textMultiLine"
+                android:text="@string/CBT_d"
+                android:textColor="@color/black"
+                android:textSize="@dimen/setting_item_text" />
+
+            <com.rm.rmswitch.RMSwitch
+                android:id="@+id/CBT_s"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                app:checked="true"
+                app:enabled="true"
+                app:forceAspectRatio="false"
+                app:switchBkgCheckedColor="@color/toggle_mini_ON"
+                app:switchBkgNotCheckedColor="@color/toggle_mini_ON"
+                app:switchDesign="android"
+                app:switchToggleCheckedColor="@color/toggle_mini_OFF"
+                app:switchToggleNotCheckedColor="@color/toggle_mini_OFF" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/line_setting"></FrameLayout>
+
+        <!--Connect When Headphone is plugged-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="5"
+                android:gravity="center_vertical"
+                android:inputType="textMultiLine"
+                android:text="@string/CHP_d"
+                android:textColor="@color/black"
+                android:textSize="@dimen/setting_item_text" />
+
+            <com.rm.rmswitch.RMSwitch
+                android:id="@+id/CHP_s"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                app:checked="true"
+                app:enabled="true"
+                app:forceAspectRatio="false"
+                app:switchBkgCheckedColor="@color/toggle_mini_ON"
+                app:switchBkgNotCheckedColor="@color/toggle_mini_ON"
+                app:switchDesign="android"
+                app:switchToggleCheckedColor="@color/toggle_mini_OFF"
+                app:switchToggleNotCheckedColor="@color/toggle_mini_OFF" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/line_setting"></FrameLayout>
+
+        <!--DisConnect When Headphone is removed-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="5"
+                android:gravity="center_vertical"
+                android:inputType="textMultiLine"
+                android:text="@string/DHR_d"
+                android:textColor="@color/black"
+                android:textSize="@dimen/setting_item_text" />
+
+            <com.rm.rmswitch.RMSwitch
+                android:id="@+id/DHR_s"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_weight="1"
+                app:checked="true"
+                app:enabled="true"
+                app:forceAspectRatio="false"
+                app:switchBkgCheckedColor="@color/toggle_mini_ON"
+                app:switchBkgNotCheckedColor="@color/toggle_mini_ON"
+                app:switchDesign="android"
+                app:switchToggleCheckedColor="@color/toggle_mini_OFF"
+                app:switchToggleNotCheckedColor="@color/toggle_mini_OFF" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/line_setting"></FrameLayout>
+
+
+        <!--Delay between multiple Taps-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="5"
+                android:gravity="center_vertical"
+                android:inputType="textMultiLine"
+                android:text="@string/DT_d"
+                android:textColor="@color/black"
+                android:textSize="@dimen/setting_item_text" />
+
+            <Spinner
+                android:id="@+id/DT_s"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:background="@drawable/ic_spinner_bkg"></Spinner>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/line_setting"></FrameLayout>
+
+        <!--Vibration for Single TAP-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:gravity="center_vertical"
+                android:inputType="textMultiLine"
+                android:text="@string/V1"
+                android:textColor="@color/black"
+                android:textSize="@dimen/setting_item_text" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Spinner
+                    android:id="@+id/v1s"
+                    android:layout_width="96dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/ic_spinner_selector"></Spinner>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/v1s"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toLeftOf="@id/v1t"
+                    android:layout_toRightOf="@id/v1s"
+                    android:gravity="center"
+                    android:text="X"
+                    android:textSize="@dimen/setting_item_text" />
+
+                <Spinner
+                    android:id="@+id/v1t"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/ic_spinner_selector"></Spinner>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/line_setting"></FrameLayout>
+
+        <!--Vibration for Double TAP-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:gravity="center_vertical"
+                android:inputType="textMultiLine"
+                android:text="@string/V2"
+                android:textColor="@color/black"
+                android:textSize="@dimen/setting_item_text" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Spinner
+                    android:id="@+id/v2s"
+                    android:layout_width="96dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/ic_spinner_selector"></Spinner>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/v2s"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toLeftOf="@id/v2t"
+                    android:layout_toRightOf="@id/v2s"
+                    android:gravity="center"
+                    android:text="X"
+                    android:textSize="@dimen/setting_item_text" />
+
+                <Spinner
+                    android:id="@+id/v2t"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/ic_spinner_selector"></Spinner>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/line_setting"></FrameLayout>
+
+        <!--Vibration for Single TAP-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:gravity="center_vertical"
+                android:inputType="textMultiLine"
+                android:text="@string/V3"
+                android:textColor="@color/black"
+                android:textSize="@dimen/setting_item_text" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Spinner
+                    android:id="@+id/v3s"
+                    android:layout_width="96dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/ic_spinner_selector"></Spinner>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/v3s"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toLeftOf="@id/v3t"
+                    android:layout_toRightOf="@id/v3s"
+                    android:gravity="center"
+                    android:text="X"
+                    android:textSize="@dimen/setting_item_text" />
+
+                <Spinner
+                    android:id="@+id/v3t"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/ic_spinner_selector"></Spinner>
+            </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

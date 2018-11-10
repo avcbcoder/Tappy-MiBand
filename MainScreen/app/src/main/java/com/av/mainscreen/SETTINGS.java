@@ -8,13 +8,16 @@ public class SETTINGS {
     public static boolean CONNECT_BLUETOOTH_TRIGGER;
     public static boolean CONNECT_HEADPHONE_PLUGGED;
     public static boolean DISCONNECT_HEADPHONE_REMOVED;
+    public static boolean IGNORE_FIRST_TAP;
+    public static boolean KEEP_RUNNING;
     public static int DELAY_TAP;
 
     public static TAP[] taps = new TAP[4];
 
     public static class TIMER {
+        public static boolean INTERMEDIATE_VIBRATION;
         public static int TIME;// in milliseconds
-        public static int VIBRATION_AT_END;
+        public static int VIBRATION_AT_END;// -1 if doesn't
         public static int MESSAGE_AT_END;
         public static int MESSAGE_AT_START;
     }

@@ -19,9 +19,6 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingV
     private static final String TAG = "SettingAdapter";
     Context ctx;
 
-    int[] iconPack = {R.drawable.volume_up, R.drawable.volume_down, R.drawable.camera, R.drawable.play, R.drawable.forward, R.drawable.rewind, R.drawable.vibrate, R.drawable.timer};
-    String[] title = {"Vol +", "Vol -", "Click", "Play", "Next", "Prev", "Vibrate", "Timer"};
-
     public SettingAdapter(Context ctx) {
         this.ctx = ctx;
     }
@@ -30,7 +27,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingV
     public SettingVH onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.e(TAG, "onCreateViewHolder: ");
         LayoutInflater lf = LayoutInflater.from(ctx);
-        View v = lf.inflate(R.layout.zagum, parent, false);
+        View v = lf.inflate(R.layout.setting_item_toggle, parent, false);
         SettingVH VH = new SettingVH(v);
         return VH;
     }
@@ -43,7 +40,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingV
 
     @Override
     public int getItemCount() {
-        return iconPack.length;
+        return 6;
     }
 
     public class SettingVH extends RecyclerView.ViewHolder {
