@@ -5,13 +5,16 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -64,6 +67,7 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
             public void onCheckStateChange(RMSwitch switchView, boolean isChecked) {
                 SETTINGS.Call.ENABLE = isChecked;
                 Toast.makeText(CallActivity.this, "Action on call" + (isChecked ? "Enabled" : "Disabled"), Toast.LENGTH_SHORT).show();
+                setState();
             }
         });
 
@@ -84,31 +88,58 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.activity_call_edit:
-                // TO-DO
-                LayoutInflater inflater = this.getLayoutInflater();
+                // Inflate
+                final LayoutInflater inflater = this.getLayoutInflater();
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                 builder.setView(inflater.inflate(R.layout.activity_call_input, null));
-                // Set up the input
-//                final EditText input = new EditText(this);
-//                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-//                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-//                builder.setView(input);
-//                builder.setPositiveButton("POS", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        Toast.makeText(CallActivity.this, "Pos Clicked", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//                builder.setNegativeButton("NEG", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        Toast.makeText(CallActivity.this, "Neg Clicked", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-                AlertDialog dialog = builder.create();
+                View v = inflater.inflate(R.layout.activity_call_input, null);
+                builder.setView(v);
+
+                //show
+                final AlertDialog dialog = builder.create();
                 dialog.show();
+                // fvb
+                final Button save = v.findViewById(R.id.activity_call_alert_save);
+                final Button cancel = v.findViewById(R.id.activity_call_alert_cancel);
+                final TextView limit = v.findViewById(R.id.activity_call_alert_limit);
+                final EditText input = v.findViewById(R.id.activity_call_alert_input);
+
+                //listeners
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.cancel();
+                    }
+                });
+                save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String msg = input.getText().toString();
+                        if (msg.length() == 0)
+                            Toast.makeText(CallActivity.this, "Enter some text", Toast.LENGTH_SHORT).show();
+                        else
+                            SETTINGS.Call.TEXT = msg;
+                        setState();
+                    }
+                });
+                input.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                        limit.setText((100 - editable.toString().length()) + "/100");
+                    }
+                });
                 break;
         }
+        setState();
     }
 
     @Override
@@ -121,6 +152,7 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
                 SETTINGS.Call.DOUBLE_TAP = pos;
                 break;
         }
+        setState();
     }
 
     @Override
@@ -132,7 +164,7 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
         mToggle.setChecked(SETTINGS.Call.ENABLE);
         mOneTap.setSelection(SETTINGS.Call.ONE_TAP);
         mDoubleTap.setSelection(SETTINGS.Call.DOUBLE_TAP);
-        mReplyText.setText(SETTINGS.Call.TEXT);
+        mReplyText.setText((SETTINGS.Call.TEXT.length() == 0) ? SETTINGS.Call.DEF_TEXT : SETTINGS.Call.TEXT);
     }
 
     @Override

@@ -30,4 +30,12 @@
     <color name="icon_disable">#ffaa00</color>
 
     <color name="activity_call_toolbar">#0b00c6</color>
+
+    <color name="call_alert_titleBKG">#0b00c6</color>
+    <color name="call_alert_BKG">#0089FF</color>
+    <color name="call_alert_button">#F67025</color>
+
+    <color name="alert_titleBKG">#ff40c4ff</color>
+    <color name="alert_BKG">#ff80d8ff</color>
+    <color name="alert_button">#ff0986be</color>
 </resources>
