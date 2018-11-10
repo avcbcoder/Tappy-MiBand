@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -32,6 +33,8 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton mBack, mEdit;
     private Spinner mOneTap, mDoubleTap;
     private TextView mReplyText;
+
+    public static final int MAX_LIMIT = 120;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +106,9 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
                 final TextView limit = v.findViewById(R.id.activity_call_alert_limit);
                 final EditText input = v.findViewById(R.id.activity_call_alert_input);
 
+                input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_LIMIT)});
+                limit.setText("0/" + MAX_LIMIT);
+
                 //listeners
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -135,7 +141,7 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
 
                     @Override
                     public void afterTextChanged(Editable editable) {
-                        limit.setText((100 - editable.toString().length()) + "/100");
+                        limit.setText((editable.toString().length()) + "/" + MAX_LIMIT);
                     }
                 });
                 break;

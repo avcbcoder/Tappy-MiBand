@@ -30,7 +30,6 @@
         android:layout_marginRight="24dp"
         android:layout_marginTop="16dp"
         android:gravity="right"
-        android:text="0/100"
         android:textColor="#000000"
         android:textSize="14dp"
         android:typeface="sans" />
