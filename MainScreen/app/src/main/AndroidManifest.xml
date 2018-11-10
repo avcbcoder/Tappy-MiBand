@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.CallActivity"></activity>
-        <activity android:name=".activity.TimerActivity"></activity>
+        <activity android:name=".activity.TimerActivity">
+        </activity>
     </application>
 
 </manifest>
