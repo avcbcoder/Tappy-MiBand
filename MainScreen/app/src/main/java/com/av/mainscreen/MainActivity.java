@@ -147,16 +147,6 @@ public class MainActivity extends AppCompatActivity
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setSelection(0);
-        spinner.post(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(500);
-                    spinner.setSelection(0);
-                } catch (Exception e) {
-                }
-            }
-        });
     }
 
     public static float dpToPixels(int dp) {

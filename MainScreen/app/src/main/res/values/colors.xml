@@ -28,4 +28,6 @@
 
     <color name="icon_enable">#6B00FF</color>
     <color name="icon_disable">#ffaa00</color>
+
+    <color name="activity_call_toolbar">#0b00c6</color>
 </resources>

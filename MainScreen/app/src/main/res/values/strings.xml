@@ -1,11 +1,32 @@
 <resources>
 
     <string-array name="array_interval">
-        <item>100</item>
-        <item>200</item>
-        <item>300</item>
-        <item>400</item>
-        <item>500</item>
+        <item>100ms</item>
+        <item>200ms</item>
+        <item>300ms</item>
+        <item>400ms</item>
+        <item>500ms</item>
+    </string-array>
+
+    <string-array name="array_vibration_delay">
+        <item>100ms</item>
+        <item>200ms</item>
+        <item>300ms</item>
+        <item>400ms</item>
+        <item>500ms</item>
+        <item>600ms</item>
+        <item>700ms</item>
+        <item>800ms</item>
+        <item>900ms</item>
+        <item>1000ms</item>
+    </string-array>
+
+    <string-array name="array_vibration_time">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
     </string-array>
 
     <string name="app_name">Main Screen</string>
@@ -60,7 +81,7 @@
     <string name="TAP_TIMER">TIMER</string>
     <string name="TAP_CAMERA">CAMERA</string>
 
-    <string name="V1">Vibration for Single Tap:</string>
+    <string name="V1">Vibration for Single Tap :</string>
     <string name="V2">Vibration for Double Tap:</string>
     <string name="V3">Vibration for Tripple Tap:</string>
 </resources>
