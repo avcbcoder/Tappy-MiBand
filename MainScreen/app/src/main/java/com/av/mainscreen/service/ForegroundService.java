@@ -111,5 +111,46 @@ public class ForegroundService extends Service {
         stopSelf();
     }
 
+    final BluetoothGattCallback bluetoothGattCallback = new BluetoothGattCallback() {
+        private static final String TAG = "CALLBACK";
+
+        @Override
+        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            super.onConnectionStateChange(gatt, status, newState);
+            Log.e(TAG, "onConnectionStateChange");
+            if (newState == BluetoothProfile.STATE_CONNECTED) {
+                stateConnected();
+            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                stateDisconnected();
+            }
+        }
+
+        @Override
+        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+            super.onServicesDiscovered(gatt, status);
+            Log.e("test", "onServicesDiscovered");
+            if (status == BluetoothGatt.GATT_SUCCESS) {
+                Toast.makeText(ForegroundService.this, "Band Connected", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            super.onCharacteristicRead(gatt, characteristic, status);
+            Log.e("test", "onCharacteristicRead newone");
+            byte[] b = characteristic.getValue();
+            int battery = b[1];
+        }
+
+        @Override
+        public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+            super.onCharacteristicChanged(gatt, characteristic);
+            Log.e("test", "onCharacteristicChanged " + characteristic
+                    + "\n" + characteristic.getUuid()
+                    + "\n" + characteristic.getStringValue(1)
+            );
+        }
+    };
+
 
 }
