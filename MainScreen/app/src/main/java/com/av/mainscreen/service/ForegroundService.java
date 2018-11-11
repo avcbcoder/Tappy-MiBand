@@ -3,15 +3,20 @@ package com.av.mainscreen.service;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
+import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
@@ -20,7 +25,9 @@ import android.widget.Toast;
 
 import com.av.mainscreen.MainActivity;
 import com.av.mainscreen.R;
+import com.av.mainscreen.constants.MIBandConsts;
 import com.av.mainscreen.constants.SETTINGS;
+import com.av.mainscreen.util.MIBand;
 
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -29,6 +36,10 @@ public class ForegroundService extends Service {
     public static final String ACTION_START_FOREGROUND_SERVICE = "ACTION_START_FOREGROUND_SERVICE";
     public static final String ACTION_STOP_FOREGROUND_SERVICE = "ACTION_STOP_FOREGROUND_SERVICE";
     private static final String TAG = "ForegroundService";
+
+    BluetoothAdapter bluetoothAdapter;
+    BluetoothDevice bluetoothDevice;
+    BluetoothGatt bluetoothGatt;
 
     public ForegroundService() {
     }
@@ -67,7 +78,7 @@ public class ForegroundService extends Service {
                     break;
             }
         }
-        return START_STICKY;/*Now this service won't be killed*/
+        return START_STICKY;/*Now this service won't be killed on devices except MI*/
     }
 
     /* Used to build and start foreground service. */
@@ -97,6 +108,11 @@ public class ForegroundService extends Service {
         bigTextStyle.bigText("Android foreground service is a android service which can run in foreground always, it can be controlled by user via notification.");
         builder.setStyle(bigTextStyle);
         */
+
+        /* Setup bluetooth Connection*/
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        connect();
+//        listen();
 
         Notification notification = builder.build();
         // Start foreground service.
@@ -128,10 +144,16 @@ public class ForegroundService extends Service {
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             super.onServicesDiscovered(gatt, status);
+            listen();
             Log.e("test", "onServicesDiscovered");
+            listen();
+            Log.e(TAG, "onServicesDiscovered: c:" + BluetoothGatt.GATT_SUCCESS + " w:" + status);
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 Toast.makeText(ForegroundService.this, "Band Connected", Toast.LENGTH_SHORT).show();
-            }
+            } else
+                Log.e(TAG, "onServicesDiscovered: Gatt unsuccess");
+            Log.e(TAG, "onServicesDiscovered: calling listen");
+            listen();
         }
 
         @Override
@@ -149,7 +171,7 @@ public class ForegroundService extends Service {
                     + "\n" + characteristic.getUuid()
                     + "\n" + characteristic.getStringValue(1)
             );
-            newThread((SETTINGS.DELAY_TAP + 1) * 100 + 50);
+            newThread((SETTINGS.DELAY_TAP + 1) * 100);
         }
     };
 
@@ -157,15 +179,14 @@ public class ForegroundService extends Service {
     private int tapCount;
 
     private void TAP(int x) {
+        Log.e(TAG, "TAP: "+x );
+        toaster(x+" Tap");
         switch (x) {
             case 1:
-                Toast.makeText(this, "single tap", Toast.LENGTH_SHORT).show();
                 break;
             case 2:
-                Toast.makeText(this, "double tap", Toast.LENGTH_SHORT).show();
                 break;
             case 3:
-                Toast.makeText(this, "tripple tap", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
@@ -184,7 +205,7 @@ public class ForegroundService extends Service {
                 if (curr - lastTap > 1000) {
                     tapCount = 1;
                     lastTap = curr;
-                } else if (curr - lastTap > delay) {
+                } else if (curr - lastTap >= delay) {
                     // perform Taps
                     TAP(tapCount);
                 } else {
@@ -197,32 +218,80 @@ public class ForegroundService extends Service {
     }
 
     private void connect() {
-
+        Log.e(TAG, "connect: ");
+        String macAddress = SETTINGS.MAC_ADDRESS;
+        try {
+            // get the device with this address
+            bluetoothDevice = bluetoothAdapter.getRemoteDevice(macAddress);
+            bluetoothGatt = bluetoothDevice.connectGatt(this, true, bluetoothGattCallback);
+            if (bluetoothGatt == null)
+                Log.e(TAG, "connect: null");
+            else
+                Log.e(TAG, "connect: Cool");
+        } catch (Exception e) {
+            Toast.makeText(this, "Unable to connect to " + macAddress, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void disconnect() {
 
     }
 
-    private void stateConnected() {
-
+    void stateConnected() {
+        Log.e(TAG, "stateConnected: ");
+        bluetoothGatt.discoverServices();
     }
 
-    private void stateDisconnected() {
-
+    void stateDisconnected() {
+        Log.e(TAG, "stateDisconnected: ");
+        bluetoothGatt.disconnect();
     }
 
     private void displayText(String text) {
 
     }
 
-    private void startVibrate() {
-
+    void startVibrate() {
+        try {
+            BluetoothGattCharacteristic bchar = bluetoothGatt.getService(MIBandConsts.AlertNotification.service)
+                    .getCharacteristic(MIBandConsts.AlertNotification.alertCharacteristic);
+            bchar.setValue(new byte[]{2});
+            if (!bluetoothGatt.writeCharacteristic(bchar)) {
+                Toast.makeText(this, "Failed to start vibrate", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+        }
     }
 
-    private void stopVibrate() {
-
+    void stopVibrate() {
+        BluetoothGattCharacteristic bchar = bluetoothGatt.getService(MIBandConsts.AlertNotification.service)
+                .getCharacteristic(MIBandConsts.AlertNotification.alertCharacteristic);
+        bchar.setValue(new byte[]{0});
+        if (!bluetoothGatt.writeCharacteristic(bchar)) {
+        }
     }
 
+    private void listen() {
+        Log.e(TAG, "listen: ");
+        BluetoothGattService bluetoothGattService = bluetoothGatt.getService(MIBandConsts.Basic.service);
+        if (bluetoothGattService == null) {
+            Log.e(TAG, "listen: Service NULL");
+        } else
+            Log.e(TAG, "listen: Service NOT NULL");
+        BluetoothGattCharacteristic bchar = bluetoothGattService.getCharacteristic(MIBandConsts.Basic.btn);
+        bluetoothGatt.setCharacteristicNotification(bchar, true);
+        BluetoothGattDescriptor descriptor = bchar.getDescriptor(MIBandConsts.HeartRate.descriptor);
+        descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+        bluetoothGatt.writeDescriptor(descriptor);
+    }
 
+    public void toaster(final String text) {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }
