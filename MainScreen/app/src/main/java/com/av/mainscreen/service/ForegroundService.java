@@ -149,8 +149,80 @@ public class ForegroundService extends Service {
                     + "\n" + characteristic.getUuid()
                     + "\n" + characteristic.getStringValue(1)
             );
+            newThread((SETTINGS.DELAY_TAP + 1) * 100 + 50);
         }
     };
+
+    private long lastTap;
+    private int tapCount;
+
+    private void TAP(int x) {
+        switch (x) {
+            case 1:
+                Toast.makeText(this, "single tap", Toast.LENGTH_SHORT).show();
+                break;
+            case 2:
+                Toast.makeText(this, "double tap", Toast.LENGTH_SHORT).show();
+                break;
+            case 3:
+                Toast.makeText(this, "tripple tap", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void newThread(final int delay) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(delay);
+                } catch (InterruptedException e) {
+                }
+                long curr = System.currentTimeMillis();
+                if (curr - lastTap > 1000) {
+                    tapCount = 1;
+                    lastTap = curr;
+                } else if (curr - lastTap > delay) {
+                    // perform Taps
+                    TAP(tapCount);
+                } else {
+                    lastTap = curr;
+                    tapCount++;
+                    newThread(delay);
+                }
+            }
+        }).start();
+    }
+
+    private void connect() {
+
+    }
+
+    private void disconnect() {
+
+    }
+
+    private void stateConnected() {
+
+    }
+
+    private void stateDisconnected() {
+
+    }
+
+    private void displayText(String text) {
+
+    }
+
+    private void startVibrate() {
+
+    }
+
+    private void stopVibrate() {
+
+    }
 
 
 }
