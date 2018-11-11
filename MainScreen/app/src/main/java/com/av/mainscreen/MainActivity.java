@@ -1,19 +1,14 @@
 package com.av.mainscreen;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -24,20 +19,19 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.av.mainscreen.activity.CallActivity;
 import com.av.mainscreen.activity.TimerActivity;
+import com.av.mainscreen.service.ForegroundService;
+import com.av.mainscreen.util.MIBand;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -52,21 +46,30 @@ public class MainActivity extends AppCompatActivity
     private CardFragmentPageAdapter mFragmentCardAdapter;
     private ShadowTransformer mFragmentCardShadowTransformer;
 
-    private boolean mShowingFragments = false;
+    BluetoothAdapter bluetoothAdapter;
+    BluetoothDevice bluetoothDevice;
+    BluetoothGatt bluetoothGatt;
+
+    private Button btnConnect, btnDisConnect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayShowTitleEnabled(true); // hide built-in Title
 
+        init();
         setupBottomSheet();
 
         ctx = MainActivity.this;
+
+        MIBand miBand=new MIBand();
 
         // changing color of status bar
         Window window = this.getWindow();
@@ -95,6 +98,27 @@ public class MainActivity extends AppCompatActivity
         mViewPager.setOffscreenPageLimit(3);
         mFragmentCardShadowTransformer.enableScaling(true);
         mViewPager.setPageMargin(5);
+    }
+
+    private void init() {
+        btnConnect = findViewById(R.id.btnConnect);
+        btnDisConnect = findViewById(R.id.btnDisConnect);
+        btnConnect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ForegroundService.class);
+                intent.setAction(ForegroundService.ACTION_START_FOREGROUND_SERVICE);
+                startService(intent);
+            }
+        });
+        btnDisConnect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ForegroundService.class);
+                intent.setAction(ForegroundService.ACTION_STOP_FOREGROUND_SERVICE);
+                startService(intent);
+            }
+        });
     }
 
     private static final String TAG = "MainActivity";
@@ -177,10 +201,10 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_quickAccess) {
 
         } else if (id == R.id.nav_Call) {
-            Intent i=new Intent(MainActivity.this, CallActivity.class);
+            Intent i = new Intent(MainActivity.this, CallActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_Timer) {
-            Intent i=new Intent(MainActivity.this, TimerActivity.class);
+            Intent i = new Intent(MainActivity.this, TimerActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_alert) {
 

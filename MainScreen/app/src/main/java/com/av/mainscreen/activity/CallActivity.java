@@ -1,13 +1,11 @@
 package com.av.mainscreen.activity;
 
-import android.content.DialogInterface;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,9 +20,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.av.mainscreen.MainActivity;
 import com.av.mainscreen.R;
-import com.av.mainscreen.SETTINGS;
+import com.av.mainscreen.constants.SETTINGS;
 import com.rm.rmswitch.RMSwitch;
 
 public class CallActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {

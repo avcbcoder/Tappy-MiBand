@@ -86,6 +86,7 @@
                     android:paddingTop="12dp">
 
                     <Button
+                        android:id="@+id/btnConnect"
                         android:background="@drawable/ic_ripple"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -95,6 +96,7 @@
                         android:text="Connect" />
 
                     <Button
+                        android:id="@+id/btnDisConnect"
                         android:background="@drawable/ic_ripple"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"

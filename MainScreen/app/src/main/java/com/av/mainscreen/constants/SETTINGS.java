@@ -1,4 +1,4 @@
-package com.av.mainscreen;
+package com.av.mainscreen.constants;
 
 /**
  * Created by Ankit on 10-11-2018.
@@ -10,7 +10,7 @@ public class SETTINGS {
     public static boolean DISCONNECT_HEADPHONE_REMOVED;
     public static boolean IGNORE_FIRST_TAP;
     public static boolean KEEP_RUNNING;
-    public static int DELAY_TAP;
+    public static int DELAY_TAP=3;
 
     public static TAP[] taps = new TAP[4];
 
