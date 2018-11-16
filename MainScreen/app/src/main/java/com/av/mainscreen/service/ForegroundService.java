@@ -182,126 +182,39 @@ public class ForegroundService extends Service {
 
     private void TAP(int x) {
         Log.e(TAG, "TAP: " + x);
-        toaster(x + " Tap");
         switch (x) {
-            case 1:
+            case 1:toaster("Single Tap");
                 break;
-            case 2:
+            case 2:toaster("Double Tap");
                 break;
-            case 3:
+            case 3:toaster("Tripple Tap");
                 break;
             default:
                 break;
         }
     }
 
-    private void newThread(final int delay) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(delay);
-                } catch (InterruptedException e) {
-                }
-                long curr = System.currentTimeMillis();
-                if (curr - lastTap > 1000) {
-                    tapCount = 1;
-                    lastTap = curr;
-                } else if (curr - lastTap >= delay) {
-                    // perform Taps
-                    TAP(tapCount);
-                } else {
-                    lastTap = curr;
-                    tapCount++;
-                    newThread(delay);
-                }
-            }
-        }).start();
-    }
-
-    public class TT {
-        long time;
-        int count;
-
-        TT(long time, int count) {
-            this.time = time;
-            this.count = count;
-        }
-
-        @Override
-        public String toString() {
-            return "{" + time + "=>" + count + "}";
-        }
-    }
-
-    ArrayList<TT> al = new ArrayList<>(Arrays.asList(new TT(0, 0)));
-    int tc = 0;
-    long tt = 0;
+    long mLastTap = 0;
+    int mCurrTaps = 0;
 
     private void tapper() {
-        Log.e(TAG, "tapper: ----------------- #" + tc++);
-        long diff = System.currentTimeMillis() - al.get(al.size() - 1).time;
+        long diff = System.currentTimeMillis() - mLastTap;
         if (diff > SETTINGS.DIFF_BTW_MULTIPLE_COMMANDS) {
-            al.add(new TT(System.currentTimeMillis(), 1));
-            waitForClicks();
-        } else {
-            al.get(al.size() - 1).count += 1;
-        }
-        /*Log.e(TAG, "tapper: "+(System.currentTimeMillis()-tt) );
-        tt=System.currentTimeMillis();
-        long curr = System.currentTimeMillis();
-        int delay = SETTINGS.DELAY_TAP;
-        long diff = curr - al.get(al.size() - 1).time;
-        Log.e(TAG, "tapper: DIFFERENCE:" + diff);
-        if (diff < delay) {
-            Log.e(TAG, "OLD");
-            al.get(al.size() - 1).count += 1;
-            al.get(al.size() - 1).time = curr;
-        } else {
-            Log.e(TAG, "NEW");
-            al.add(new TT(curr, 1));
-        }
-        Log.e(TAG, "tapper: " + al);
-        //isIt(al.get(al.size() - 1).count);
-        */
-    }
-
-    private void waitForClicks() {
-        Log.e(TAG, "waitForClicks: WaitLaunch" );
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(SETTINGS.CLICK_INTERVAL);
-                    Log.e(TAG, "waitComplete: "+al.get(al.size()-1).count );
-                } catch (Exception e) {
-                }
-            }
-        }).start();
-    }
-
-    private void isIt(final int x) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Log.e(TAG, "thread started: ");
-                    Thread.sleep(SETTINGS.DELAY_TAP + 50);
-                    Log.e(TAG, "run: actual thread diff" + (System.currentTimeMillis() - (al.get(al.size() - 1).time)));
-                    if (System.currentTimeMillis() - (al.get(al.size() - 1).time) > SETTINGS.DELAY_TAP) {
-                        if (al.get(al.size() - 1).count == x) {
-                            toaster("Tap " + al.get(al.size() - 1).count);
-                            Log.e(TAG, "run: success " + al.get(al.size() - 1).count);
-                        } else {
-                            Log.e(TAG, "run: denied----");
-                        }
-                    } else {
-                        Log.e(TAG, "run: denied----");
+            mLastTap = System.currentTimeMillis();
+            mCurrTaps = 1;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(SETTINGS.CLICK_INTERVAL);
+                        TAP(mCurrTaps); /*Perform single/double/tripple clicks*/
+                    } catch (Exception e) {
                     }
-                } catch (Exception e) {
                 }
-            }
-        }).start();
+            }).start();
+        } else {
+            mCurrTaps++;
+        }
     }
 
     private void connect() {
