@@ -271,7 +271,7 @@ public class ForegroundService extends Service {
         BluetoothGattDescriptor descriptor = bchar.getDescriptor(MIBandConsts.HeartRate.descriptor);
         descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
         bluetoothGatt.writeDescriptor(descriptor);
-        performCommands = new PerformCommands(this);
+        performCommands = new PerformCommands(this,bluetoothGatt,bluetoothAdapter,bluetoothDevice);
     }
 
     public void toaster(final String text) {

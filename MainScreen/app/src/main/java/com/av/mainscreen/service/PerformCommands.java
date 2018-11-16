@@ -1,10 +1,15 @@
 package com.av.mainscreen.service;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.av.mainscreen.constants.MIBandConsts;
 import com.av.mainscreen.constants.SETTINGS;
 
 /**
@@ -12,11 +17,18 @@ import com.av.mainscreen.constants.SETTINGS;
  */
 
 public class PerformCommands {
-    ForegroundService serviceContext;
     private static final String TAG = "PerformCommands";
 
-    public PerformCommands(ForegroundService foregroundService) {
+    ForegroundService serviceContext;
+    BluetoothAdapter mbluetoothAdapter;
+    BluetoothDevice mbluetoothDevice;
+    BluetoothGatt mbluetoothGatt;
+
+    public PerformCommands(ForegroundService foregroundService, BluetoothGatt bluetoothGatt, BluetoothAdapter bluetoothAdapter, BluetoothDevice bluetoothDevice) {
         serviceContext = foregroundService;
+        mbluetoothAdapter = bluetoothAdapter;
+        mbluetoothDevice = bluetoothDevice;
+        mbluetoothGatt = bluetoothGatt;
     }
 
     public void TAP(int x) {
@@ -83,7 +95,42 @@ public class PerformCommands {
     private void playNextSong() {
     }
 
-    private void vibrate() {
+    /**
+     * This function will vibrate band for specified ms
+     * @param ms(millisec to vibrate)
+     */
+    private void vibrate(final int ms) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    startVibrate();
+                    Thread.sleep(ms);
+                    stopVibrate();
+                } catch (Exception e) {
+                }
+            }
+        }).start();
+    }
+
+    void startVibrate() {
+        try {
+            BluetoothGattCharacteristic bchar = mbluetoothGatt.getService(MIBandConsts.AlertNotification.service)
+                    .getCharacteristic(MIBandConsts.AlertNotification.alertCharacteristic);
+            bchar.setValue(new byte[]{2});
+            if (!mbluetoothGatt.writeCharacteristic(bchar)) {
+                toaster("Failed to start vibrate");
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    void stopVibrate() {
+        BluetoothGattCharacteristic bchar = mbluetoothGatt.getService(MIBandConsts.AlertNotification.service)
+                .getCharacteristic(MIBandConsts.AlertNotification.alertCharacteristic);
+        bchar.setValue(new byte[]{0});
+        if (!mbluetoothGatt.writeCharacteristic(bchar)) {
+        }
     }
 
     private void toaster(final String text) {
