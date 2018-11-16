@@ -34,15 +34,15 @@ public class SETTINGS {
     }
 
     public static class TAP {
-        public static boolean SWITCH;
-        public static boolean VOL_INC;
-        public static boolean VOL_DEC;
-        public static boolean NEXT;
-        public static boolean PREV;
-        public static boolean PLAY_PAUSE;
-        public static boolean VIBRATE;
-        public static int VIBRATE_DELAY=100;
-        public static boolean TIMER;
-        public static boolean CAMERA;
+        public boolean SWITCH;
+        public boolean VOL_INC;
+        public boolean VOL_DEC;
+        public boolean NEXT;
+        public boolean PREV;
+        public boolean PLAY_PAUSE;
+        public boolean VIBRATE;
+        public int VIBRATE_DELAY = 100;
+        public boolean TIMER;
+        public boolean CAMERA;
     }
 }
