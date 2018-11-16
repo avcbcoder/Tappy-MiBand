@@ -42,6 +42,8 @@ public class ForegroundService extends Service {
     BluetoothDevice bluetoothDevice;
     BluetoothGatt bluetoothGatt;
 
+    PerformCommands performCommands;
+
     public ForegroundService() {
     }
 
@@ -180,20 +182,6 @@ public class ForegroundService extends Service {
     private long lastTap;
     private int tapCount;
 
-    private void TAP(int x) {
-        Log.e(TAG, "TAP: " + x);
-        switch (x) {
-            case 1:toaster("Single Tap");
-                break;
-            case 2:toaster("Double Tap");
-                break;
-            case 3:toaster("Tripple Tap");
-                break;
-            default:
-                break;
-        }
-    }
-
     long mLastTap = 0;
     int mCurrTaps = 0;
 
@@ -207,7 +195,7 @@ public class ForegroundService extends Service {
                 public void run() {
                     try {
                         Thread.sleep(SETTINGS.CLICK_INTERVAL);
-                        TAP(mCurrTaps); /*Perform single/double/tripple clicks*/
+                        performCommands.TAP(mCurrTaps); /*Perform single/double/tripple clicks*/
                     } catch (Exception e) {
                     }
                 }
@@ -283,6 +271,7 @@ public class ForegroundService extends Service {
         BluetoothGattDescriptor descriptor = bchar.getDescriptor(MIBandConsts.HeartRate.descriptor);
         descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
         bluetoothGatt.writeDescriptor(descriptor);
+        performCommands = new PerformCommands(this);
     }
 
     public void toaster(final String text) {

@@ -41,7 +41,7 @@ public class SETTINGS {
         public static boolean PREV;
         public static boolean PLAY_PAUSE;
         public static boolean VIBRATE;
-        public static int VIBRATE_DELAY;
+        public static int VIBRATE_DELAY=100;
         public static boolean TIMER;
         public static boolean CAMERA;
     }
