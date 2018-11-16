@@ -10,7 +10,9 @@ public class SETTINGS {
     public static boolean DISCONNECT_HEADPHONE_REMOVED;
     public static boolean IGNORE_FIRST_TAP;
     public static boolean KEEP_RUNNING;
-    public static int DELAY_TAP = 3;
+    public static int DELAY_TAP = 500;
+    public static int CLICK_INTERVAL = 1150; // A->600, B->1150, C->1700
+    public static int DIFF_BTW_MULTIPLE_COMMANDS = 1000; // A->500, B->1000, C->1500
     public static String MAC_ADDRESS = "E5:E7:F4:75:6F:C1";
 
     public static TAP[] taps = new TAP[4];

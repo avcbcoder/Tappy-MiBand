@@ -30,6 +30,7 @@ import com.av.mainscreen.constants.SETTINGS;
 import com.av.mainscreen.util.MIBand;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ForegroundService extends Service {
@@ -171,7 +172,8 @@ public class ForegroundService extends Service {
                     + "\n" + characteristic.getUuid()
                     + "\n" + characteristic.getStringValue(1)
             );
-            newThread((SETTINGS.DELAY_TAP + 1) * 100);
+            tapper();
+            // newThread((SETTINGS.DELAY_TAP + 1) * 100);
         }
     };
 
@@ -179,8 +181,8 @@ public class ForegroundService extends Service {
     private int tapCount;
 
     private void TAP(int x) {
-        Log.e(TAG, "TAP: "+x );
-        toaster(x+" Tap");
+        Log.e(TAG, "TAP: " + x);
+        toaster(x + " Tap");
         switch (x) {
             case 1:
                 break;
@@ -212,6 +214,91 @@ public class ForegroundService extends Service {
                     lastTap = curr;
                     tapCount++;
                     newThread(delay);
+                }
+            }
+        }).start();
+    }
+
+    public class TT {
+        long time;
+        int count;
+
+        TT(long time, int count) {
+            this.time = time;
+            this.count = count;
+        }
+
+        @Override
+        public String toString() {
+            return "{" + time + "=>" + count + "}";
+        }
+    }
+
+    ArrayList<TT> al = new ArrayList<>(Arrays.asList(new TT(0, 0)));
+    int tc = 0;
+    long tt = 0;
+
+    private void tapper() {
+        Log.e(TAG, "tapper: ----------------- #" + tc++);
+        long diff = System.currentTimeMillis() - al.get(al.size() - 1).time;
+        if (diff > SETTINGS.DIFF_BTW_MULTIPLE_COMMANDS) {
+            al.add(new TT(System.currentTimeMillis(), 1));
+            waitForClicks();
+        } else {
+            al.get(al.size() - 1).count += 1;
+        }
+        /*Log.e(TAG, "tapper: "+(System.currentTimeMillis()-tt) );
+        tt=System.currentTimeMillis();
+        long curr = System.currentTimeMillis();
+        int delay = SETTINGS.DELAY_TAP;
+        long diff = curr - al.get(al.size() - 1).time;
+        Log.e(TAG, "tapper: DIFFERENCE:" + diff);
+        if (diff < delay) {
+            Log.e(TAG, "OLD");
+            al.get(al.size() - 1).count += 1;
+            al.get(al.size() - 1).time = curr;
+        } else {
+            Log.e(TAG, "NEW");
+            al.add(new TT(curr, 1));
+        }
+        Log.e(TAG, "tapper: " + al);
+        //isIt(al.get(al.size() - 1).count);
+        */
+    }
+
+    private void waitForClicks() {
+        Log.e(TAG, "waitForClicks: WaitLaunch" );
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(SETTINGS.CLICK_INTERVAL);
+                    Log.e(TAG, "waitComplete: "+al.get(al.size()-1).count );
+                } catch (Exception e) {
+                }
+            }
+        }).start();
+    }
+
+    private void isIt(final int x) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Log.e(TAG, "thread started: ");
+                    Thread.sleep(SETTINGS.DELAY_TAP + 50);
+                    Log.e(TAG, "run: actual thread diff" + (System.currentTimeMillis() - (al.get(al.size() - 1).time)));
+                    if (System.currentTimeMillis() - (al.get(al.size() - 1).time) > SETTINGS.DELAY_TAP) {
+                        if (al.get(al.size() - 1).count == x) {
+                            toaster("Tap " + al.get(al.size() - 1).count);
+                            Log.e(TAG, "run: success " + al.get(al.size() - 1).count);
+                        } else {
+                            Log.e(TAG, "run: denied----");
+                        }
+                    } else {
+                        Log.e(TAG, "run: denied----");
+                    }
+                } catch (Exception e) {
                 }
             }
         }).start();
@@ -290,6 +377,7 @@ public class ForegroundService extends Service {
         handler.post(new Runnable() {
             @Override
             public void run() {
+                Log.e(TAG, "run: " + text);
                 Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
             }
         });
