@@ -4,10 +4,12 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import com.av.mainscreen.constants.MIBandConsts;
 import com.av.mainscreen.constants.SETTINGS;
+import com.av.mainscreen.constants.STRINGS;
 
 /**
  * Created by Ankit on 17-11-2018.
@@ -30,6 +33,8 @@ public class PerformCommands {
     BluetoothAdapter mbluetoothAdapter;
     BluetoothDevice mbluetoothDevice;
     BluetoothGatt mbluetoothGatt;
+    AudioManager mAudioManager;
+    IntentFilter mIntentFilter;
 
     public PerformCommands(ForegroundService foregroundService, BluetoothGatt bluetoothGatt, BluetoothAdapter bluetoothAdapter, BluetoothDevice bluetoothDevice) {
         serviceContext = foregroundService;
@@ -39,6 +44,14 @@ public class PerformCommands {
         SETTINGS.taps[1].NEXT = true;
         SETTINGS.taps[2].PLAY_PAUSE = true;
         SETTINGS.taps[3].PREV = true;
+        mAudioManager = (AudioManager) serviceContext.getSystemService(Context.AUDIO_SERVICE);
+
+        // setup intent filter
+        mIntentFilter = new IntentFilter();
+        for (String s : STRINGS.INTENT_FILTER_SONG)
+            mIntentFilter.addAction(s);
+        //register receiver
+        serviceContext.registerReceiver(mReceiver, mIntentFilter);
     }
 
     public void TAP(int x) {
@@ -69,10 +82,7 @@ public class PerformCommands {
             vibrate(SETTINGS.taps[t].VIBRATE_DELAY);
 
         // Toggle music
-        // musicControll(tap);
-        // musicControllUsingBroadcast(tap);
-        //musicControlUsingAudioManager(tap);
-        syncMusic(tap);
+        musicControl(tap);
 
         // Change Volume
         if (tap.VOL_INC)
@@ -85,88 +95,40 @@ public class PerformCommands {
             startStopTimer();
     }
 
-    private void syncMusic(SETTINGS.TAP tap) {
-        Log.e(TAG, "syncMusic: " );
-        AudioManager mAudioManager = (AudioManager) serviceContext.getSystemService(Context.AUDIO_SERVICE);
-
+    private void musicControl(SETTINGS.TAP tap) {
+        Log.e(TAG, "syncMusic: ");
+        if (mAudioManager == null)
+            mAudioManager = (AudioManager) serviceContext.getSystemService(Context.AUDIO_SERVICE);
         long eventtime = SystemClock.uptimeMillis();
+        KeyEvent downEvent, upEvent;
+        if (tap.NEXT) {
+            downEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT, 0);
+            upEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_NEXT, 0);
+        } else if (tap.PREV) {
+            downEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PREVIOUS, 0);
+            upEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PREVIOUS, 0);
+        } else if (tap.PLAY_PAUSE) {
+            downEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, 0);
+            upEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, 0);
+        } else return;
 
-        KeyEvent downEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT, 0);
         mAudioManager.dispatchMediaKeyEvent(downEvent);
-
-        KeyEvent upEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_NEXT, 0);
         mAudioManager.dispatchMediaKeyEvent(upEvent);
     }
 
-
-    private void musicControlUsingAudioManager(SETTINGS.TAP tap) {
-        AudioManager mAudioManager = (AudioManager) serviceContext.getSystemService(Context.AUDIO_SERVICE);
-        if (tap.NEXT) {
-            Log.e(TAG, "musicControlUsingAudioManager: NeXT");
-            KeyEvent event = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT);
-            mAudioManager.dispatchMediaKeyEvent(event);
-            event = new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_NEXT);
-            mAudioManager.dispatchMediaKeyEvent(event);
-        } else if (tap.PLAY_PAUSE) {
-            Log.e(TAG, "musicControlUsingAudioManager: Play");
-            KeyEvent event = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
-            mAudioManager.dispatchMediaKeyEvent(event);
-            event = new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
-            mAudioManager.dispatchMediaKeyEvent(event);
-        } else if (tap.PREV) {
-            Log.e(TAG, "musicControlUsingAudioManager: Prev");
-            KeyEvent event = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
-            mAudioManager.dispatchMediaKeyEvent(event);
-            event = new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
-            mAudioManager.dispatchMediaKeyEvent(event);
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            String cmd = intent.getStringExtra("command");
+            Log.e("Music", cmd + " : " + action);
+            String artist = intent.getStringExtra("artist");
+            String album = intent.getStringExtra("album");
+            String track = intent.getStringExtra("track");
+            //boolean playing = intent.getBooleanExtra("playing", false);
+            Log.e("Music", artist + " : " + album + " : " + track);
         }
-    }
-
-    /**
-     * sends a broadcast using commands to toggle music
-     *
-     * @param tap
-     */
-    private void musicControllUsingBroadcast(SETTINGS.TAP tap) {
-        Intent i = new Intent("com.android.music.musicservicecommand");
-        Intent mi = new Intent("com.miui.player.metachanged");
-        if (tap.NEXT) {
-            i.putExtra("command", "next");
-            mi.putExtra("command", "next");
-        } else if (tap.PREV) {
-            i.putExtra("command", "previous");
-            mi.putExtra("command", "previous");
-        } else if (tap.PLAY_PAUSE) {
-            i.putExtra("command", "pause");
-            mi.putExtra("command", "pause");
-        } else return;
-        serviceContext.sendBroadcast(i);
-        serviceContext.sendBroadcast(mi);
-    }
-
-    /**
-     * sends a broadcast to toggle music usin keypress intents
-     *
-     * @param tap
-     */
-    private void musicControll(SETTINGS.TAP tap) {
-        int command = 7854884;
-        if (tap.NEXT)
-            command = KeyEvent.KEYCODE_MEDIA_NEXT;
-        else if (tap.PREV)
-            command = KeyEvent.KEYCODE_MEDIA_PREVIOUS;
-        else if (tap.PLAY_PAUSE)
-            command = KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE;
-        else return;
-        // down -> keyPressed
-        Intent i = new Intent(Intent.ACTION_MEDIA_BUTTON);
-        i.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_DOWN, command));
-        serviceContext.sendOrderedBroadcast(i, null);
-        // up -> keyReleased
-        i = new Intent(Intent.ACTION_MEDIA_BUTTON);
-        i.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_UP, command));
-        serviceContext.sendOrderedBroadcast(i, null);
-    }
+    };
 
     private void startStopTimer() {
     }

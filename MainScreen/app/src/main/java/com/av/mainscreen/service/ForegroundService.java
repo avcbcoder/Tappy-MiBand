@@ -105,8 +105,8 @@ public class ForegroundService extends Service {
                 .setContentText("Band is connected")
                 .setWhen(System.currentTimeMillis())
                 .setLargeIcon(largeIconBitmap)
-                .setFullScreenIntent(pendingIntent, true)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                .setFullScreenIntent(pendingIntent, false)
+                .setPriority(NotificationCompat.PRIORITY_LOW);
 
         /*
         NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
