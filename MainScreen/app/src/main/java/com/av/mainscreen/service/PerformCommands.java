@@ -22,6 +22,8 @@ import com.av.mainscreen.constants.MIBandConsts;
 import com.av.mainscreen.constants.SETTINGS;
 import com.av.mainscreen.constants.STRINGS;
 
+import static com.av.mainscreen.constants.SETTINGS.taps;
+
 /**
  * Created by Ankit on 17-11-2018.
  */
@@ -34,24 +36,37 @@ public class PerformCommands {
     BluetoothDevice mbluetoothDevice;
     BluetoothGatt mbluetoothGatt;
     AudioManager mAudioManager;
-    IntentFilter mIntentFilter;
+    IntentFilter mIntentFilterTrack;
+    IntentFilter mIntentFilterCall;
+    CallReceiver mCallReceiver;
 
     public PerformCommands(ForegroundService foregroundService, BluetoothGatt bluetoothGatt, BluetoothAdapter bluetoothAdapter, BluetoothDevice bluetoothDevice) {
         serviceContext = foregroundService;
         mbluetoothAdapter = bluetoothAdapter;
         mbluetoothDevice = bluetoothDevice;
         mbluetoothGatt = bluetoothGatt;
-        SETTINGS.taps[1].NEXT = true;
-        SETTINGS.taps[2].PLAY_PAUSE = true;
-        SETTINGS.taps[3].PREV = true;
+//        SETTINGS.taps[1].NEXT = true;
+//        SETTINGS.taps[2].PLAY_PAUSE = true;
+//        SETTINGS.taps[3].PREV = true;
+        taps[1].VOL_INC = true;
+        taps[2].VOL_DEC = true;
+
         mAudioManager = (AudioManager) serviceContext.getSystemService(Context.AUDIO_SERVICE);
 
-        // setup intent filter
-        mIntentFilter = new IntentFilter();
+        // setup intent filter for track change
+        mIntentFilterTrack = new IntentFilter();
         for (String s : STRINGS.INTENT_FILTER_SONG)
-            mIntentFilter.addAction(s);
+            mIntentFilterTrack.addAction(s);
         //register receiver
-        serviceContext.registerReceiver(mReceiver, mIntentFilter);
+        serviceContext.registerReceiver(mReceiverTrack, mIntentFilterTrack);
+
+        // setup intent filter for tracking calls
+        mIntentFilterCall = new IntentFilter();
+        for (String s : STRINGS.INTENT_FILTER_CALL)
+            mIntentFilterCall.addAction(s);
+        mCallReceiver = new CallReceiver();
+        //register receiver
+        serviceContext.registerReceiver(mCallReceiver, mIntentFilterTrack);
     }
 
     public void TAP(int x) {
@@ -75,24 +90,48 @@ public class PerformCommands {
     }
 
     private void performAction(int t) {
-        SETTINGS.TAP tap = SETTINGS.taps[t];
+        SETTINGS.TAP tap = taps[t];
+
+        if (incomingCall(tap))
+            return;
 
         //vibrate first
         if (tap.VIBRATE)
-            vibrate(SETTINGS.taps[t].VIBRATE_DELAY);
+            vibrate(taps[t].VIBRATE_DELAY);
 
         // Toggle music
         musicControl(tap);
 
         // Change Volume
         if (tap.VOL_INC)
-            increaseVolume();
-        if (tap.VOL_DEC)
-            decreaseVolume();
+            mAudioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
+        else if (tap.VOL_DEC)
+            mAudioManager.adjustVolume(AudioManager.ADJUST_LOWER, AudioManager.FLAG_PLAY_SOUND);
 
         // Timer
         if (tap.TIMER)
             startStopTimer();
+    }
+
+    private boolean incomingCall(SETTINGS.TAP tap) {
+        /*identify if phone is ringing*/
+        switch (tap.CALL) {
+            case 0: // nothing
+                break;
+            case 1: // mute
+                muteCall();
+                break;
+            case 2: // reply
+                reply();
+                break;
+        }
+        return false;
+    }
+
+    private void muteCall() {
+    }
+
+    private void reply() {
     }
 
     private void musicControl(SETTINGS.TAP tap) {
@@ -116,7 +155,7 @@ public class PerformCommands {
         mAudioManager.dispatchMediaKeyEvent(upEvent);
     }
 
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver mReceiverTrack = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -131,12 +170,6 @@ public class PerformCommands {
     };
 
     private void startStopTimer() {
-    }
-
-    private void decreaseVolume() {
-    }
-
-    private void increaseVolume() {
     }
 
     /**

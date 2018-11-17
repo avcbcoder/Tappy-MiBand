@@ -23,4 +23,9 @@ public class STRINGS {
             "com.samsung.sec.android.MusicPlayer.metachanged",
             "com.andrew.apollo.metachanged",
     };
+
+    public static String[] INTENT_FILTER_CALL={
+            "android.intent.action.PHONE_STATE",
+            "android.intent.action.NEW_OUTGOING_CALL"
+    };
 }

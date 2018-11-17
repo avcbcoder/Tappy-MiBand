@@ -46,5 +46,6 @@ public class SETTINGS {
         public int VIBRATE_DELAY = 300;
         public boolean TIMER;
         public boolean CAMERA;
+        public int CALL;// 0->Nothing 1->Mute 2->Reply || only for two taps
     }
 }
