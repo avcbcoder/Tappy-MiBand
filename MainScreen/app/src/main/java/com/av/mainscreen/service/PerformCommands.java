@@ -115,6 +115,8 @@ public class PerformCommands {
 
     private void muteCall() {
         Log.e(TAG, "muteCall: ");
+        AudioManager audioManager = (AudioManager) serviceContext.getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
     }
 
     private long lastRepliedCall;
