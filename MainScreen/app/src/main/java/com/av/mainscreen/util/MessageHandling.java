@@ -17,4 +17,43 @@ import java.util.ArrayList;
  */
 
 public class MessageHandling {
+    private static final String TAG = "MessageHandling";
+    private static final int MAX_CONTACT_LENGTH = 9;
+
+    public static void sendMessage(String phoneNumber, String text) {
+        SmsManager smsManager = SmsManager.getDefault();
+        smsManager.sendTextMessage(
+                phoneNumber,
+                null,
+                text,
+                null, null
+        );
+        //ArrayList<String> parts = smsManager.divideMessage((SETTINGS.Call.TEXT.length() == 0) ? SETTINGS.Call.DEF_TEXT : SETTINGS.Call.TEXT);
+        //smsManager.sendMultipartTextMessage(CallReceiver.savedNumber, null, parts, null, null);
+        Log.e(TAG, "reply: Message Sent");
+    }
+
+    public static String extractName(final String phoneNumber, Context context) {
+        Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
+        String[] projection = new String[]{ContactsContract.PhoneLookup.DISPLAY_NAME};
+        String contactName = "";
+        Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) contactName = cursor.getString(0);
+            cursor.close();
+        }
+
+        if (contactName.length() == 0)
+            return phoneNumber;
+        else {
+            StringBuilder sb = new StringBuilder("");
+            for (int i = 0; i < contactName.length() && i < MAX_CONTACT_LENGTH; i++) {
+                int ch = contactName.charAt(i);
+                if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9'))
+                    sb.append(ch);
+            }
+            return sb.toString();
+        }
+    }
 }
