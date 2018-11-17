@@ -8,10 +8,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.provider.ContactsContract;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -21,6 +24,7 @@ import com.av.mainscreen.broadcastReceiver.CallReceiver;
 import com.av.mainscreen.constants.MIBandConsts;
 import com.av.mainscreen.constants.SETTINGS;
 import com.av.mainscreen.constants.STRINGS;
+import com.av.mainscreen.util.MessageHandling;
 
 import java.util.ArrayList;
 
@@ -136,25 +140,16 @@ public class PerformCommands {
             return;
         }
         lastRepliedCall = CallReceiver.INCOMING_callStartTime;
-        Log.e(TAG, "reply: sent");
-        /*reply now*/
-        /*
-        try {
-            SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage(
-                    CallReceiver.savedNumber,
-                    null,
-                    (SETTINGS.Call.TEXT.length() == 0) ? SETTINGS.Call.DEF_TEXT : SETTINGS.Call.TEXT,
-                    null, null
-            );
-            ArrayList<String> parts = smsManager.divideMessage((SETTINGS.Call.TEXT.length() == 0) ? SETTINGS.Call.DEF_TEXT : SETTINGS.Call.TEXT);
-            smsManager.sendMultipartTextMessage(CallReceiver.savedNumber, null, parts, null, null);
-            Log.e(TAG, "reply: Message Sent");
-        } catch (Exception ex) {
-            Log.e(TAG, "reply: Something went wrong");
-            ex.printStackTrace();
-        }
-        */
+
+        String msg = SETTINGS.Call.TEXT.length() == 0 ? SETTINGS.Call.TEXT : SETTINGS.Call.DEF_TEXT;
+        MessageHandling.sendMessage(CallReceiver.savedNumber, msg);
+
+        String nameOfCaller = MessageHandling.extractName(CallReceiver.savedNumber, serviceContext);
+        displayOnBand("Replied " + nameOfCaller);
+    }
+
+    private void displayOnBand(String s) {
+        Log.e(TAG, "displayOnBand: " + s);
     }
 
     private void musicControl(SETTINGS.TAP tap) {
