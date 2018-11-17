@@ -87,10 +87,10 @@ public class PerformCommands {
         SETTINGS.TAP tap = taps[t];
 
         if (CallReceiver.isOutgoing()) {
-            Log.e(TAG, "performAction: Outgoing 00000000000000");
+            Log.e(TAG, "performAction: Outgoing ");
             return;
         } else if (CallReceiver.isIncoming()) {
-            Log.e(TAG, "performAction: Incoming 00000000000000");
+            Log.e(TAG, "performAction: Incoming ");
             switch (tap.CALL) {
                 case 0:
                     break;
@@ -129,7 +129,9 @@ public class PerformCommands {
     private long lastRepliedCall;
 
     private void reply() {
-        if (lastRepliedCall == CallReceiver.INCOMING_callStartTime) {
+        /*Don't reply if call has been answered or already replied to this call*/
+        if (lastRepliedCall == CallReceiver.INCOMING_callStartTime
+                || CallReceiver.lastAnsweredCall == CallReceiver.INCOMING_callStartTime) {
             Log.e(TAG, "reply: Not sent");
             return;
         }
