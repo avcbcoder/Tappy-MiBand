@@ -4,9 +4,12 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.av.mainscreen.constants.MIBandConsts;
@@ -29,6 +32,8 @@ public class PerformCommands {
         mbluetoothAdapter = bluetoothAdapter;
         mbluetoothDevice = bluetoothDevice;
         mbluetoothGatt = bluetoothGatt;
+        SETTINGS.taps[1].NEXT=true;
+        SETTINGS.taps[2].PLAY_PAUSE=true;
     }
 
     public void TAP(int x) {
@@ -56,15 +61,10 @@ public class PerformCommands {
 
         //vibrate first
         if (tap.VIBRATE)
-            vibrate();
+            vibrate(SETTINGS.taps[t].VIBRATE_DELAY);
 
         // Toggle music
-        if (tap.NEXT)
-            playNextSong();
-        if (tap.PREV)
-            playPrevSong();
-        if (tap.PLAY_PAUSE)
-            playPauseCurrSong();
+        musicControll(tap);
 
         // Change Volume
         if (tap.VOL_INC)
@@ -75,6 +75,29 @@ public class PerformCommands {
         // Timer
         if (tap.TIMER)
             startStopTimer();
+    }
+
+    /**
+     * sends an intent to toggle music
+     * @param tap
+     */
+    private void musicControll(SETTINGS.TAP tap) {
+        int command = 7854884;
+        if (tap.NEXT)
+            command = KeyEvent.KEYCODE_MEDIA_NEXT;
+        else if (tap.PREV)
+            command = KeyEvent.KEYCODE_MEDIA_PREVIOUS;
+        else if (tap.PLAY_PAUSE)
+            command = KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE;
+        else return;
+        // down -> keyPressed
+        Intent i = new Intent(Intent.ACTION_MEDIA_BUTTON);
+        i.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_DOWN, command));
+        serviceContext.sendOrderedBroadcast(i, null);
+        // up -> keyReleased
+        i = new Intent(Intent.ACTION_MEDIA_BUTTON);
+        i.putExtra(Intent.EXTRA_KEY_EVENT, new KeyEvent(KeyEvent.ACTION_UP, command));
+        serviceContext.sendOrderedBroadcast(i, null);
     }
 
     private void startStopTimer() {
@@ -97,6 +120,7 @@ public class PerformCommands {
 
     /**
      * This function will vibrate band for specified ms
+     *
      * @param ms(millisec to vibrate)
      */
     private void vibrate(final int ms) {
@@ -114,23 +138,17 @@ public class PerformCommands {
     }
 
     void startVibrate() {
-        try {
-            BluetoothGattCharacteristic bchar = mbluetoothGatt.getService(MIBandConsts.AlertNotification.service)
-                    .getCharacteristic(MIBandConsts.AlertNotification.alertCharacteristic);
-            bchar.setValue(new byte[]{2});
-            if (!mbluetoothGatt.writeCharacteristic(bchar)) {
-                toaster("Failed to start vibrate");
-            }
-        } catch (Exception e) {
-        }
+        BluetoothGattCharacteristic bchar = mbluetoothGatt.getService(MIBandConsts.AlertNotification.service)
+                .getCharacteristic(MIBandConsts.AlertNotification.alertCharacteristic);
+        bchar.setValue(new byte[]{3});
+        mbluetoothGatt.writeCharacteristic(bchar);
     }
 
     void stopVibrate() {
         BluetoothGattCharacteristic bchar = mbluetoothGatt.getService(MIBandConsts.AlertNotification.service)
                 .getCharacteristic(MIBandConsts.AlertNotification.alertCharacteristic);
         bchar.setValue(new byte[]{0});
-        if (!mbluetoothGatt.writeCharacteristic(bchar)) {
-        }
+        mbluetoothGatt.writeCharacteristic(bchar);
     }
 
     private void toaster(final String text) {

@@ -1,5 +1,7 @@
 package com.av.mainscreen.constants;
 
+import java.util.Arrays;
+
 /**
  * Created by Ankit on 10-11-2018.
  */
@@ -15,7 +17,7 @@ public class SETTINGS {
     public static int DIFF_BTW_MULTIPLE_COMMANDS = 1000; // A->500, B->1000, C->1500
     public static String MAC_ADDRESS = "E5:E7:F4:75:6F:C1";
 
-    public static TAP[] taps = new TAP[4];
+    public static TAP[] taps = {new TAP(),new TAP(),new TAP(),new TAP()};
 
     public static class TIMER {
         public static boolean INTERMEDIATE_VIBRATION;
@@ -40,8 +42,8 @@ public class SETTINGS {
         public boolean NEXT;
         public boolean PREV;
         public boolean PLAY_PAUSE;
-        public boolean VIBRATE;
-        public int VIBRATE_DELAY = 100;
+        public boolean VIBRATE=true;
+        public int VIBRATE_DELAY = 300;
         public boolean TIMER;
         public boolean CAMERA;
     }
