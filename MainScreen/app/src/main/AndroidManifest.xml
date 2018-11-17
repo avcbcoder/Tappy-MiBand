@@ -31,7 +31,7 @@
             android:enabled="true"
             android:exported="true"></service>
 
-        <receiver android:name=".service.CallReceiver" >
+        <receiver android:name=".broadcastReceiver.CallReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>

@@ -1,4 +1,4 @@
-package com.av.mainscreen.service;
+package com.av.mainscreen.broadcastReceiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,15 +15,16 @@ import java.util.Date;
 public class CallReceiver extends BroadcastReceiver {
     private static final String TAG = "CallReceiver";
     private static int lastState = TelephonyManager.CALL_STATE_IDLE;
-    private static Date callStartTime;
-    private static Date callEndTime;
+    private static long INCOMING_callStartTime = Long.MAX_VALUE;
+    private static long INCOMING_callEndTime = Long.MAX_VALUE;
+    private static long OUTGOING_callStartTime = Long.MAX_VALUE;
+    private static long OUTGOING_callEndTime = Long.MAX_VALUE;
     private static boolean isIncoming;
     private static String savedNumber;  //because the passed incoming is only valid in ringing
 
-
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.e(TAG, "onReceive: Call" );
+        Log.e(TAG, "onReceive: Call");
         //We listen to two intents.  The new outgoing call only tells us of an outgoing call.  We use it to get the number.
         if (intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
             savedNumber = intent.getExtras().getString("android.intent.extra.PHONE_NUMBER");
@@ -42,53 +43,63 @@ public class CallReceiver extends BroadcastReceiver {
         }
     }
 
-    //Deals with actual events
-
     //Incoming call-  goes from IDLE to RINGING when it rings, to OFFHOOK when it's answered, to IDLE when its hung up
     //Outgoing call-  goes from IDLE to OFFHOOK when it dials out, to IDLE when hung up
     public void onCallStateChanged(Context context, int state, String number) {
-        if (lastState == state) {
-            //No change, debounce extras
+        if (lastState == state)//No change, debounce extras
             return;
-        }
+
         switch (state) {
+
             case TelephonyManager.CALL_STATE_RINGING:
                 isIncoming = true;
-                callStartTime = new Date();
+                INCOMING_callStartTime = System.currentTimeMillis();
                 savedNumber = number;
                 Log.e(TAG, "onCallStateChanged: Incoming call received");
-                //onIncomingCallReceived(context, number, callStartTime);
                 break;
+
             case TelephonyManager.CALL_STATE_OFFHOOK:
-                //Transition of ringing->offhook are pickups of incoming calls.  Nothing done on them
                 if (lastState != TelephonyManager.CALL_STATE_RINGING) {
                     isIncoming = false;
-                    callStartTime = new Date();
+                    OUTGOING_callStartTime = System.currentTimeMillis();
                     Log.e(TAG, "onCallStateChanged: OutgoingCall Started");
-                    //onOutgoingCallStarted(context, savedNumber, callStartTime);
                 } else {
                     isIncoming = true;
-                    callStartTime = new Date();
-                    Log.e(TAG, "onCallStateChanged: Incoming answered" );
-                    //onIncomingCallAnswered(context, savedNumber, callStartTime);
+                    Log.e(TAG, "onCallStateChanged: Incoming answered");
                 }
-
                 break;
+
             case TelephonyManager.CALL_STATE_IDLE:
-                //Went to idle-  this is the end of a call.  What type depends on previous state(s)
                 if (lastState == TelephonyManager.CALL_STATE_RINGING) {
-                    //Ring but no pickup-  a miss
                     Log.e(TAG, "onCallStateChanged: MissedCall");
-                    //onMissedCall(context, savedNumber, callStartTime);
+                    INCOMING_callEndTime = System.currentTimeMillis();
                 } else if (isIncoming) {
+                    INCOMING_callEndTime = System.currentTimeMillis();
                     Log.e(TAG, "onCallStateChanged: IncomingCall Ended");
-                    //onIncomingCallEnded(context, savedNumber, callStartTime, new Date());
                 } else {
+                    OUTGOING_callEndTime = System.currentTimeMillis();
                     Log.e(TAG, "onCallStateChanged: OutgoingCall Ended");
-                    //onOutgoingCallEnded(context, savedNumber, callStartTime, new Date());
                 }
                 break;
         }
         lastState = state;
+    }
+
+    /*Check outgoing call*/
+    public static boolean isOutgoing() {
+        Log.e(TAG, "isOutgoing: s:" + OUTGOING_callStartTime + " e:" + OUTGOING_callEndTime);
+        long curr = System.currentTimeMillis();
+        if (curr >= OUTGOING_callStartTime && curr <= OUTGOING_callEndTime)
+            return true;
+        return false;
+    }
+
+    /*Check incoming call*/
+    public static boolean isIncoming() {
+        Log.e(TAG, "isIncoming: s:" + INCOMING_callStartTime + " e:" + INCOMING_callEndTime);
+        long curr = System.currentTimeMillis();
+        if (curr >= INCOMING_callStartTime && curr <= INCOMING_callEndTime)
+            return true;
+        return false;
     }
 }

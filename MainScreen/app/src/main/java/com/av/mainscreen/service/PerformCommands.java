@@ -9,15 +9,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
-import android.util.Config;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
+import com.av.mainscreen.broadcastReceiver.CallReceiver;
 import com.av.mainscreen.constants.MIBandConsts;
 import com.av.mainscreen.constants.SETTINGS;
 import com.av.mainscreen.constants.STRINGS;
@@ -37,8 +36,6 @@ public class PerformCommands {
     BluetoothGatt mbluetoothGatt;
     AudioManager mAudioManager;
     IntentFilter mIntentFilterTrack;
-    IntentFilter mIntentFilterCall;
-    CallReceiver mCallReceiver;
 
     public PerformCommands(ForegroundService foregroundService, BluetoothGatt bluetoothGatt, BluetoothAdapter bluetoothAdapter, BluetoothDevice bluetoothDevice) {
         serviceContext = foregroundService;
@@ -48,8 +45,10 @@ public class PerformCommands {
 //        SETTINGS.taps[1].NEXT = true;
 //        SETTINGS.taps[2].PLAY_PAUSE = true;
 //        SETTINGS.taps[3].PREV = true;
-        taps[1].VOL_INC = true;
-        taps[2].VOL_DEC = true;
+//        taps[1].VOL_INC = true;
+//        taps[2].VOL_DEC = true;
+        taps[1].CALL=1;
+        taps[2].CALL=2;
 
         mAudioManager = (AudioManager) serviceContext.getSystemService(Context.AUDIO_SERVICE);
 
@@ -59,14 +58,6 @@ public class PerformCommands {
             mIntentFilterTrack.addAction(s);
         //register receiver
         serviceContext.registerReceiver(mReceiverTrack, mIntentFilterTrack);
-
-        // setup intent filter for tracking calls
-        mIntentFilterCall = new IntentFilter();
-        for (String s : STRINGS.INTENT_FILTER_CALL)
-            mIntentFilterCall.addAction(s);
-        mCallReceiver = new CallReceiver();
-        //register receiver
-        serviceContext.registerReceiver(mCallReceiver, mIntentFilterTrack);
     }
 
     public void TAP(int x) {
@@ -92,8 +83,21 @@ public class PerformCommands {
     private void performAction(int t) {
         SETTINGS.TAP tap = taps[t];
 
-        if (incomingCall(tap))
+        if (CallReceiver.isOutgoing())
             return;
+        else if (CallReceiver.isIncoming()) {
+            switch (tap.CALL) {
+                case 0:
+                    break;
+                case 1:
+                    muteCall();
+                    break;
+                case 2:
+                    reply();
+                    break;
+            }
+            return;
+        }
 
         //vibrate first
         if (tap.VIBRATE)
@@ -129,9 +133,11 @@ public class PerformCommands {
     }
 
     private void muteCall() {
+        Log.e(TAG, "muteCall: ");
     }
 
     private void reply() {
+        Log.e(TAG, "reply: ");
     }
 
     private void musicControl(SETTINGS.TAP tap) {
