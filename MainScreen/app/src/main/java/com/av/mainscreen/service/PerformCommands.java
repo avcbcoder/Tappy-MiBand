@@ -4,10 +4,14 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
+import android.util.Config;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
@@ -32,8 +36,9 @@ public class PerformCommands {
         mbluetoothAdapter = bluetoothAdapter;
         mbluetoothDevice = bluetoothDevice;
         mbluetoothGatt = bluetoothGatt;
-        SETTINGS.taps[1].NEXT=true;
-        SETTINGS.taps[2].PLAY_PAUSE=true;
+        SETTINGS.taps[1].NEXT = true;
+        SETTINGS.taps[2].PLAY_PAUSE = true;
+        SETTINGS.taps[3].PREV = true;
     }
 
     public void TAP(int x) {
@@ -64,7 +69,10 @@ public class PerformCommands {
             vibrate(SETTINGS.taps[t].VIBRATE_DELAY);
 
         // Toggle music
-        musicControll(tap);
+        // musicControll(tap);
+        // musicControllUsingBroadcast(tap);
+        //musicControlUsingAudioManager(tap);
+        syncMusic(tap);
 
         // Change Volume
         if (tap.VOL_INC)
@@ -77,8 +85,68 @@ public class PerformCommands {
             startStopTimer();
     }
 
+    private void syncMusic(SETTINGS.TAP tap) {
+        Log.e(TAG, "syncMusic: " );
+        AudioManager mAudioManager = (AudioManager) serviceContext.getSystemService(Context.AUDIO_SERVICE);
+
+        long eventtime = SystemClock.uptimeMillis();
+
+        KeyEvent downEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT, 0);
+        mAudioManager.dispatchMediaKeyEvent(downEvent);
+
+        KeyEvent upEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_NEXT, 0);
+        mAudioManager.dispatchMediaKeyEvent(upEvent);
+    }
+
+
+    private void musicControlUsingAudioManager(SETTINGS.TAP tap) {
+        AudioManager mAudioManager = (AudioManager) serviceContext.getSystemService(Context.AUDIO_SERVICE);
+        if (tap.NEXT) {
+            Log.e(TAG, "musicControlUsingAudioManager: NeXT");
+            KeyEvent event = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT);
+            mAudioManager.dispatchMediaKeyEvent(event);
+            event = new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_NEXT);
+            mAudioManager.dispatchMediaKeyEvent(event);
+        } else if (tap.PLAY_PAUSE) {
+            Log.e(TAG, "musicControlUsingAudioManager: Play");
+            KeyEvent event = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
+            mAudioManager.dispatchMediaKeyEvent(event);
+            event = new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
+            mAudioManager.dispatchMediaKeyEvent(event);
+        } else if (tap.PREV) {
+            Log.e(TAG, "musicControlUsingAudioManager: Prev");
+            KeyEvent event = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
+            mAudioManager.dispatchMediaKeyEvent(event);
+            event = new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
+            mAudioManager.dispatchMediaKeyEvent(event);
+        }
+    }
+
     /**
-     * sends an intent to toggle music
+     * sends a broadcast using commands to toggle music
+     *
+     * @param tap
+     */
+    private void musicControllUsingBroadcast(SETTINGS.TAP tap) {
+        Intent i = new Intent("com.android.music.musicservicecommand");
+        Intent mi = new Intent("com.miui.player.metachanged");
+        if (tap.NEXT) {
+            i.putExtra("command", "next");
+            mi.putExtra("command", "next");
+        } else if (tap.PREV) {
+            i.putExtra("command", "previous");
+            mi.putExtra("command", "previous");
+        } else if (tap.PLAY_PAUSE) {
+            i.putExtra("command", "pause");
+            mi.putExtra("command", "pause");
+        } else return;
+        serviceContext.sendBroadcast(i);
+        serviceContext.sendBroadcast(mi);
+    }
+
+    /**
+     * sends a broadcast to toggle music usin keypress intents
+     *
      * @param tap
      */
     private void musicControll(SETTINGS.TAP tap) {
@@ -107,15 +175,6 @@ public class PerformCommands {
     }
 
     private void increaseVolume() {
-    }
-
-    private void playPauseCurrSong() {
-    }
-
-    private void playPrevSong() {
-    }
-
-    private void playNextSong() {
     }
 
     /**

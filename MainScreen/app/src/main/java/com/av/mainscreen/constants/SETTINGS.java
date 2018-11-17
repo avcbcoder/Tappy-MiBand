@@ -42,7 +42,7 @@ public class SETTINGS {
         public boolean NEXT;
         public boolean PREV;
         public boolean PLAY_PAUSE;
-        public boolean VIBRATE=true;
+        public boolean VIBRATE=false;
         public int VIBRATE_DELAY = 300;
         public boolean TIMER;
         public boolean CAMERA;

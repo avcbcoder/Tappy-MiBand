@@ -43,6 +43,7 @@ public class ForegroundService extends Service {
     BluetoothGatt bluetoothGatt;
 
     PerformCommands performCommands;
+    boolean state = false;
 
     public ForegroundService() {
     }
@@ -86,6 +87,8 @@ public class ForegroundService extends Service {
 
     /* Used to build and start foreground service. */
     private void startForegroundService() {
+        if (state)
+            return;
         Log.d(TAG, "Start foreground service.");
 
         // Create notification default intent.
@@ -228,11 +231,13 @@ public class ForegroundService extends Service {
     void stateConnected() {
         Log.e(TAG, "stateConnected: ");
         bluetoothGatt.discoverServices();
+        state = true;
     }
 
     void stateDisconnected() {
         Log.e(TAG, "stateDisconnected: ");
         bluetoothGatt.disconnect();
+        state = false;
     }
 
     private void displayText(String text) {
@@ -271,7 +276,7 @@ public class ForegroundService extends Service {
         BluetoothGattDescriptor descriptor = bchar.getDescriptor(MIBandConsts.HeartRate.descriptor);
         descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
         bluetoothGatt.writeDescriptor(descriptor);
-        performCommands = new PerformCommands(this,bluetoothGatt,bluetoothAdapter,bluetoothDevice);
+        performCommands = new PerformCommands(this, bluetoothGatt, bluetoothAdapter, bluetoothDevice);
     }
 
     public void toaster(final String text) {
