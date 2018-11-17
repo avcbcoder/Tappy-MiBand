@@ -52,8 +52,8 @@ public class PerformCommands {
 //        SETTINGS.taps[1].NEXT = true;
 //        SETTINGS.taps[2].PLAY_PAUSE = true;
 //        SETTINGS.taps[3].PREV = true;
-//        taps[1].VOL_INC = true;
-//        taps[2].VOL_DEC = true;
+        taps[1].VOL_INC = true;
+        taps[2].VOL_DEC = true;
         taps[1].CALL = 1;
         taps[2].CALL = 2;
 
@@ -69,22 +69,8 @@ public class PerformCommands {
 
     public void TAP(int x) {
         Log.e(TAG, "TAP: " + x);
-        switch (x) {
-            case 1:
-                performAction(1);
-                toaster("Single Tap");
-                break;
-            case 2:
-                performAction(2);
-                toaster("Double Tap");
-                break;
-            case 3:
-                performAction(3);
-                toaster("Tripple Tap");
-                break;
-            default:
-                break;
-        }
+        if (x >= 1 && x <= 3)
+            performAction(x);
     }
 
     private void performAction(int t) {
@@ -102,6 +88,7 @@ public class PerformCommands {
                     muteCall();
                     break;
                 case 2:
+                    muteCall();
                     reply();
                     break;
             }
@@ -117,9 +104,9 @@ public class PerformCommands {
 
         // Change Volume
         if (tap.VOL_INC)
-            mAudioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
+            mAudioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI + AudioManager.FLAG_PLAY_SOUND);
         else if (tap.VOL_DEC)
-            mAudioManager.adjustVolume(AudioManager.ADJUST_LOWER, AudioManager.FLAG_PLAY_SOUND);
+            mAudioManager.adjustVolume(AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI + AudioManager.FLAG_PLAY_SOUND);
 
         // Timer
         if (tap.TIMER)
@@ -141,15 +128,11 @@ public class PerformCommands {
         }
         lastRepliedCall = CallReceiver.INCOMING_callStartTime;
         try {
-            //String msg = SETTINGS.Call.TEXT.length() == 0 ? SETTINGS.Call.DEF_TEXT : SETTINGS.Call.TEXT;
-            String msg=SETTINGS.Call.DEF_TEXT;
+            String msg = SETTINGS.Call.TEXT.length() == 0 ? SETTINGS.Call.DEF_TEXT : SETTINGS.Call.TEXT;
             //MessageHandling.sendMessage(CallReceiver.savedNumber, msg);
-            Log.e(TAG, "repied////////: " );
             String nameOfCaller = MessageHandling.extractName(CallReceiver.savedNumber, serviceContext);
             displayOnBand("Replied " + nameOfCaller);
         } catch (Exception e) {
-            e.printStackTrace();
-            Log.e(TAG, "reply: "+e );
             Log.e(TAG, "reply: Unable to reply");
         }
     }

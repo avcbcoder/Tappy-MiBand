@@ -33,6 +33,7 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "CallActivity";
     private static final int REQ_CODE_SMS = 101;
     private static final int REQ_CODE_CONTACTS = 201;
+    private static final int REQ_CODE = 301;
 
     private RMSwitch mToggle;
     private ImageButton mBack, mEdit;
@@ -56,15 +57,18 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
         setState();
 
         // ask for sending sms permission
-        ActivityCompat.requestPermissions(CallActivity.this,
-                new String[]{Manifest.permission.SEND_SMS},
-                REQ_CODE_SMS);
+//        ActivityCompat.requestPermissions(CallActivity.this,
+//                new String[]{Manifest.permission.SEND_SMS},
+//                REQ_CODE_SMS);
 
         // ask for reading contacts permission
-        ActivityCompat.requestPermissions(CallActivity.this,
-                new String[]{Manifest.permission.READ_CONTACTS},
-                REQ_CODE_CONTACTS);
+//        ActivityCompat.requestPermissions(CallActivity.this,
+//                new String[]{Manifest.permission.READ_CONTACTS},
+//                REQ_CODE_CONTACTS);
 
+        ActivityCompat.requestPermissions(CallActivity.this,
+                new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.SEND_SMS},
+                REQ_CODE);
     }
 
     @Override
@@ -84,6 +88,14 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
                     Log.e(TAG, "onRequestPermissionsResult: PermissionGranted for READ CONTACT");
                 } else {
                     Log.e(TAG, "onRequestPermissionsResult: PermissionDenied for READ CONTACT");
+                }
+                return;
+            }
+            case REQ_CODE: {
+                for (int i = 0; i < grantResults.length; i++) {
+                    int res = grantResults[i];
+                    if (res == PackageManager.PERMISSION_DENIED)
+                        Log.e(TAG, "onRequestPermissionsResult: Denied " + permissions[i]);
                 }
                 return;
             }
