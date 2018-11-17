@@ -1,5 +1,8 @@
 package com.av.mainscreen.activity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +10,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -25,6 +29,9 @@ import com.av.mainscreen.constants.SETTINGS;
 import com.rm.rmswitch.RMSwitch;
 
 public class CallActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+
+    private static final String TAG = "CallActivity";
+    private static final int REQ_CODE_SMS = 101;
 
     private RMSwitch mToggle;
     private ImageButton mBack, mEdit;
@@ -46,6 +53,27 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
 
         // set everything according to database
         setState();
+
+        // ask for sending sms permission
+        ActivityCompat.requestPermissions(CallActivity.this,
+                new String[]{Manifest.permission.SEND_SMS},
+                REQ_CODE_SMS);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQ_CODE_SMS: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.e(TAG, "onRequestPermissionsResult: PermissionGranted");
+                } else {
+                    Log.e(TAG, "onRequestPermissionsResult: PermissionDenied");
+                }
+                return;
+            }
+        }
     }
 
     private void init() {

@@ -15,12 +15,12 @@ import java.util.Date;
 public class CallReceiver extends BroadcastReceiver {
     private static final String TAG = "CallReceiver";
     private static int lastState = TelephonyManager.CALL_STATE_IDLE;
-    private static long INCOMING_callStartTime = Long.MAX_VALUE;
+    public static long INCOMING_callStartTime = Long.MAX_VALUE;
     private static long INCOMING_callEndTime = Long.MAX_VALUE;
     private static long OUTGOING_callStartTime = Long.MAX_VALUE;
     private static long OUTGOING_callEndTime = Long.MAX_VALUE;
     private static boolean isIncoming;
-    private static String savedNumber;  //because the passed incoming is only valid in ringing
+    public static String savedNumber;  //because the passed incoming is only valid in ringing
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -55,7 +55,7 @@ public class CallReceiver extends BroadcastReceiver {
                 isIncoming = true;
                 INCOMING_callStartTime = System.currentTimeMillis();
                 savedNumber = number;
-                Log.e(TAG, "onCallStateChanged: Incoming call received");
+                Log.e(TAG, "onCallStateChanged: Incoming call received "+number);
                 break;
 
             case TelephonyManager.CALL_STATE_OFFHOOK:
@@ -87,8 +87,10 @@ public class CallReceiver extends BroadcastReceiver {
 
     /*Check outgoing call*/
     public static boolean isOutgoing() {
-        Log.e(TAG, "isOutgoing: s:" + OUTGOING_callStartTime + " e:" + OUTGOING_callEndTime);
+//        Log.e(TAG, "isOutgoing: s:" + OUTGOING_callStartTime + " e:" + OUTGOING_callEndTime);
         long curr = System.currentTimeMillis();
+        if(curr>OUTGOING_callStartTime&&curr>OUTGOING_callEndTime)
+            return false;
         if (curr >= OUTGOING_callStartTime && curr <= OUTGOING_callEndTime)
             return true;
         return false;
@@ -96,7 +98,7 @@ public class CallReceiver extends BroadcastReceiver {
 
     /*Check incoming call*/
     public static boolean isIncoming() {
-        Log.e(TAG, "isIncoming: s:" + INCOMING_callStartTime + " e:" + INCOMING_callEndTime);
+//        Log.e(TAG, "isIncoming: s:" + INCOMING_callStartTime + " e:" + INCOMING_callEndTime);
         long curr = System.currentTimeMillis();
         if (curr >= INCOMING_callStartTime && curr <= INCOMING_callEndTime)
             return true;

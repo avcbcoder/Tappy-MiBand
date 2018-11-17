@@ -12,6 +12,7 @@ import android.media.AudioManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
@@ -20,6 +21,8 @@ import com.av.mainscreen.broadcastReceiver.CallReceiver;
 import com.av.mainscreen.constants.MIBandConsts;
 import com.av.mainscreen.constants.SETTINGS;
 import com.av.mainscreen.constants.STRINGS;
+
+import java.util.ArrayList;
 
 import static com.av.mainscreen.constants.SETTINGS.taps;
 
@@ -47,8 +50,8 @@ public class PerformCommands {
 //        SETTINGS.taps[3].PREV = true;
 //        taps[1].VOL_INC = true;
 //        taps[2].VOL_DEC = true;
-        taps[1].CALL=1;
-        taps[2].CALL=2;
+        taps[1].CALL = 1;
+        taps[2].CALL = 2;
 
         mAudioManager = (AudioManager) serviceContext.getSystemService(Context.AUDIO_SERVICE);
 
@@ -83,9 +86,11 @@ public class PerformCommands {
     private void performAction(int t) {
         SETTINGS.TAP tap = taps[t];
 
-        if (CallReceiver.isOutgoing())
+        if (CallReceiver.isOutgoing()) {
+            Log.e(TAG, "performAction: Outgoing 00000000000000");
             return;
-        else if (CallReceiver.isIncoming()) {
+        } else if (CallReceiver.isIncoming()) {
+            Log.e(TAG, "performAction: Incoming 00000000000000");
             switch (tap.CALL) {
                 case 0:
                     break;
@@ -117,27 +122,37 @@ public class PerformCommands {
             startStopTimer();
     }
 
-    private boolean incomingCall(SETTINGS.TAP tap) {
-        /*identify if phone is ringing*/
-        switch (tap.CALL) {
-            case 0: // nothing
-                break;
-            case 1: // mute
-                muteCall();
-                break;
-            case 2: // reply
-                reply();
-                break;
-        }
-        return false;
-    }
-
     private void muteCall() {
         Log.e(TAG, "muteCall: ");
     }
 
+    private long lastRepliedCall;
+
     private void reply() {
-        Log.e(TAG, "reply: ");
+        if (lastRepliedCall == CallReceiver.INCOMING_callStartTime) {
+            Log.e(TAG, "reply: Not sent");
+            return;
+        }
+        lastRepliedCall = CallReceiver.INCOMING_callStartTime;
+        Log.e(TAG, "reply: sent");
+        /*reply now*/
+        /*
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(
+                    CallReceiver.savedNumber,
+                    null,
+                    (SETTINGS.Call.TEXT.length() == 0) ? SETTINGS.Call.DEF_TEXT : SETTINGS.Call.TEXT,
+                    null, null
+            );
+            ArrayList<String> parts = smsManager.divideMessage((SETTINGS.Call.TEXT.length() == 0) ? SETTINGS.Call.DEF_TEXT : SETTINGS.Call.TEXT);
+            smsManager.sendMultipartTextMessage(CallReceiver.savedNumber, null, parts, null, null);
+            Log.e(TAG, "reply: Message Sent");
+        } catch (Exception ex) {
+            Log.e(TAG, "reply: Something went wrong");
+            ex.printStackTrace();
+        }
+        */
     }
 
     private void musicControl(SETTINGS.TAP tap) {

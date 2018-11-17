@@ -1,5 +1,6 @@
 package com.av.mainscreen.service;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -17,6 +18,7 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
@@ -173,10 +175,11 @@ public class ForegroundService extends Service {
         @Override
         public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
             super.onCharacteristicChanged(gatt, characteristic);
-            Log.e("test", "onCharacteristicChanged " + characteristic
+            /*Log.e("test", "onCharacteristicChanged " + characteristic
                     + "\n" + characteristic.getUuid()
                     + "\n" + characteristic.getStringValue(1)
             );
+            */
             tapper();
             // newThread((SETTINGS.DELAY_TAP + 1) * 100);
         }
