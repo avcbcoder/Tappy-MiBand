@@ -140,12 +140,18 @@ public class PerformCommands {
             return;
         }
         lastRepliedCall = CallReceiver.INCOMING_callStartTime;
-
-        String msg = SETTINGS.Call.TEXT.length() == 0 ? SETTINGS.Call.TEXT : SETTINGS.Call.DEF_TEXT;
-        MessageHandling.sendMessage(CallReceiver.savedNumber, msg);
-
-        String nameOfCaller = MessageHandling.extractName(CallReceiver.savedNumber, serviceContext);
-        displayOnBand("Replied " + nameOfCaller);
+        try {
+            //String msg = SETTINGS.Call.TEXT.length() == 0 ? SETTINGS.Call.DEF_TEXT : SETTINGS.Call.TEXT;
+            String msg=SETTINGS.Call.DEF_TEXT;
+            //MessageHandling.sendMessage(CallReceiver.savedNumber, msg);
+            Log.e(TAG, "repied////////: " );
+            String nameOfCaller = MessageHandling.extractName(CallReceiver.savedNumber, serviceContext);
+            displayOnBand("Replied " + nameOfCaller);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(TAG, "reply: "+e );
+            Log.e(TAG, "reply: Unable to reply");
+        }
     }
 
     private void displayOnBand(String s) {

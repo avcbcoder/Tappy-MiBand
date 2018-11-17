@@ -28,9 +28,8 @@ public class MessageHandling {
                 text,
                 null, null
         );
-        //ArrayList<String> parts = smsManager.divideMessage((SETTINGS.Call.TEXT.length() == 0) ? SETTINGS.Call.DEF_TEXT : SETTINGS.Call.TEXT);
-        //smsManager.sendMultipartTextMessage(CallReceiver.savedNumber, null, parts, null, null);
-        Log.e(TAG, "reply: Message Sent");
+        //ArrayList<String> parts = smsManager.divideMessage(text);
+        //smsManager.sendMultipartTextMessage(phoneNumber, null, parts, null, null);
     }
 
     public static String extractName(final String phoneNumber, Context context) {
@@ -47,11 +46,12 @@ public class MessageHandling {
         if (contactName.length() == 0)
             return phoneNumber;
         else {
+            Log.e(TAG, "extractName: " + contactName);
             StringBuilder sb = new StringBuilder("");
             for (int i = 0; i < contactName.length() && i < MAX_CONTACT_LENGTH; i++) {
                 int ch = contactName.charAt(i);
                 if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9'))
-                    sb.append(ch);
+                    sb.append((char)ch);
             }
             return sb.toString();
         }
