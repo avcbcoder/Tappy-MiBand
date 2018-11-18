@@ -25,12 +25,22 @@ public class SyncWithDB {
         editor.commit();
     }
 
+    /**
+     * Put all data from SETTINGS to DB
+     */
     public static void putSettingsInDB() {
-
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString(STRINGS.MAC_ADDRESS, SETTINGS.MAC_ADDRESS);
+        editor.putString(STRINGS.ONE_TAP,SETTINGS.taps[1].getStringForm());
+        editor.putString(STRINGS.TWO_TAP,SETTINGS.taps[2].getStringForm());
+        editor.putString(STRINGS.THREE_TAP,SETTINGS.taps[3].getStringForm());
+        editor.putString(STRINGS.COMMON_SETTING,SETTINGS.COMMON_SETTING.getStringForm());
+        editor.putString(STRINGS.CALL_SETTING,SETTINGS.CALL.getStringForm());
+        editor.commit();
     }
 
     /**
-     * There will be just 4 strings stored in sharedPrefs
+     * There will be just 6 strings stored in sharedPrefs
      */
     public static void extractSettingsFromDB() {
         String macAddress = sharedpreferences.getString(STRINGS.MAC_ADDRESS, "");
@@ -55,18 +65,4 @@ public class SyncWithDB {
         SETTINGS.taps[3] = new SETTINGS.TAP(threeTap);
     }
 
-    public static SETTINGS.TAP getTap(int t) {
-        String storedString = "";
-
-        if (t == 1)
-            storedString = sharedpreferences.getString(STRINGS.ONE_TAP, SETTINGS.DEF_ONE_TAP);
-        else if (t == 2)
-            storedString = sharedpreferences.getString(STRINGS.TWO_TAP, SETTINGS.DEF_TWO_TAP);
-        else if (t == 3)
-            storedString = sharedpreferences.getString(STRINGS.THREE_TAP, SETTINGS.DEF_THREE_TAP);
-        else
-            return null;
-
-        return new SETTINGS.TAP(storedString);
-    }
 }
