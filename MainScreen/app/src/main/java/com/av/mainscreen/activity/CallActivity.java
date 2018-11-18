@@ -119,7 +119,7 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
         mToggle.addSwitchObserver(new RMSwitch.RMSwitchObserver() {
             @Override
             public void onCheckStateChange(RMSwitch switchView, boolean isChecked) {
-                SETTINGS.Call.ENABLE = isChecked;
+                SETTINGS.CALL.ENABLE = isChecked;
                 Toast.makeText(CallActivity.this, "Action on call" + (isChecked ? "Enabled" : "Disabled"), Toast.LENGTH_SHORT).show();
                 setState();
             }
@@ -174,7 +174,7 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
                         if (msg.length() == 0)
                             Toast.makeText(CallActivity.this, "Enter some text", Toast.LENGTH_SHORT).show();
                         else
-                            SETTINGS.Call.TEXT = msg;
+                            SETTINGS.CALL.TEXT = msg;
                         setState();
                         dialog.cancel();
                     }
@@ -204,10 +204,8 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
         switch (view.getId()) {
             case R.id.activity_call_spinner_one:
-                SETTINGS.Call.ONE_TAP = pos;
                 break;
             case R.id.activity_call_spinner_two:
-                SETTINGS.Call.DOUBLE_TAP = pos;
                 break;
         }
         setState();
@@ -219,13 +217,15 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setState() {
-        if (mToggle.isChecked() != SETTINGS.Call.ENABLE)
-            mToggle.setChecked(SETTINGS.Call.ENABLE);
-        if (mOneTap.getSelectedItemPosition() != SETTINGS.Call.ONE_TAP)
-            mOneTap.setSelection(SETTINGS.Call.ONE_TAP);
-        if (mDoubleTap.getSelectedItemPosition() != SETTINGS.Call.DOUBLE_TAP)
-            mDoubleTap.setSelection(SETTINGS.Call.DOUBLE_TAP);
-        mReplyText.setText((SETTINGS.Call.TEXT.length() == 0) ? SETTINGS.Call.DEF_TEXT : SETTINGS.Call.TEXT);
+        if (mToggle.isChecked() != SETTINGS.CALL.ENABLE)
+            mToggle.setChecked(SETTINGS.CALL.ENABLE);
+//        if (mOneTap.getSelectedItemPosition() != SETTINGS.CALL.ONE_TAP) {
+//            mOneTap.setSelection(SETTINGS.CALL.ONE_TAP);
+//        }
+//        if (mDoubleTap.getSelectedItemPosition() != SETTINGS.CALL.DOUBLE_TAP) {
+//            mDoubleTap.setSelection(SETTINGS.CALL.DOUBLE_TAP);
+//        }
+        mReplyText.setText((SETTINGS.CALL.TEXT.length() == 0) ? SETTINGS.CALL.DEF_TEXT : SETTINGS.CALL.TEXT);
     }
 
     @Override

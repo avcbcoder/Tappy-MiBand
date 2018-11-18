@@ -7,17 +7,66 @@ import java.util.Arrays;
  */
 
 public class SETTINGS {
-    public static boolean CONNECT_BLUETOOTH_TRIGGER;
-    public static boolean CONNECT_HEADPHONE_PLUGGED;
-    public static boolean DISCONNECT_HEADPHONE_REMOVED;
-    public static boolean IGNORE_FIRST_TAP;
-    public static boolean KEEP_RUNNING;
-    public static int DELAY_TAP = 500;
-    public static int CLICK_INTERVAL = 1150; // A->600, B->1150, C->1700
-    public static int DIFF_BTW_MULTIPLE_COMMANDS = 1000; // A->500, B->1000, C->1500
+    // [1, 1, 0, 1, 1150, 1000]
+    public static class COMMON_SETTING {
+        public static boolean CONNECT_BLUETOOTH_TRIGGER;
+        public static boolean CONNECT_HEADPHONE_PLUGGED;
+        public static boolean DISCONNECT_HEADPHONE_REMOVED;
+        public static boolean KEEP_RUNNING;
+        public static int CLICK_INTERVAL = 1150; // A->600, B->1150, C->1700
+        public static int DIFF_BTW_MULTIPLE_COMMANDS = 1000; // A->500, B->1000, C->1500
+    }
+
     public static String MAC_ADDRESS = "E5:E7:F4:75:6F:C1";
 
-    public static TAP[] taps = {new TAP(),new TAP(),new TAP(),new TAP()};
+    // [0, text]
+    public static class CALL {
+        public static boolean ENABLE;
+        public static String TEXT = ""; // Text to send as reply to caller
+        public static String DEF_TEXT = "Can't talk to you right now! CALL me later?";
+
+        public String getStringForm() {
+            return String.format("%d (%s)", (ENABLE ? 1 : 0), TEXT);
+        }
+
+        public void setFromString(String s) {
+            ENABLE = s.charAt(0) == 1;
+            TEXT = s.substring(3, s.length() - 1);
+        }
+    }
+
+    // [vol, music, vibrate, delay, call]
+    public static final String DEF_ONE_TAP = "0 1 1 300 1";
+    public static final String DEF_TWO_TAP = "0 2 1 300 1";
+    public static final String DEF_THREE_TAP = "0 3 1 300 1";
+    public static final String DEF_COMMON_SETTING = "1 1 0 1 1150 1000";
+    public static final String DEF_CALL_SETTING = "0 (Can't talk to you right now! CALL me later?)";
+
+    public static TAP[] taps = {null, new TAP(DEF_ONE_TAP), new TAP(DEF_TWO_TAP), new TAP(DEF_THREE_TAP)};
+
+    public static class TAP {
+        public boolean SWITCH;
+        public int VOL; // 0->Nothing 1->Inc 2->Dec
+        public int MUSIC; // 0->Nothing 1->Next 2-> Prev 3-> play/pause
+        public int VIBRATE; // 0-> yes 1->no
+        public int VIBRATE_DELAY;// 100, 200, 300
+        public int CALL;// 0->Nothing 1->Mute 2->Reply || only for two taps
+        public boolean TIMER;
+        public boolean CAMERA;
+
+        public TAP(String from) {
+            String[] arr = from.split(" ");
+            this.VOL = new Integer(arr[0]);
+            this.MUSIC = new Integer(arr[1]);
+            this.VIBRATE = new Integer(arr[2]);
+            this.VIBRATE_DELAY = new Integer(arr[3]);
+            this.CALL = new Integer(arr[4]);
+        }
+
+        public String getStringForm() {
+            return String.format("%d %d %d %d %d", VOL, MUSIC, VIBRATE, VIBRATE_DELAY, CALL);
+        }
+    }
 
     public static class TIMER {
         public static boolean INTERMEDIATE_VIBRATION;
@@ -25,27 +74,5 @@ public class SETTINGS {
         public static int VIBRATION_AT_END;// -1 if doesn't
         public static int MESSAGE_AT_END;
         public static int MESSAGE_AT_START;
-    }
-
-    public static class Call {
-        public static boolean ENABLE;
-        public static int ONE_TAP; // 0->Nothing 1->Mute 2->Reply
-        public static int DOUBLE_TAP; // 0->Nothing 1->Mute 2->Reply
-        public static String TEXT = ""; // Text to send as reply to caller
-        public static String DEF_TEXT = "Can't talk to you right now! Call me later?";
-    }
-
-    public static class TAP {
-        public boolean SWITCH;
-        public boolean VOL_INC;
-        public boolean VOL_DEC;
-        public boolean NEXT;
-        public boolean PREV;
-        public boolean PLAY_PAUSE;
-        public boolean VIBRATE=false;
-        public int VIBRATE_DELAY = 300;
-        public boolean TIMER;
-        public boolean CAMERA;
-        public int CALL;// 0->Nothing 1->Mute 2->Reply || only for two taps
     }
 }

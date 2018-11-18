@@ -193,14 +193,14 @@ public class ForegroundService extends Service {
 
     private void tapper() {
         long diff = System.currentTimeMillis() - mLastTap;
-        if (diff > SETTINGS.DIFF_BTW_MULTIPLE_COMMANDS) {
+        if (diff > SETTINGS.COMMON_SETTING.DIFF_BTW_MULTIPLE_COMMANDS) {
             mLastTap = System.currentTimeMillis();
             mCurrTaps = 1;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        Thread.sleep(SETTINGS.CLICK_INTERVAL);
+                        Thread.sleep(SETTINGS.COMMON_SETTING.CLICK_INTERVAL);
                         performCommands.TAP(mCurrTaps); /*Perform single/double/tripple clicks*/
                     } catch (Exception e) {
                     }

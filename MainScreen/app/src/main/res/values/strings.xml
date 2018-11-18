@@ -29,6 +29,12 @@
         <item>5</item>
     </string-array>
 
+    <string-array name="array_click_interval">
+        <item>600</item>
+        <item>1150</item>
+        <item>1700</item>
+    </string-array>
+
     <string-array name="array_call">
         <item>Nothing</item>
         <item>Mute</item>

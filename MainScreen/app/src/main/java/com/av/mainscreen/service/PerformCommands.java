@@ -8,14 +8,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
-import android.provider.ContactsContract;
-import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
@@ -25,8 +21,6 @@ import com.av.mainscreen.constants.MIBandConsts;
 import com.av.mainscreen.constants.SETTINGS;
 import com.av.mainscreen.constants.STRINGS;
 import com.av.mainscreen.util.MessageHandling;
-
-import java.util.ArrayList;
 
 import static com.av.mainscreen.constants.SETTINGS.taps;
 
@@ -51,11 +45,6 @@ public class PerformCommands {
         mbluetoothAdapter = bluetoothAdapter;
         mbluetoothDevice = bluetoothDevice;
         mbluetoothGatt = bluetoothGatt;
-//        SETTINGS.taps[1].NEXT = true;
-//        SETTINGS.taps[2].PLAY_PAUSE = true;
-//        SETTINGS.taps[3].PREV = true;
-        taps[1].VOL_INC = true;
-        taps[2].VOL_DEC = true;
         taps[1].CALL = 1;
         taps[2].CALL = 2;
 
@@ -95,18 +84,15 @@ public class PerformCommands {
             return;
         }
         //vibrate first
-        if (tap.VIBRATE)
+        if (tap.VIBRATE==1)
             vibrate(taps[t].VIBRATE_DELAY);
         // Toggle music
         musicControl(tap);
         // Change Volume
-        if (tap.VOL_INC)
+        if (tap.VOL==1)
             mAudioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI + AudioManager.FLAG_PLAY_SOUND);
-        else if (tap.VOL_DEC)
+        else if (tap.VOL==2)
             mAudioManager.adjustVolume(AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI + AudioManager.FLAG_PLAY_SOUND);
-        // Timer
-        if (tap.TIMER)
-            startStopTimer();
     }
 
     private void muteCall() {
@@ -123,7 +109,7 @@ public class PerformCommands {
         }
         lastRepliedCall = CallReceiver.INCOMING_callStartTime;
         try {
-            String msg = SETTINGS.Call.TEXT.length() == 0 ? SETTINGS.Call.DEF_TEXT : SETTINGS.Call.TEXT;
+            String msg = SETTINGS.CALL.TEXT.length() == 0 ? SETTINGS.CALL.DEF_TEXT : SETTINGS.CALL.TEXT;
             //MessageHandling.sendMessage(CallReceiver.savedNumber, msg);
             String nameOfCaller = MessageHandling.extractName(CallReceiver.savedNumber, serviceContext);
             displayOnBand("Replied " + nameOfCaller);
@@ -142,13 +128,13 @@ public class PerformCommands {
             mAudioManager = (AudioManager) serviceContext.getSystemService(Context.AUDIO_SERVICE);
         long eventtime = SystemClock.uptimeMillis();
         KeyEvent downEvent, upEvent;
-        if (tap.NEXT) {
+        if (tap.MUSIC==1) {
             downEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT, 0);
             upEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_NEXT, 0);
-        } else if (tap.PREV) {
+        } else if (tap.MUSIC==2) {
             downEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PREVIOUS, 0);
             upEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PREVIOUS, 0);
-        } else if (tap.PLAY_PAUSE) {
+        } else if (tap.MUSIC==3) {
             downEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, 0);
             upEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE, 0);
         } else return;

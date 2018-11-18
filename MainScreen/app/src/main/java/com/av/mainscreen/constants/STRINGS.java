@@ -7,6 +7,15 @@ package com.av.mainscreen.constants;
 public class STRINGS {
     public static final String SETTINGS = "SETTINGS";/*will be changed later on*/
 
+    public static final String COMMON_SETTING = "COMMON_SETTING";
+    public static final String MAC_ADDRESS = "MAC";
+
+    public static final String CALL_SETTING = "CALL_SETTING";
+
+    public static final String ONE_TAP = "ONE_TAP";
+    public static final String TWO_TAP = "TWO_TAP";
+    public static final String THREE_TAP = "THREE_TAP";
+
     public static String[] INTENT_FILTER_SONG = {
             "com.android.music.musicservicecommand",
             "com.android.music.metachanged",
