@@ -5,6 +5,8 @@ package com.av.mainscreen.constants;
  */
 
 public class STRINGS {
+    public static final String SETTINGS = "SETTINGS";/*will be changed later on*/
+
     public static String[] INTENT_FILTER_SONG = {
             "com.android.music.musicservicecommand",
             "com.android.music.metachanged",
@@ -24,7 +26,7 @@ public class STRINGS {
             "com.andrew.apollo.metachanged",
     };
 
-    public static String[] INTENT_FILTER_CALL={
+    public static String[] INTENT_FILTER_CALL = {
             "android.intent.action.PHONE_STATE",
             "android.intent.action.NEW_OUTGOING_CALL"
     };

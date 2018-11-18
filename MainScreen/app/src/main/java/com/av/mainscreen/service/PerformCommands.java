@@ -37,6 +37,8 @@ import static com.av.mainscreen.constants.SETTINGS.taps;
 public class PerformCommands {
     private static final String TAG = "PerformCommands";
 
+    private long lastRepliedCall;
+
     ForegroundService serviceContext;
     BluetoothAdapter mbluetoothAdapter;
     BluetoothDevice mbluetoothDevice;
@@ -75,15 +77,13 @@ public class PerformCommands {
 
     private void performAction(int t) {
         SETTINGS.TAP tap = taps[t];
-
+        // isOnCall
         if (CallReceiver.isOutgoing()) {
             Log.e(TAG, "performAction: Outgoing ");
             return;
         } else if (CallReceiver.isIncoming()) {
             Log.e(TAG, "performAction: Incoming ");
             switch (tap.CALL) {
-                case 0:
-                    break;
                 case 1:
                     muteCall();
                     break;
@@ -94,20 +94,16 @@ public class PerformCommands {
             }
             return;
         }
-
         //vibrate first
         if (tap.VIBRATE)
             vibrate(taps[t].VIBRATE_DELAY);
-
         // Toggle music
         musicControl(tap);
-
         // Change Volume
         if (tap.VOL_INC)
             mAudioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI + AudioManager.FLAG_PLAY_SOUND);
         else if (tap.VOL_DEC)
             mAudioManager.adjustVolume(AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI + AudioManager.FLAG_PLAY_SOUND);
-
         // Timer
         if (tap.TIMER)
             startStopTimer();
@@ -115,11 +111,8 @@ public class PerformCommands {
 
     private void muteCall() {
         Log.e(TAG, "muteCall: ");
-        AudioManager audioManager = (AudioManager) serviceContext.getSystemService(Context.AUDIO_SERVICE);
-        audioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+        mAudioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
     }
-
-    private long lastRepliedCall;
 
     private void reply() {
         /*Don't reply if call has been answered or already replied to this call*/

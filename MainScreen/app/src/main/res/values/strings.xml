@@ -51,9 +51,6 @@
     <string name="CBT_d">Connect when bluetooth is turned on</string>
     <string name="CBT_s">CONNECT_BLUETOOTH_TRIGGER</string>
 
-    <string name="IFT_d">Ignore first Tap</string>
-    <string name="IFT_s">IGNORE_FIRST_TAP</string>
-
     <string name="CHP_d">Connect when the Headphone is connected</string>
     <string name="CHP_s">CONNECT_HEADPHONE_PLUGGED</string>
 
@@ -62,6 +59,9 @@
 
     <string name="DT_d">Delay between multiple Taps</string>
     <string name="DT_s">DELAY_TAP</string>
+
+    <string name="IFT_d">Ignore first Tap</string>
+    <string name="IFT_s">IGNORE_FIRST_TAP</string>
 
     <string name="T_T_s">TIME</string>
 
