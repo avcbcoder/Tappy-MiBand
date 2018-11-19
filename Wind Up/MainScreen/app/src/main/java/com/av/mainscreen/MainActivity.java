@@ -29,9 +29,12 @@ import android.widget.TextView;
 import com.av.mainscreen.activity.CallActivity;
 import com.av.mainscreen.activity.TimerActivity;
 import com.av.mainscreen.constants.SETTINGS;
+import com.av.mainscreen.constants.STRINGS;
 import com.av.mainscreen.database.SyncWithDB;
 import com.av.mainscreen.service.ForegroundService;
 import com.rm.rmswitch.RMSwitch;
+
+import static com.av.mainscreen.constants.SETTINGS.COMMON_SETTING;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener {
@@ -71,6 +74,7 @@ public class MainActivity extends AppCompatActivity
         setupNavDrawer();
         setupCards();
 
+        setupSettings();
         SYNC();
     }
 
@@ -224,13 +228,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
         mBottomSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
-//        final Spinner spinner = (Spinner) findViewById(R.id.DT_s);
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-//                R.array.array_interval, R.layout.spinner_item);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinner.setAdapter(adapter);
-//        spinner.setSelection(0);
-        setupSettings();
+
     }
 
     public static float dpToPixels(int dp) {
