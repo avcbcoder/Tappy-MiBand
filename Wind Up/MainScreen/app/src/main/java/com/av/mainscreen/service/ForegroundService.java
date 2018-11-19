@@ -1,6 +1,5 @@
 package com.av.mainscreen.service;
 
-import android.Manifest;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -18,21 +17,14 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.av.mainscreen.MainActivity;
 import com.av.mainscreen.R;
 import com.av.mainscreen.constants.MIBandConsts;
 import com.av.mainscreen.constants.SETTINGS;
-
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ForegroundService extends Service {
     public static final String ACTION_START_FOREGROUND_SERVICE = "ACTION_START_FOREGROUND_SERVICE";
@@ -192,7 +184,7 @@ public class ForegroundService extends Service {
 
     private void tapper() {
         long diff = System.currentTimeMillis() - mLastTap;
-        if (diff > SETTINGS.COMMON_SETTING.DIFF_BTW_MULTIPLE_COMMANDS) {
+        if (diff > SETTINGS.COMMON_SETTING.DELAY_BTW_MULTIPLE_COMMANDS) {
             mLastTap = System.currentTimeMillis();
             mCurrTaps = 1;
             new Thread(new Runnable() {

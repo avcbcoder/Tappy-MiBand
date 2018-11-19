@@ -69,7 +69,7 @@
                 android:textSize="14sp" />
 
             <com.rm.rmswitch.RMSwitch
-                android:id="@+id/tog_keep_running"
+                android:id="@+id/tog_keepRunning"
                 android:layout_width="0dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
@@ -157,7 +157,7 @@
                 android:textSize="@dimen/setting_item_text" />
 
             <com.rm.rmswitch.RMSwitch
-                android:id="@+id/tog_headphone_connect"
+                android:id="@+id/tog_headphoneConnect"
                 android:layout_width="0dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
@@ -201,7 +201,7 @@
                 android:textSize="@dimen/setting_item_text" />
 
             <com.rm.rmswitch.RMSwitch
-                android:id="@+id/tog_headphone_disconnect"
+                android:id="@+id/tog_headphoneDisconnect"
                 android:layout_width="0dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"

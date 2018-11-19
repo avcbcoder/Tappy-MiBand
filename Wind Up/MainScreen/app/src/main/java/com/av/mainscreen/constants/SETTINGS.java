@@ -1,7 +1,5 @@
 package com.av.mainscreen.constants;
 
-import java.util.Arrays;
-
 /**
  * Created by Ankit on 10-11-2018.
  */
@@ -14,7 +12,7 @@ public class SETTINGS {
         public static boolean DISCONNECT_HEADPHONE_REMOVED;
         public static boolean KEEP_RUNNING;
         public static int CLICK_INTERVAL = 1150; // A->600, B->1150, C->1700
-        public static int DIFF_BTW_MULTIPLE_COMMANDS = 1000; // A->500, B->1000, C->1500
+        public static int DELAY_BTW_MULTIPLE_COMMANDS = 1000; // A->500, B->1000, C->1500
 
         public static String getStringForm() {
             return String.format("%d %d %d %d %d %d",
@@ -23,7 +21,7 @@ public class SETTINGS {
                     (DISCONNECT_HEADPHONE_REMOVED ? 1 : 0),
                     (KEEP_RUNNING ? 1 : 0),
                     CLICK_INTERVAL,
-                    DIFF_BTW_MULTIPLE_COMMANDS);
+                    DELAY_BTW_MULTIPLE_COMMANDS);
         }
 
         public static void setFromString(String s) {
@@ -33,7 +31,7 @@ public class SETTINGS {
             DISCONNECT_HEADPHONE_REMOVED = new Integer(arr[2]) == 1;
             KEEP_RUNNING = new Integer(arr[3]) == 1;
             CLICK_INTERVAL = new Integer(arr[4]);
-            DIFF_BTW_MULTIPLE_COMMANDS = new Integer(arr[5]);
+            DELAY_BTW_MULTIPLE_COMMANDS = new Integer(arr[5]);
         }
     }
 
@@ -55,10 +53,10 @@ public class SETTINGS {
         }
     }
 
-    // [vol, music, vibrate, delay, call]
-    public static final String DEF_ONE_TAP = "0 1 1 300 1";
-    public static final String DEF_TWO_TAP = "0 2 1 300 1";
-    public static final String DEF_THREE_TAP = "0 3 1 300 1";
+    // [vol, music, vibrate, delay, repeat, call]
+    public static final String DEF_ONE_TAP = "0 1 1 300 1 1";
+    public static final String DEF_TWO_TAP = "0 2 1 300 1 1";
+    public static final String DEF_THREE_TAP = "0 3 1 300 1 1";
     public static final String DEF_COMMON_SETTING = "1 1 0 1 1150 1000";
     public static final String DEF_CALL_SETTING = "0 (Can't talk to you right now! CALL me later?)";
 
@@ -69,7 +67,8 @@ public class SETTINGS {
         public int VOL; // 0->Nothing 1->Inc 2->Dec
         public int MUSIC; // 0->Nothing 1->Next 2-> Prev 3-> play/pause
         public int VIBRATE; // 0-> yes 1->no
-        public int VIBRATE_DELAY;// 100, 200, 300
+        public int VIBRATE_DELAY;
+        public int VIBRATE_REPEAT;
         public int CALL;// 0->Nothing 1->Mute 2->Reply || only for two taps
         public boolean TIMER;
         public boolean CAMERA;
@@ -80,11 +79,12 @@ public class SETTINGS {
             this.MUSIC = new Integer(arr[1]);
             this.VIBRATE = new Integer(arr[2]);
             this.VIBRATE_DELAY = new Integer(arr[3]);
-            this.CALL = new Integer(arr[4]);
+            this.VIBRATE_REPEAT = new Integer(arr[4]);
+            this.CALL = new Integer(arr[5]);
         }
 
         public String getStringForm() {
-            return String.format("%d %d %d %d %d", VOL, MUSIC, VIBRATE, VIBRATE_DELAY, CALL);
+            return String.format("%d %d %d %d %d %d", VOL, MUSIC, VIBRATE, VIBRATE_DELAY, VIBRATE_REPEAT, CALL);
         }
     }
 

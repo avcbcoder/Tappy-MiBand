@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -27,11 +28,13 @@ import android.widget.TextView;
 
 import com.av.mainscreen.activity.CallActivity;
 import com.av.mainscreen.activity.TimerActivity;
+import com.av.mainscreen.constants.SETTINGS;
+import com.av.mainscreen.database.SyncWithDB;
 import com.av.mainscreen.service.ForegroundService;
 import com.rm.rmswitch.RMSwitch;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener {
 
     private static final String TAG = "MainActivity";
     public static Context ctx;
@@ -43,10 +46,11 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout mDrawer;
     private Toolbar mToolbar;
 
-    // widgets
+    /*widgets in content_main*/
     private Button btn_connect, btn_disConnect;
     private TextView tv_sheetTitle;
     private ImageButton btn_sheetIcon;
+    /*widgets in bottom sheet*/
     private RMSwitch tog_keepRunning, tog_bluetooth, tog_headphoneConnect, tog_headphoneDisconnect;
     private Spinner spinner_delayBtwMultipleClicks, spinner_clickInterval,
             spinner_singleDelay, spinner_singleRepeat,
@@ -66,13 +70,51 @@ public class MainActivity extends AppCompatActivity
         changeStatusBarColor();
         setupNavDrawer();
         setupCards();
+
+        SYNC();
+    }
+
+    private void SYNC() {
     }
 
     /**
      * Includes all the toggle buttons, spinners : fvb, add listeners, setup data
      */
     private void setupSettings() {
+        tog_bluetooth = findViewById(R.id.tog_bluetooth);
+        tog_headphoneConnect = findViewById(R.id.tog_headphoneConnect);
+        tog_headphoneDisconnect = findViewById(R.id.tog_headphoneDisconnect);
+        tog_keepRunning = findViewById(R.id.tog_keepRunning);
+        spinner_delayBtwMultipleClicks = findViewById(R.id.spinner_delayBtwMultipleClicks);
+        spinner_clickInterval = findViewById(R.id.spinner_clickInterval);
+        spinner_singleDelay = findViewById(R.id.spinner_singleDelay);
+        spinner_singleRepeat = findViewById(R.id.spinner_singleRepeat);
+        spinner_doubleDelay = findViewById(R.id.spinner_doubleDelay);
+        spinner_doubleRepeat = findViewById(R.id.spinner_doubleRepeat);
+        spinner_trippleDelay = findViewById(R.id.spinner_trippleDelay);
+        spinner_trippleRepeat = findViewById(R.id.spinner_trippleRepeat);
 
+        setupSpinner(spinner_singleDelay, R.array.array_vibration_delay, spinner_singleRepeat, R.array.array_vibration_repeat);
+        setupSpinner(spinner_doubleDelay, R.array.array_vibration_delay, spinner_doubleRepeat, R.array.array_vibration_repeat);
+        setupSpinner(spinner_trippleDelay, R.array.array_vibration_delay, spinner_trippleRepeat, R.array.array_vibration_repeat);
+        setupSpinner(spinner_clickInterval, R.array.array_click_interval, spinner_delayBtwMultipleClicks, R.array.array_delay_btw_multiple_commands);
+    }
+
+    private void setupSpinner(Spinner delay, int array_delay, Spinner repeat, int array_repeat) {
+        ArrayAdapter<CharSequence> adapterDelay = ArrayAdapter.createFromResource(this,
+                array_delay, R.layout.spinner_item);
+        adapterDelay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        delay.setAdapter(adapterDelay);
+        delay.setSelection(0);
+        ArrayAdapter<CharSequence> adapterRepeat = ArrayAdapter.createFromResource(this,
+                array_repeat, R.layout.spinner_item);
+        adapterRepeat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        repeat.setAdapter(adapterRepeat);
+        repeat.setSelection(0);
+
+        /*Add listeners*/
+        delay.setOnItemSelectedListener(this);
+        repeat.setOnItemSelectedListener(this);
     }
 
     private void setupCards() {
@@ -182,12 +224,12 @@ public class MainActivity extends AppCompatActivity
             }
         });
         mBottomSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        final Spinner spinner = (Spinner) findViewById(R.id.DT_s);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.array_interval, R.layout.spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setSelection(0);
+//        final Spinner spinner = (Spinner) findViewById(R.id.DT_s);
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+//                R.array.array_interval, R.layout.spinner_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinner.setAdapter(adapter);
+//        spinner.setSelection(0);
         setupSettings();
     }
 
@@ -232,6 +274,43 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapter, View view, int pos, long id) {
+        int selected = new Integer(((String) adapter.getItemAtPosition(pos)).split(" ")[0]);
+        switch (view.getId()) {
+            case R.id.spinner_singleDelay:
+                SETTINGS.taps[1].VIBRATE_DELAY = selected;
+                break;
+            case R.id.spinner_doubleDelay:
+                SETTINGS.taps[2].VIBRATE_DELAY = selected;
+                break;
+            case R.id.spinner_trippleDelay:
+                SETTINGS.taps[3].VIBRATE_DELAY = selected;
+                break;
+            case R.id.spinner_singleRepeat:
+                SETTINGS.taps[1].VIBRATE_REPEAT = selected;
+                break;
+            case R.id.spinner_doubleRepeat:
+                SETTINGS.taps[2].VIBRATE_REPEAT = selected;
+                break;
+            case R.id.spinner_trippleRepeat:
+                SETTINGS.taps[3].VIBRATE_REPEAT = selected;
+                break;
+            case R.id.spinner_clickInterval:
+                SETTINGS.COMMON_SETTING.CLICK_INTERVAL = selected;
+                break;
+            case R.id.spinner_delayBtwMultipleClicks:
+                SETTINGS.COMMON_SETTING.DELAY_BTW_MULTIPLE_COMMANDS = selected;
+                break;
+        }
+        SyncWithDB.putSettingsInDB(this);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
 

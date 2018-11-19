@@ -28,7 +28,8 @@ public class SyncWithDB {
     /**
      * Put all data from SETTINGS to DB
      */
-    public static void putSettingsInDB() {
+    public static void putSettingsInDB(Context context) {
+        sharedpreferences = context.getSharedPreferences(STRINGS.SETTINGS, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString(STRINGS.MAC_ADDRESS, SETTINGS.MAC_ADDRESS);
         editor.putString(STRINGS.ONE_TAP,SETTINGS.taps[1].getStringForm());
@@ -42,7 +43,8 @@ public class SyncWithDB {
     /**
      * There will be just 6 strings stored in sharedPrefs
      */
-    public static void extractSettingsFromDB() {
+    public static void extractSettingsFromDB(Context context) {
+        sharedpreferences = context.getSharedPreferences(STRINGS.SETTINGS, Context.MODE_PRIVATE);
         String macAddress = sharedpreferences.getString(STRINGS.MAC_ADDRESS, "");
         String oneTap = sharedpreferences.getString(STRINGS.ONE_TAP, SETTINGS.DEF_ONE_TAP);
         String twoTap = sharedpreferences.getString(STRINGS.TWO_TAP, SETTINGS.DEF_TWO_TAP);
