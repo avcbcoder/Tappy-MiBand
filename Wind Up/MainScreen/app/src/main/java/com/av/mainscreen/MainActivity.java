@@ -1,8 +1,5 @@
 package com.av.mainscreen;
 
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGatt;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,57 +32,37 @@ import com.av.mainscreen.service.ForegroundService;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = "MainActivity";
     public static Context ctx;
 
     private ViewPager mViewPager;
-    private BottomSheetBehavior bottomSheet;
-    private TextView sheetTitle;
-    private ImageButton sheetIcon;
-
+    private BottomSheetBehavior mBottomSheet;
     private CardFragmentPageAdapter mFragmentCardAdapter;
     private ShadowTransformer mFragmentCardShadowTransformer;
+    private DrawerLayout mDrawer;
+    private Toolbar mToolbar;
 
-    BluetoothAdapter bluetoothAdapter;
-    BluetoothDevice bluetoothDevice;
-    BluetoothGatt bluetoothGatt;
-
+    // widgets
     private Button btnConnect, btnDisConnect;
+    private TextView tvSheetTitle;
+    private ImageButton btnSheetIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setDisplayShowTitleEnabled(true); // hide built-in Title
-
-        init();
-        setupBottomSheet();
-
         ctx = MainActivity.this;
 
-        // changing color of status bar
-        Window window = this.getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this, R.color.notificationBar));
+        setupToolbar();
+        init();
+        setupBottomSheet();
+        changeStatusBarColor();
+        setupNavDrawer();
+        setupCards();
+    }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        AppBarLayout appBarLayout = findViewById(R.id.app_bar);
-        appBarLayout.bringToFront();
-
+    private void setupCards() {
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
         mFragmentCardAdapter = new CardFragmentPageAdapter(getSupportFragmentManager(),
                 dpToPixels(2));
@@ -95,6 +72,34 @@ public class MainActivity extends AppCompatActivity
         mViewPager.setOffscreenPageLimit(3);
         mFragmentCardShadowTransformer.enableScaling(true);
         mViewPager.setPageMargin(5);
+    }
+
+    private void setupNavDrawer() {
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        AppBarLayout appBarLayout = findViewById(R.id.app_bar);
+        appBarLayout.bringToFront();
+    }
+
+    private void changeStatusBarColor() {
+        Window window = this.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.notificationBar));
+    }
+
+    private void setupToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayShowTitleEnabled(true); // hide built-in Title
     }
 
     private void init() {
@@ -118,23 +123,21 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private static final String TAG = "MainActivity";
-
     private void setupBottomSheet() {
-        sheetTitle = findViewById(R.id.sheet_title);
-        sheetIcon = findViewById(R.id.sheet_icon);
-        sheetIcon.setOnClickListener(new View.OnClickListener() {
+        tvSheetTitle = findViewById(R.id.sheet_title);
+        btnSheetIcon = findViewById(R.id.sheet_icon);
+        btnSheetIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bottomSheet.setState((bottomSheet.getState() == BottomSheetBehavior.STATE_COLLAPSED)
+                mBottomSheet.setState((mBottomSheet.getState() == BottomSheetBehavior.STATE_COLLAPSED)
                         ? BottomSheetBehavior.STATE_EXPANDED
                         : BottomSheetBehavior.STATE_COLLAPSED);
             }
         });
-        sheetIcon.setImageResource(R.drawable.ic_more);
-        sheetTitle.setText("Tap for more Settings");
-        bottomSheet = BottomSheetBehavior.from(findViewById(R.id.bottom_sheet));
-        bottomSheet.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+        btnSheetIcon.setImageResource(R.drawable.ic_more);
+        tvSheetTitle.setText("Tap for more Settings");
+        mBottomSheet = BottomSheetBehavior.from(findViewById(R.id.bottom_sheet));
+        mBottomSheet.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 switch (newState) {
@@ -143,13 +146,13 @@ public class MainActivity extends AppCompatActivity
                         break;
                     case BottomSheetBehavior.STATE_EXPANDED:
                         Log.e(TAG, "onStateChanged: expanded");
-                        sheetIcon.setImageResource(R.drawable.ic_close_black_24dp);
-                        sheetTitle.setText("Setting");
+                        btnSheetIcon.setImageResource(R.drawable.ic_close_black_24dp);
+                        tvSheetTitle.setText("Setting");
                         break;
                     case BottomSheetBehavior.STATE_COLLAPSED:
                         Log.e(TAG, "onStateChanged: collapsed");
-                        sheetIcon.setImageResource(R.drawable.ic_more);
-                        sheetTitle.setText("Tap for more Settings");
+                        btnSheetIcon.setImageResource(R.drawable.ic_more);
+                        tvSheetTitle.setText("Tap for more Settings");
                         break;
                     case BottomSheetBehavior.STATE_DRAGGING:
                         Log.e(TAG, "onStateChanged: dragging");
@@ -165,7 +168,7 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-        bottomSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        mBottomSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
         final Spinner spinner = (Spinner) findViewById(R.id.DT_s);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.array_interval, R.layout.spinner_item);
