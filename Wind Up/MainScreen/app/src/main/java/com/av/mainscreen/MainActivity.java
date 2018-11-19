@@ -79,6 +79,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void SYNC() {
+        tog_bluetooth.setChecked(COMMON_SETTING.CONNECT_BLUETOOTH_TRIGGER);
+        tog_keepRunning.setChecked(COMMON_SETTING.KEEP_RUNNING);
+        tog_headphoneConnect.setChecked(COMMON_SETTING.CONNECT_HEADPHONE_PLUGGED);
+        tog_headphoneDisconnect.setChecked(COMMON_SETTING.DISCONNECT_HEADPHONE_REMOVED);
+        spinner_clickInterval.setSelection(COMMON_SETTING.getPosClickInterval());
+        spinner_delayBtwMultipleClicks.setSelection(COMMON_SETTING.getPosDelayMutiple());
+        spinner_singleDelay.setSelection(SETTINGS.taps[1].getPosDelay());
+        spinner_singleRepeat.setSelection(SETTINGS.taps[1].getPosRepeat());
+        spinner_doubleDelay.setSelection(SETTINGS.taps[2].getPosDelay());
+        spinner_doubleRepeat.setSelection(SETTINGS.taps[2].getPosRepeat());
+        spinner_trippleDelay.setSelection(SETTINGS.taps[3].getPosDelay());
+        spinner_trippleRepeat.setSelection(SETTINGS.taps[3].getPosRepeat());
     }
 
     /**
