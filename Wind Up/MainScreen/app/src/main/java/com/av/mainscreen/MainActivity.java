@@ -31,7 +31,6 @@ import android.widget.TextView;
 import com.av.mainscreen.activity.CallActivity;
 import com.av.mainscreen.activity.TimerActivity;
 import com.av.mainscreen.service.ForegroundService;
-import com.av.mainscreen.util.MIBand;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -68,8 +67,6 @@ public class MainActivity extends AppCompatActivity
         setupBottomSheet();
 
         ctx = MainActivity.this;
-
-        MIBand miBand=new MIBand();
 
         // changing color of status bar
         Window window = this.getWindow();

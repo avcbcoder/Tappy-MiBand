@@ -29,7 +29,6 @@ import com.av.mainscreen.MainActivity;
 import com.av.mainscreen.R;
 import com.av.mainscreen.constants.MIBandConsts;
 import com.av.mainscreen.constants.SETTINGS;
-import com.av.mainscreen.util.MIBand;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
