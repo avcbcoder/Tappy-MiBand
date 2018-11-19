@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+
+            <TextView
+                android:id="@+id/card_tap_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="Tap"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <com.rm.rmswitch.RMSwitch
+                android:id="@+id/your_id"
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+
+                app:checked="true"
+                app:enabled="true"
+                app:forceAspectRatio="false"
+                app:switchBkgCheckedColor="@color/toggle_mini_ON"
+                app:switchBkgNotCheckedColor="@color/toggle_mini_ON"
+                app:switchDesign="android"
+                app:switchToggleCheckedColor="@color/toggle_mini_OFF"
+                app:switchToggleNotCheckedColor="@color/toggle_mini_OFF" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/card_tap_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="12dp" />
+
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<LinearLayout-->
+        <!--android:paddingLeft="5dp"-->
+        <!--android:paddingRight="5dp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="30dp"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<TextView-->
+        <!--android:textSize="12sp"-->
+        <!--android:text="Display song name"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="4" />-->
+
+        <!--<com.rm.rmswitch.RMSwitch-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="20dp"-->
+        <!--app:checked="true"-->
+        <!--app:enabled="true"-->
+        <!--app:forceAspectRatio="false"-->
+        <!--app:switchBkgCheckedColor="@color/green"-->
+        <!--app:switchBkgNotCheckedColor="@color/red"-->
+        <!--app:switchDesign="android"-->
+        <!--app:switchToggleCheckedColor="@color/green"-->
+        <!--app:switchToggleCheckedImage="@drawable/happy"-->
+        <!--app:switchToggleNotCheckedColor="@color/red"-->
+        <!--app:switchToggleNotCheckedImage="@drawable/sad" />-->
+        <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

@@ -1,0 +1,101 @@
+<resources>
+
+    <string-array name="array_interval">
+        <item>100ms</item>
+        <item>200ms</item>
+        <item>300ms</item>
+        <item>400ms</item>
+        <item>500ms</item>
+    </string-array>
+
+    <string-array name="array_vibration_delay">
+        <item>100ms</item>
+        <item>200ms</item>
+        <item>300ms</item>
+        <item>400ms</item>
+        <item>500ms</item>
+        <item>600ms</item>
+        <item>700ms</item>
+        <item>800ms</item>
+        <item>900ms</item>
+        <item>1000ms</item>
+    </string-array>
+
+    <string-array name="array_vibration_time">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="array_click_interval">
+        <item>600</item>
+        <item>1150</item>
+        <item>1700</item>
+    </string-array>
+
+    <string-array name="array_call">
+        <item>Nothing</item>
+        <item>Mute</item>
+        <item>Reply</item>
+    </string-array>
+
+    <string name="app_name">Main Screen</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- _d => will be displayed on screen-->
+    <!-- _s => will be stored on device-->
+
+    <string name="KR_d">Always keep running in background</string>
+    <string name="KR_s">KEEP_RUNNING</string>
+
+    <string name="CBT_d">Connect when bluetooth is turned on</string>
+    <string name="CBT_s">CONNECT_BLUETOOTH_TRIGGER</string>
+
+    <string name="CHP_d">Connect when the Headphone is connected</string>
+    <string name="CHP_s">CONNECT_HEADPHONE_PLUGGED</string>
+
+    <string name="DHR_d">Disconnect when the Headphone is removed</string>
+    <string name="DHR_s">DISCONNECT_HEADPHONE_REMOVED</string>
+
+    <string name="DT_d">Delay between multiple Taps</string>
+    <string name="DT_s">DELAY_TAP</string>
+
+    <string name="IFT_d">Ignore first Tap</string>
+    <string name="IFT_s">IGNORE_FIRST_TAP</string>
+
+    <string name="T_T_s">TIME</string>
+
+    <string name="T_IV_d">Intermediate Vibration when timer is Running</string>
+    <string name="T_IV_s">INTERMEDIATE_VIBRATION</string>
+
+    <string name="T_VAE_s">VIBRATION_AT_END</string>
+
+    <string name="T_MAE_d">Message when Timer stops</string>
+    <string name="T_MAE_s">MESSAGE_AT_END</string>
+
+    <string name="T_MAS_d">Message when Timer starts</string>
+    <string name="T_MAS_s">MESSAGE_AT_START</string>
+
+    <string name="TAP_SWITCH">SWITCH</string>
+    <string name="TAP_VOL_INC">VOL_INC</string>
+    <string name="TAP_VOL_DEC">VOL_DEC</string>
+    <string name="TAP_NEXT">NEXT</string>
+    <string name="TAP_PREV">PREV</string>
+    <string name="TAP_PLAY_PAUSE">PLAY_PAUSE</string>
+    <string name="TAP_VIBRATE">VIBRATE</string>
+    <string name="TAP_VIBRATE_DELAY">VIBRATE_DELAY</string>
+    <string name="TAP_TIMER">TIMER</string>
+    <string name="TAP_CAMERA">CAMERA</string>
+
+    <string name="V1">Vibration for Single Tap :</string>
+    <string name="V2">Vibration for Double Tap:</string>
+    <string name="V3">Vibration for Tripple Tap:</string>
+
+    <string name="Default_reply_text">"Can't talk to you right now! Call me later?"</string>
+</resources>

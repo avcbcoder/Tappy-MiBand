@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/MainScreen.iml" filepath="$PROJECT_DIR$/MainScreen.iml" />
+      <module fileurl="file://C:\Users\Ankit\ANDROID\MI BAND PROJECT\Wind Up\MainScreen\MainScreen.iml" filepath="C:\Users\Ankit\ANDROID\MI BAND PROJECT\Wind Up\MainScreen\MainScreen.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Ankit\ANDROID\MI BAND PROJECT\Wind Up\MainScreen\app\app.iml" filepath="C:\Users\Ankit\ANDROID\MI BAND PROJECT\Wind Up\MainScreen\app\app.iml" />
+    </modules>
+  </component>
+</project>
