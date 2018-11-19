@@ -50,50 +50,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!--Ignore First Tap-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
-                android:layout_weight="5"
-                android:gravity="center_vertical"
-                android:inputType="textMultiLine"
-                android:text="@string/IFT_d"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-
-            <com.rm.rmswitch.RMSwitch
-                android:id="@+id/IFT_s"
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:layout_centerVertical="true"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_weight="1"
-                app:checked="true"
-                app:enabled="true"
-                app:forceAspectRatio="false"
-                app:switchBkgCheckedColor="@color/toggle_mini_ON"
-                app:switchBkgNotCheckedColor="@color/toggle_mini_ON"
-                app:switchDesign="android"
-                app:switchToggleCheckedColor="@color/toggle_mini_OFF"
-                app:switchToggleNotCheckedColor="@color/toggle_mini_OFF" />
-        </LinearLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:background="@color/line_setting"></FrameLayout>
-
         <!--Keep Running-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -113,7 +69,7 @@
                 android:textSize="14sp" />
 
             <com.rm.rmswitch.RMSwitch
-                android:id="@+id/KR_s"
+                android:id="@+id/tog_keep_running"
                 android:layout_width="0dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
@@ -157,7 +113,7 @@
                 android:textSize="@dimen/setting_item_text" />
 
             <com.rm.rmswitch.RMSwitch
-                android:id="@+id/CBT_s"
+                android:id="@+id/tog_bluetooth"
                 android:layout_width="0dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
@@ -201,7 +157,7 @@
                 android:textSize="@dimen/setting_item_text" />
 
             <com.rm.rmswitch.RMSwitch
-                android:id="@+id/CHP_s"
+                android:id="@+id/tog_headphone_connect"
                 android:layout_width="0dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
@@ -245,7 +201,7 @@
                 android:textSize="@dimen/setting_item_text" />
 
             <com.rm.rmswitch.RMSwitch
-                android:id="@+id/DHR_s"
+                android:id="@+id/tog_headphone_disconnect"
                 android:layout_width="0dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
@@ -290,7 +246,35 @@
                 android:textSize="@dimen/setting_item_text" />
 
             <Spinner
-                android:id="@+id/DT_s"
+                android:id="@+id/spinner_delayBtwMultipleClicks"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:background="@drawable/ic_spinner_bkg"></Spinner>
+
+        </LinearLayout>
+
+        <!--Delay between multiple Taps-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="5"
+                android:gravity="center_vertical"
+                android:inputType="textMultiLine"
+                android:text="Click Interval"
+                android:textColor="@color/black"
+                android:textSize="@dimen/setting_item_text" />
+
+            <Spinner
+                android:id="@+id/spinner_clickInterval"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -328,7 +312,7 @@
                 android:layout_height="match_parent">
 
                 <Spinner
-                    android:id="@+id/v1s"
+                    android:id="@+id/spinner_singleDelay"
                     android:layout_width="96dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
@@ -341,17 +325,17 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/v1s"
+                    android:layout_alignBottom="@id/spinner_singleDelay"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
-                    android:layout_toLeftOf="@id/v1t"
-                    android:layout_toRightOf="@id/v1s"
+                    android:layout_toLeftOf="@id/spinner_singleRepeat"
+                    android:layout_toRightOf="@id/spinner_singleDelay"
                     android:gravity="center"
                     android:text="X"
                     android:textSize="@dimen/setting_item_text" />
 
                 <Spinner
-                    android:id="@+id/v1t"
+                    android:id="@+id/spinner_singleRepeat"
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
@@ -393,7 +377,7 @@
                 android:layout_height="match_parent">
 
                 <Spinner
-                    android:id="@+id/v2s"
+                    android:id="@+id/spinner_doubleDelay"
                     android:layout_width="96dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
@@ -406,17 +390,17 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/v2s"
+                    android:layout_alignBottom="@id/spinner_doubleDelay"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
-                    android:layout_toLeftOf="@id/v2t"
-                    android:layout_toRightOf="@id/v2s"
+                    android:layout_toLeftOf="@id/spinner_doubleRepeat"
+                    android:layout_toRightOf="@id/spinner_doubleDelay"
                     android:gravity="center"
                     android:text="X"
                     android:textSize="@dimen/setting_item_text" />
 
                 <Spinner
-                    android:id="@+id/v2t"
+                    android:id="@+id/spinner_doubleRepeat"
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
@@ -458,7 +442,7 @@
                 android:layout_height="match_parent">
 
                 <Spinner
-                    android:id="@+id/v3s"
+                    android:id="@+id/spinner_trippleDelay"
                     android:layout_width="96dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
@@ -471,17 +455,17 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/v3s"
+                    android:layout_alignBottom="@id/spinner_trippleDelay"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
-                    android:layout_toLeftOf="@id/v3t"
-                    android:layout_toRightOf="@id/v3s"
+                    android:layout_toLeftOf="@id/spinner_trippleRepeat"
+                    android:layout_toRightOf="@id/spinner_trippleDelay"
                     android:gravity="center"
                     android:text="X"
                     android:textSize="@dimen/setting_item_text" />
 
                 <Spinner
-                    android:id="@+id/v3t"
+                    android:id="@+id/spinner_trippleRepeat"
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"

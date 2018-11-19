@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.av.mainscreen.activity.CallActivity;
 import com.av.mainscreen.activity.TimerActivity;
 import com.av.mainscreen.service.ForegroundService;
+import com.rm.rmswitch.RMSwitch;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,9 +44,14 @@ public class MainActivity extends AppCompatActivity
     private Toolbar mToolbar;
 
     // widgets
-    private Button btnConnect, btnDisConnect;
-    private TextView tvSheetTitle;
-    private ImageButton btnSheetIcon;
+    private Button btn_connect, btn_disConnect;
+    private TextView tv_sheetTitle;
+    private ImageButton btn_sheetIcon;
+    private RMSwitch tog_keepRunning, tog_bluetooth, tog_headphoneConnect, tog_headphoneDisconnect;
+    private Spinner spinner_delayBtwMultipleClicks, spinner_clickInterval,
+            spinner_singleDelay, spinner_singleRepeat,
+            spinner_doubleDelay, spinner_doubleRepeat,
+            spinner_trippleDelay, spinner_trippleRepeat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +66,13 @@ public class MainActivity extends AppCompatActivity
         changeStatusBarColor();
         setupNavDrawer();
         setupCards();
+    }
+
+    /**
+     * Includes all the toggle buttons, spinners : fvb, add listeners, setup data
+     */
+    private void setupSettings() {
+
     }
 
     private void setupCards() {
@@ -103,9 +116,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void init() {
-        btnConnect = findViewById(R.id.btnConnect);
-        btnDisConnect = findViewById(R.id.btnDisConnect);
-        btnConnect.setOnClickListener(new View.OnClickListener() {
+        btn_connect = findViewById(R.id.btnConnect);
+        btn_disConnect = findViewById(R.id.btnDisConnect);
+        btn_connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ForegroundService.class);
@@ -113,7 +126,7 @@ public class MainActivity extends AppCompatActivity
                 startService(intent);
             }
         });
-        btnDisConnect.setOnClickListener(new View.OnClickListener() {
+        btn_disConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ForegroundService.class);
@@ -124,9 +137,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setupBottomSheet() {
-        tvSheetTitle = findViewById(R.id.sheet_title);
-        btnSheetIcon = findViewById(R.id.sheet_icon);
-        btnSheetIcon.setOnClickListener(new View.OnClickListener() {
+        tv_sheetTitle = findViewById(R.id.sheet_title);
+        btn_sheetIcon = findViewById(R.id.sheet_icon);
+        btn_sheetIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mBottomSheet.setState((mBottomSheet.getState() == BottomSheetBehavior.STATE_COLLAPSED)
@@ -134,8 +147,8 @@ public class MainActivity extends AppCompatActivity
                         : BottomSheetBehavior.STATE_COLLAPSED);
             }
         });
-        btnSheetIcon.setImageResource(R.drawable.ic_more);
-        tvSheetTitle.setText("Tap for more Settings");
+        btn_sheetIcon.setImageResource(R.drawable.ic_more);
+        tv_sheetTitle.setText("Tap for more Settings");
         mBottomSheet = BottomSheetBehavior.from(findViewById(R.id.bottom_sheet));
         mBottomSheet.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -146,13 +159,13 @@ public class MainActivity extends AppCompatActivity
                         break;
                     case BottomSheetBehavior.STATE_EXPANDED:
                         Log.e(TAG, "onStateChanged: expanded");
-                        btnSheetIcon.setImageResource(R.drawable.ic_close_black_24dp);
-                        tvSheetTitle.setText("Setting");
+                        btn_sheetIcon.setImageResource(R.drawable.ic_close_black_24dp);
+                        tv_sheetTitle.setText("Setting");
                         break;
                     case BottomSheetBehavior.STATE_COLLAPSED:
                         Log.e(TAG, "onStateChanged: collapsed");
-                        btnSheetIcon.setImageResource(R.drawable.ic_more);
-                        tvSheetTitle.setText("Tap for more Settings");
+                        btn_sheetIcon.setImageResource(R.drawable.ic_more);
+                        tv_sheetTitle.setText("Tap for more Settings");
                         break;
                     case BottomSheetBehavior.STATE_DRAGGING:
                         Log.e(TAG, "onStateChanged: dragging");
@@ -175,6 +188,7 @@ public class MainActivity extends AppCompatActivity
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setSelection(0);
+        setupSettings();
     }
 
     public static float dpToPixels(int dp) {
