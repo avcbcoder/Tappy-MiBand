@@ -115,7 +115,7 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
 
     private void init() {
         // find view by ID's
-        mBack = findViewById(R.id.activity_call_back);
+        mBack = findViewById(R.id.back);
         mEdit = findViewById(R.id.activity_call_edit);
         mToggle = findViewById(R.id.activity_call_toggle);
         mOneTap = findViewById(R.id.activity_call_spinner_one);
@@ -149,7 +149,7 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.activity_call_back:// Go back to previous activity
+            case R.id.back:// Go back to previous activity
                 finish();
                 break;
             case R.id.activity_call_edit://  show a dialog asking for message to send @caller

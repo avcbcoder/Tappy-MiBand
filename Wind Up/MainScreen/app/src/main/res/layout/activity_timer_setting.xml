@@ -79,6 +79,14 @@
             app:switchToggleNotCheckedColor="@color/toggle_mini_OFF" />
     </LinearLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/line_setting"></FrameLayout>
+
+
     <!--Vibrate at intervals-->
     <LinearLayout
         android:layout_width="match_parent"

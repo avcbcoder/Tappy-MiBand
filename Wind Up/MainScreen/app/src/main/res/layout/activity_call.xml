@@ -13,7 +13,7 @@
         android:background="@color/activity_call_toolbar">
 
         <ImageButton
-            android:id="@+id/activity_call_back"
+            android:id="@+id/back"
             android:layout_width="56dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -27,7 +27,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
             android:layout_toLeftOf="@id/activity_call_toggle"
-            android:layout_toRightOf="@id/activity_call_back"
+            android:layout_toRightOf="@id/back"
             android:gravity="center_vertical"
             android:text="Action on call"
             android:textColor="@color/white"

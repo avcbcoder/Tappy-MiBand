@@ -13,7 +13,7 @@
         android:background="@color/activity_call_toolbar">
 
         <ImageButton
-            android:id="@+id/activity_call_back"
+            android:id="@+id/back"
             android:layout_width="56dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -27,14 +27,14 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
             android:layout_toLeftOf="@id/activity_call_toggle"
-            android:layout_toRightOf="@id/activity_call_back"
+            android:layout_toRightOf="@id/back"
             android:gravity="center_vertical"
             android:text="Timer Setting"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
         <ImageButton
-            android:id="@+id/activity_call_setting"
+            android:id="@+id/setting"
             android:layout_width="56dp"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
@@ -48,7 +48,7 @@
     </RelativeLayout>
 
     <ImageView
-        android:id="@+id/__icon"
+        android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/__toolbar"
@@ -60,7 +60,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/__icon"
+        android:layout_below="@id/icon"
         android:layout_marginTop="24dp"
         android:orientation="vertical">
 
@@ -201,7 +201,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/activity_timer_btnStart"
+            android:id="@+id/btn_start"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
@@ -212,7 +212,7 @@
             android:textSize="16sp" />
 
         <Button
-            android:id="@+id/activity_timer_btnStop"
+            android:id="@+id/btn_stop"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"

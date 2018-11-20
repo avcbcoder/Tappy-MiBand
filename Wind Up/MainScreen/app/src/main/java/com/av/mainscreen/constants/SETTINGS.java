@@ -79,7 +79,7 @@ public class SETTINGS {
     public static final String DEF_THREE_TAP = "0 3 1 300 1 1";
     public static final String DEF_COMMON_SETTING = "1 1 0 1 1150 1000";
     public static final String DEF_CALL_SETTING = "0 (Can't talk to you right now! CALL me later?)";
-    public static final String DEF_TIMER_SETTING = "1 1 300 2 300 1";
+    public static final String DEF_TIMER_SETTING = "1 1 300 2 300 1 1800 0";
 
     public static TAP[] taps = {null, new TAP(DEF_ONE_TAP), new TAP(DEF_TWO_TAP), new TAP(DEF_THREE_TAP)};
 
@@ -124,31 +124,36 @@ public class SETTINGS {
         public static int VIBRATION_STOP_REPEAT;
         public static int VIBRATION_INTERVAL_DELAY;
         public static int VIBRATION_INTERVAL_REPEAT;
+        public static long TIME;
+        public static long INTERVAL;
         public static String MESSAGE_AT_END = "Timer stop";
         public static String MESSAGE_AT_START = "TIMER started";
 
         public static String getSettingStringform() {
-            return String.format("%d %d %d %d %d %d", VIBRATE_AT_INTERVAL ? 1 : 0, SHOW_TEXT ? 1 : 0,
+            return String.format("%d %d %d %d %d %d %s %s", VIBRATE_AT_INTERVAL ? 1 : 0, SHOW_TEXT ? 1 : 0,
                     VIBRATION_STOP_DELAY, VIBRATION_STOP_REPEAT,
-                    VIBRATION_INTERVAL_DELAY, VIBRATION_INTERVAL_REPEAT);
+                    VIBRATION_INTERVAL_DELAY, VIBRATION_INTERVAL_REPEAT,
+                    TIME + "", INTERVAL + "");
         }
 
-        public static void setSettingFromString(String s){
-            String []arr=s.split(" ");
-            VIBRATE_AT_INTERVAL=new Integer(arr[0])==1;
-            SHOW_TEXT=new Integer(arr[1])==1;
-            VIBRATION_STOP_DELAY=new Integer(arr[2]);
-            VIBRATION_STOP_REPEAT=new Integer(arr[3]);
-            VIBRATION_INTERVAL_DELAY=new Integer(arr[4]);
-            VIBRATION_INTERVAL_REPEAT=new Integer(arr[5]);
+        public static void setSettingFromString(String s) {
+            String[] arr = s.split(" ");
+            VIBRATE_AT_INTERVAL = new Integer(arr[0]) == 1;
+            SHOW_TEXT = new Integer(arr[1]) == 1;
+            VIBRATION_STOP_DELAY = new Integer(arr[2]);
+            VIBRATION_STOP_REPEAT = new Integer(arr[3]);
+            VIBRATION_INTERVAL_DELAY = new Integer(arr[4]);
+            VIBRATION_INTERVAL_REPEAT = new Integer(arr[5]);
+            TIME = new Long(arr[6]);
+            INTERVAL = new Long(arr[7]);
         }
 
-        public static int getPosDelay(int delay){
-            return delay/100-1;
+        public static int getPosDelay(int delay) {
+            return delay / 100 - 1;
         }
 
-        public static int getPosRepeat(int repeat){
-            return repeat-1;
+        public static int getPosRepeat(int repeat) {
+            return repeat - 1;
         }
     }
 }
