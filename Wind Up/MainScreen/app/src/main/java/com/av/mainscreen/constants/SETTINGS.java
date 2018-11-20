@@ -1,5 +1,9 @@
 package com.av.mainscreen.constants;
 
+import android.util.Log;
+
+import java.util.Arrays;
+
 /**
  * Created by Ankit on 10-11-2018.
  */
@@ -104,7 +108,7 @@ public class SETTINGS {
         }
 
         public int getPosDelay() {
-            return VIBRATE_DELAY % 100 - 1;
+            return VIBRATE_DELAY / 100 - 1; /* I ended up wasting 20 minutes bexause of using % instead of /*/
         }
 
         public int getPosRepeat(){

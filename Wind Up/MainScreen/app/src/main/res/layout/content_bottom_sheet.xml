@@ -250,6 +250,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginRight="12dp"
                 android:layout_weight="2"
                 android:background="@drawable/ic_spinner_bkg"></Spinner>
 
@@ -278,6 +279,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginRight="12dp"
                 android:layout_weight="2"
                 android:background="@drawable/ic_spinner_bkg"></Spinner>
 
@@ -317,9 +319,9 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="8dp"
                     android:layout_marginLeft="12dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/ic_spinner_selector"></Spinner>
 
                 <TextView
@@ -340,9 +342,9 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/ic_spinner_selector"></Spinner>
             </RelativeLayout>
 
@@ -382,9 +384,9 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="8dp"
                     android:layout_marginLeft="12dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/ic_spinner_selector"></Spinner>
 
                 <TextView
@@ -405,9 +407,9 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/ic_spinner_selector"></Spinner>
             </RelativeLayout>
 
@@ -447,9 +449,9 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="8dp"
                     android:layout_marginLeft="12dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/ic_spinner_selector"></Spinner>
 
                 <TextView
@@ -470,9 +472,9 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/ic_spinner_selector"></Spinner>
             </RelativeLayout>
 

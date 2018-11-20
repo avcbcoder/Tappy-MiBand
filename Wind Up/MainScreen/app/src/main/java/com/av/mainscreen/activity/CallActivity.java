@@ -127,7 +127,7 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
 
         // Spinners
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.array_call, R.layout.spinner_item);
+                R.array.array_call, R.layout.spinner_item1);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mOneTap.setAdapter(adapter);
         mDoubleTap.setAdapter(adapter);

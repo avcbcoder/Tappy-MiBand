@@ -9,6 +9,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -29,7 +31,6 @@ import android.widget.TextView;
 import com.av.mainscreen.activity.CallActivity;
 import com.av.mainscreen.activity.TimerActivity;
 import com.av.mainscreen.constants.SETTINGS;
-import com.av.mainscreen.constants.STRINGS;
 import com.av.mainscreen.database.SyncWithDB;
 import com.av.mainscreen.service.ForegroundService;
 import com.rm.rmswitch.RMSwitch;
@@ -37,7 +38,7 @@ import com.rm.rmswitch.RMSwitch;
 import static com.av.mainscreen.constants.SETTINGS.COMMON_SETTING;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemSelectedListener, RMSwitch.RMSwitchObserver {
 
     private static final String TAG = "MainActivity";
     public static Context ctx;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity
     private Button btn_connect, btn_disConnect;
     private TextView tv_sheetTitle;
     private ImageButton btn_sheetIcon;
+    private EditText et_mac;
     /*widgets in bottom sheet*/
     private RMSwitch tog_keepRunning, tog_bluetooth, tog_headphoneConnect, tog_headphoneDisconnect;
     private Spinner spinner_delayBtwMultipleClicks, spinner_clickInterval,
@@ -67,14 +69,23 @@ public class MainActivity extends AppCompatActivity
 
         ctx = MainActivity.this;
 
+        SyncWithDB.extractSettingsFromDB(this);
+
         setupToolbar();
         init();
         setupBottomSheet();
         changeStatusBarColor();
         setupNavDrawer();
         setupCards();
-
         setupSettings();
+
+        keyboard(false);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SyncWithDB.extractSettingsFromDB(this);
         SYNC();
     }
 
@@ -110,23 +121,27 @@ public class MainActivity extends AppCompatActivity
         spinner_trippleDelay = findViewById(R.id.spinner_trippleDelay);
         spinner_trippleRepeat = findViewById(R.id.spinner_trippleRepeat);
 
-        setupSpinner(spinner_singleDelay, R.array.array_vibration_delay, spinner_singleRepeat, R.array.array_vibration_repeat);
-        setupSpinner(spinner_doubleDelay, R.array.array_vibration_delay, spinner_doubleRepeat, R.array.array_vibration_repeat);
-        setupSpinner(spinner_trippleDelay, R.array.array_vibration_delay, spinner_trippleRepeat, R.array.array_vibration_repeat);
-        setupSpinner(spinner_clickInterval, R.array.array_click_interval, spinner_delayBtwMultipleClicks, R.array.array_delay_btw_multiple_commands);
+        setupSpinner(spinner_singleDelay, R.array.array_vibration_delay, spinner_singleRepeat, R.array.array_vibration_repeat, true);
+        setupSpinner(spinner_doubleDelay, R.array.array_vibration_delay, spinner_doubleRepeat, R.array.array_vibration_repeat, true);
+        setupSpinner(spinner_trippleDelay, R.array.array_vibration_delay, spinner_trippleRepeat, R.array.array_vibration_repeat, true);
+        setupSpinner(spinner_clickInterval, R.array.array_click_interval, spinner_delayBtwMultipleClicks, R.array.array_delay_btw_multiple_commands, false);
+
+        tog_bluetooth.addSwitchObserver(this);
+        tog_keepRunning.addSwitchObserver(this);
+        tog_headphoneConnect.addSwitchObserver(this);
+        tog_headphoneDisconnect.addSwitchObserver(this);
     }
 
-    private void setupSpinner(Spinner delay, int array_delay, Spinner repeat, int array_repeat) {
+    private void setupSpinner(Spinner delay, int array_delay, Spinner repeat, int array_repeat, boolean isTap) {
         ArrayAdapter<CharSequence> adapterDelay = ArrayAdapter.createFromResource(this,
-                array_delay, R.layout.spinner_item);
+                array_delay, (isTap) ? R.layout.spinner_item2 : R.layout.spinner_item1);
         adapterDelay.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         delay.setAdapter(adapterDelay);
-        delay.setSelection(0);
+
         ArrayAdapter<CharSequence> adapterRepeat = ArrayAdapter.createFromResource(this,
-                array_repeat, R.layout.spinner_item);
+                array_repeat, (isTap) ? R.layout.spinner_item2 : R.layout.spinner_item1);
         adapterRepeat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         repeat.setAdapter(adapterRepeat);
-        repeat.setSelection(0);
 
         /*Add listeners*/
         delay.setOnItemSelectedListener(this);
@@ -176,9 +191,11 @@ public class MainActivity extends AppCompatActivity
     private void init() {
         btn_connect = findViewById(R.id.btnConnect);
         btn_disConnect = findViewById(R.id.btnDisConnect);
+        et_mac = findViewById(R.id.mac_address);
         btn_connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SETTINGS.MAC_ADDRESS = et_mac.getText().toString();
                 Intent intent = new Intent(MainActivity.this, ForegroundService.class);
                 intent.setAction(ForegroundService.ACTION_START_FOREGROUND_SERVICE);
                 startService(intent);
@@ -190,6 +207,13 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(MainActivity.this, ForegroundService.class);
                 intent.setAction(ForegroundService.ACTION_STOP_FOREGROUND_SERVICE);
                 startService(intent);
+            }
+        });
+        et_mac.setText(SETTINGS.MAC_ADDRESS);
+        et_mac.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                keyboard(true);
             }
         });
     }
@@ -240,7 +264,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
         mBottomSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
-
     }
 
     public static float dpToPixels(int dp) {
@@ -252,6 +275,8 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (mBottomSheet.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            mBottomSheet.setState(BottomSheetBehavior.STATE_COLLAPSED);
         } else {
             super.onBackPressed();
         }
@@ -282,15 +307,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> adapter, View view, int pos, long id) {
-        int selected = new Integer(((String) adapter.getItemAtPosition(pos)).split(" ")[0]);
-        switch (view.getId()) {
+    public void onItemSelected(AdapterView<?> parent, View child, int pos, long id) {
+        int selected = new Integer(((String) parent.getItemAtPosition(pos)).split(" ")[0]);
+        // parent is the actual spinner and child is item which is clicked
+        switch (parent.getId()) {
             case R.id.spinner_singleDelay:
                 SETTINGS.taps[1].VIBRATE_DELAY = selected;
                 break;
@@ -322,6 +342,30 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    @Override
+    public void onCheckStateChange(RMSwitch view, boolean isChecked) {
+        switch (view.getId()) {
+            case R.id.tog_bluetooth:
+                COMMON_SETTING.CONNECT_BLUETOOTH_TRIGGER = isChecked;
+                break;
+            case R.id.tog_keepRunning:
+                COMMON_SETTING.KEEP_RUNNING = isChecked;
+                break;
+            case R.id.tog_headphoneConnect:
+                COMMON_SETTING.CONNECT_HEADPHONE_PLUGGED = isChecked;
+                break;
+            case R.id.tog_headphoneDisconnect:
+                COMMON_SETTING.DISCONNECT_HEADPHONE_REMOVED = isChecked;
+                break;
+        }
+        SyncWithDB.putSettingsInDB(this);
+    }
+
+    public void keyboard(boolean show) {
+        getWindow().setSoftInputMode(show ? WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+                : WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     /** How to change colour of drawable bitmap
