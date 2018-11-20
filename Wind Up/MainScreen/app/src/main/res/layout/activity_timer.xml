@@ -73,14 +73,6 @@
             android:textColor="@color/black"
             android:textSize="18sp" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="4dp"
-            android:background="@color/line_setting"></FrameLayout>
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="60dp"
@@ -143,14 +135,6 @@
             android:text="Interval:"
             android:textColor="@color/black"
             android:textSize="18sp" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="4dp"
-            android:background="@color/line_setting"></FrameLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"

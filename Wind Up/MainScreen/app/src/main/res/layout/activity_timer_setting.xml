@@ -4,5 +4,208 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
-    tools:context="com.av.mainscreen.activity.TimerSettingActivity"></LinearLayout>
+    tools:context="com.av.mainscreen.activity.TimerSettingActivity">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="4dp">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            android:elevation="4dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/head_back"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:padding="16dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_close_black_24dp" />
+
+            <TextView
+                android:id="@+id/head_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingLeft="12dp"
+                android:text="Customize your Setting"
+                android:textColor="@color/titleColor"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <!--Show Text on Band-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="5"
+            android:gravity="center_vertical"
+            android:inputType="textMultiLine"
+            android:text="Show Text on Band when Timer Stops"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <com.rm.rmswitch.RMSwitch
+            android:id="@+id/tog_showText"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            app:checked="true"
+            app:enabled="true"
+            app:forceAspectRatio="false"
+            app:switchBkgCheckedColor="@color/toggle_mini_ON"
+            app:switchBkgNotCheckedColor="@color/toggle_mini_ON"
+            app:switchDesign="android"
+            app:switchToggleCheckedColor="@color/toggle_mini_OFF"
+            app:switchToggleNotCheckedColor="@color/toggle_mini_OFF" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/line_setting"></FrameLayout>
+
+    <!--Vibration When Timer Ends-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:gravity="center_vertical"
+            android:inputType="textMultiLine"
+            android:text="Vibration when Timer Stops"
+            android:textColor="@color/black"
+            android:textSize="@dimen/setting_item_text" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Spinner
+                android:id="@+id/spinner_stopDelay"
+                android:layout_width="96dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/ic_spinner_selector"></Spinner>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/spinner_stopDelay"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_toLeftOf="@id/spinner_stopRepeat"
+                android:layout_toRightOf="@id/spinner_stopDelay"
+                android:gravity="center"
+                android:text="X"
+                android:textSize="@dimen/setting_item_text" />
+
+            <Spinner
+                android:id="@+id/spinner_stopRepeat"
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/ic_spinner_selector"></Spinner>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/line_setting"></FrameLayout>
+
+    <!--Vibration When Timer Ends-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:gravity="center_vertical"
+            android:inputType="textMultiLine"
+            android:text="Vibration at each Interval"
+            android:textColor="@color/black"
+            android:textSize="@dimen/setting_item_text" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Spinner
+                android:id="@+id/spinner_intervalDelay"
+                android:layout_width="96dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/ic_spinner_selector"></Spinner>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/spinner_intervalDelay"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_toLeftOf="@id/spinner_intervalRepeat"
+                android:layout_toRightOf="@id/spinner_intervalDelay"
+                android:gravity="center"
+                android:text="X"
+                android:textSize="@dimen/setting_item_text" />
+
+            <Spinner
+                android:id="@+id/spinner_intervalRepeat"
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/ic_spinner_selector"></Spinner>
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</LinearLayout>
