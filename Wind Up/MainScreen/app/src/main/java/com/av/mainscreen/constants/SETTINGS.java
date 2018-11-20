@@ -142,5 +142,13 @@ public class SETTINGS {
             VIBRATION_INTERVAL_DELAY=new Integer(arr[4]);
             VIBRATION_INTERVAL_REPEAT=new Integer(arr[5]);
         }
+
+        public static int getPosDelay(int delay){
+            return delay/100-1;
+        }
+
+        public static int getPosRepeat(int repeat){
+            return repeat-1;
+        }
     }
 }
