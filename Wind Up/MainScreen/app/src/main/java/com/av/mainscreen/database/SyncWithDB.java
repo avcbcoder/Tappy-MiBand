@@ -32,11 +32,12 @@ public class SyncWithDB {
         sharedpreferences = context.getSharedPreferences(STRINGS.SETTINGS, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString(STRINGS.MAC_ADDRESS, SETTINGS.MAC_ADDRESS);
-        editor.putString(STRINGS.ONE_TAP,SETTINGS.taps[1].getStringForm());
-        editor.putString(STRINGS.TWO_TAP,SETTINGS.taps[2].getStringForm());
-        editor.putString(STRINGS.THREE_TAP,SETTINGS.taps[3].getStringForm());
-        editor.putString(STRINGS.COMMON_SETTING,SETTINGS.COMMON_SETTING.getStringForm());
-        editor.putString(STRINGS.CALL_SETTING,SETTINGS.CALL.getStringForm());
+        editor.putString(STRINGS.ONE_TAP, SETTINGS.taps[1].getStringForm());
+        editor.putString(STRINGS.TWO_TAP, SETTINGS.taps[2].getStringForm());
+        editor.putString(STRINGS.THREE_TAP, SETTINGS.taps[3].getStringForm());
+        editor.putString(STRINGS.COMMON_SETTING, SETTINGS.COMMON_SETTING.getStringForm());
+        editor.putString(STRINGS.CALL_SETTING, SETTINGS.CALL.getStringForm());
+        editor.putString(STRINGS.TIMER_SETTING, SETTINGS.TIMER.getSettingStringform());
         editor.commit();
     }
 
@@ -51,6 +52,7 @@ public class SyncWithDB {
         String threeTap = sharedpreferences.getString(STRINGS.THREE_TAP, SETTINGS.DEF_THREE_TAP);
         String callSetting = sharedpreferences.getString(STRINGS.CALL_SETTING, SETTINGS.DEF_CALL_SETTING);
         String commonSetting = sharedpreferences.getString(STRINGS.COMMON_SETTING, SETTINGS.DEF_COMMON_SETTING);
+        String timerSetting = sharedpreferences.getString(STRINGS.TIMER_SETTING, SETTINGS.DEF_TIMER_SETTING);
 
         /*set MAC*/
         SETTINGS.MAC_ADDRESS = macAddress;
@@ -65,6 +67,9 @@ public class SyncWithDB {
         SETTINGS.taps[1] = new SETTINGS.TAP(oneTap);
         SETTINGS.taps[2] = new SETTINGS.TAP(twoTap);
         SETTINGS.taps[3] = new SETTINGS.TAP(threeTap);
+
+        /*update timer setting*/
+        SETTINGS.TIMER.setSettingFromString(timerSetting);
     }
 
 }

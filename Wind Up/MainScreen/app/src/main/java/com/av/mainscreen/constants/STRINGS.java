@@ -16,6 +16,9 @@ public class STRINGS {
     public static final String TWO_TAP = "TWO_TAP";
     public static final String THREE_TAP = "THREE_TAP";
 
+    public static final String TIMER_SETTING = "TIMER_SETTING";
+    public static final String TIMER = "TIMER";
+
     public static String[] INTENT_FILTER_SONG = {
             "com.android.music.musicservicecommand",
             "com.android.music.metachanged",

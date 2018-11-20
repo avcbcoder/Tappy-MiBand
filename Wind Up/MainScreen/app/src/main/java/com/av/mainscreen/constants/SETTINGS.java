@@ -79,7 +79,7 @@ public class SETTINGS {
     public static final String DEF_THREE_TAP = "0 3 1 300 1 1";
     public static final String DEF_COMMON_SETTING = "1 1 0 1 1150 1000";
     public static final String DEF_CALL_SETTING = "0 (Can't talk to you right now! CALL me later?)";
-    public static final String DEF_TIMER = "1 1 300 2 300 1";
+    public static final String DEF_TIMER_SETTING = "1 1 300 2 300 1";
 
     public static TAP[] taps = {null, new TAP(DEF_ONE_TAP), new TAP(DEF_TWO_TAP), new TAP(DEF_THREE_TAP)};
 
@@ -127,13 +127,13 @@ public class SETTINGS {
         public static String MESSAGE_AT_END = "Timer stop";
         public static String MESSAGE_AT_START = "TIMER started";
 
-        public static String getStringform() {
+        public static String getSettingStringform() {
             return String.format("%d %d %d %d %d %d", VIBRATE_AT_INTERVAL ? 1 : 0, SHOW_TEXT ? 1 : 0,
                     VIBRATION_STOP_DELAY, VIBRATION_STOP_REPEAT,
                     VIBRATION_INTERVAL_DELAY, VIBRATION_INTERVAL_REPEAT);
         }
 
-        public static void setFromString(String s){
+        public static void setSettingFromString(String s){
             String []arr=s.split(" ");
             VIBRATE_AT_INTERVAL=new Integer(arr[0])==1;
             SHOW_TEXT=new Integer(arr[1])==1;
