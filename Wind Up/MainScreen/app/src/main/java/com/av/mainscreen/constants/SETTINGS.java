@@ -60,7 +60,7 @@ public class SETTINGS {
     // [0, text]
     public static class CALL {
         public static boolean ENABLE;
-        public static String TEXT = ""; // Text to send as reply to caller
+        public static String TEXT = "Can't talk to you right now! CALL me later?"; // Text to send as reply to caller
         public static String DEF_TEXT = "Can't talk to you right now! CALL me later?";
 
         public static String getStringForm() {

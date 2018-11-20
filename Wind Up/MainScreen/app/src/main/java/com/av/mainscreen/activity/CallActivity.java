@@ -1,6 +1,7 @@
 package com.av.mainscreen.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -26,14 +27,16 @@ import android.widget.Toast;
 
 import com.av.mainscreen.R;
 import com.av.mainscreen.constants.SETTINGS;
+import com.av.mainscreen.database.SyncWithDB;
 import com.rm.rmswitch.RMSwitch;
 
 public class CallActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
-
     private static final String TAG = "CallActivity";
     private static final int REQ_CODE_SMS = 101;
     private static final int REQ_CODE_CONTACTS = 201;
     private static final int REQ_CODE = 301;
+
+    private Context ctx;
 
     private RMSwitch mToggle;
     private ImageButton mBack, mEdit;
@@ -50,25 +53,33 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
         // changing color of status bar
         changeStatusBarColor(R.color.activity_call_toolbar);
 
-        //Extract all the things from layout
-        init();
-
-        // set everything according to database
-        setState();
-
-        // ask for sending sms permission
-//        ActivityCompat.requestPermissions(CallActivity.this,
-//                new String[]{Manifest.permission.SEND_SMS},
-//                REQ_CODE_SMS);
-
-        // ask for reading contacts permission
-//        ActivityCompat.requestPermissions(CallActivity.this,
-//                new String[]{Manifest.permission.READ_CONTACTS},
-//                REQ_CODE_CONTACTS);
-
+        // ask for all the permissions required
         ActivityCompat.requestPermissions(CallActivity.this,
                 new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.SEND_SMS},
                 REQ_CODE);
+
+        //Extract all the things from layout
+        init();
+    }
+
+    private void SYNC() {
+        mToggle.setChecked(SETTINGS.CALL.ENABLE);
+        mReplyText.setText(SETTINGS.CALL.TEXT);
+        mOneTap.setSelection(SETTINGS.taps[1].CALL);
+        mDoubleTap.setSelection(SETTINGS.taps[2].CALL);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SyncWithDB.extractSettingsFromDB(this);
+        SYNC();
     }
 
     @Override
@@ -121,7 +132,7 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
             public void onCheckStateChange(RMSwitch switchView, boolean isChecked) {
                 SETTINGS.CALL.ENABLE = isChecked;
                 Toast.makeText(CallActivity.this, "Action on call" + (isChecked ? "Enabled" : "Disabled"), Toast.LENGTH_SHORT).show();
-                setState();
+                SyncWithDB.putSettingsInDB(CallActivity.this);
             }
         });
 
@@ -138,77 +149,27 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.activity_call_back:
+            case R.id.activity_call_back:// Go back to previous activity
                 finish();
                 break;
-            case R.id.activity_call_edit:
-                // Inflate
-                final LayoutInflater inflater = this.getLayoutInflater();
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                View v = inflater.inflate(R.layout.activity_call_input, null);
-                builder.setView(v);
-
-                //show
-                final AlertDialog dialog = builder.create();
-                dialog.show();
-                // fvb
-                final Button save = v.findViewById(R.id.activity_call_alert_save);
-                final Button cancel = v.findViewById(R.id.activity_call_alert_cancel);
-                final TextView limit = v.findViewById(R.id.activity_call_alert_limit);
-                final EditText input = v.findViewById(R.id.activity_call_alert_input);
-
-                input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_LIMIT)});
-                limit.setText("0/" + MAX_LIMIT);
-
-                //listeners
-                cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.cancel();
-                    }
-                });
-                save.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String msg = input.getText().toString();
-                        if (msg.length() == 0)
-                            Toast.makeText(CallActivity.this, "Enter some text", Toast.LENGTH_SHORT).show();
-                        else
-                            SETTINGS.CALL.TEXT = msg;
-                        setState();
-                        dialog.cancel();
-                    }
-                });
-                input.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-                        limit.setText((editable.toString().length()) + "/" + MAX_LIMIT);
-                    }
-                });
+            case R.id.activity_call_edit://  show a dialog asking for message to send @caller
+                createAndShowDialog();
                 break;
         }
-        setState();
     }
 
+
     @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
-        switch (view.getId()) {
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        switch (parent.getId()) {
             case R.id.activity_call_spinner_one:
+                SETTINGS.taps[1].CALL = pos;
                 break;
             case R.id.activity_call_spinner_two:
+                SETTINGS.taps[2].CALL = pos;
                 break;
         }
-        setState();
+        SyncWithDB.putSettingsInDB(this);
     }
 
     @Override
@@ -216,22 +177,62 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void setState() {
-        if (mToggle.isChecked() != SETTINGS.CALL.ENABLE)
-            mToggle.setChecked(SETTINGS.CALL.ENABLE);
-//        if (mOneTap.getSelectedItemPosition() != SETTINGS.CALL.ONE_TAP) {
-//            mOneTap.setSelection(SETTINGS.CALL.ONE_TAP);
-//        }
-//        if (mDoubleTap.getSelectedItemPosition() != SETTINGS.CALL.DOUBLE_TAP) {
-//            mDoubleTap.setSelection(SETTINGS.CALL.DOUBLE_TAP);
-//        }
-        mReplyText.setText((SETTINGS.CALL.TEXT.length() == 0) ? SETTINGS.CALL.DEF_TEXT : SETTINGS.CALL.TEXT);
-    }
+    private void createAndShowDialog() {
+        // Inflate the alert dialog
+        final LayoutInflater inflater = this.getLayoutInflater();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View v = inflater.inflate(R.layout.activity_call_input, null);
+        builder.setView(v);
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+        //show dialog
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+        // fvb
+        final Button save = v.findViewById(R.id.activity_call_alert_save);
+        final Button cancel = v.findViewById(R.id.activity_call_alert_cancel);
+        final TextView limit = v.findViewById(R.id.activity_call_alert_limit);
+        final EditText input = v.findViewById(R.id.activity_call_alert_input);
+
+        input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_LIMIT)});
+        limit.setText("0/" + MAX_LIMIT);
+
+        //listeners
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.cancel();
+            }
+        });
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String msg = input.getText().toString();
+                if (msg.length() == 0) {
+                    Toast.makeText(CallActivity.this, "Enter some text", Toast.LENGTH_SHORT).show();
+                    return;
+                } else
+                    SETTINGS.CALL.TEXT = msg;
+                dialog.cancel();
+                mReplyText.setText(SETTINGS.CALL.TEXT);
+                SyncWithDB.putSettingsInDB(CallActivity.this);
+            }
+        });
+        input.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                limit.setText((editable.toString().length()) + "/" + MAX_LIMIT);
+            }
+        });
     }
 
     private void changeStatusBarColor(int color) {
@@ -240,5 +241,4 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(this, color));
     }
-
 }

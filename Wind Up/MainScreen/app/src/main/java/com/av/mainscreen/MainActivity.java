@@ -69,8 +69,6 @@ public class MainActivity extends AppCompatActivity
 
         ctx = MainActivity.this;
 
-        SyncWithDB.extractSettingsFromDB(this);
-
         setupToolbar();
         init();
         setupBottomSheet();
@@ -78,7 +76,6 @@ public class MainActivity extends AppCompatActivity
         setupNavDrawer();
         setupCards();
         setupSettings();
-
         keyboard(false);
     }
 
