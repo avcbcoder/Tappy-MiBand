@@ -36,7 +36,7 @@ public class ForegroundService extends Service {
     BluetoothGatt bluetoothGatt;
 
     PerformCommands performCommands;
-    boolean state = false;
+    public static boolean state = false;
 
     public ForegroundService() {
     }

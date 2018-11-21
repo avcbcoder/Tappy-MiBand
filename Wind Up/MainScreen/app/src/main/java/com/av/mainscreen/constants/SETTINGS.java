@@ -124,8 +124,8 @@ public class SETTINGS {
         public static int VIBRATION_STOP_REPEAT;
         public static int VIBRATION_INTERVAL_DELAY;
         public static int VIBRATION_INTERVAL_REPEAT;
-        public static long TIME;
-        public static long INTERVAL;
+        public static int TIME;
+        public static int INTERVAL;
         public static String MESSAGE_AT_END = "Timer stop";
         public static String MESSAGE_AT_START = "TIMER started";
 
@@ -144,8 +144,8 @@ public class SETTINGS {
             VIBRATION_STOP_REPEAT = new Integer(arr[3]);
             VIBRATION_INTERVAL_DELAY = new Integer(arr[4]);
             VIBRATION_INTERVAL_REPEAT = new Integer(arr[5]);
-            TIME = new Long(arr[6]);
-            INTERVAL = new Long(arr[7]);
+            TIME = new Integer(arr[6]);
+            INTERVAL = new Integer(arr[7]);
         }
 
         public static int getPosDelay(int delay) {
