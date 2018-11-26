@@ -19,6 +19,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:text="TAP - MI Band"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical" />
+
         <com.rm.rmswitch.RMSwitch
             android:id="@+id/main_toggle"
             android:layout_width="56dp"

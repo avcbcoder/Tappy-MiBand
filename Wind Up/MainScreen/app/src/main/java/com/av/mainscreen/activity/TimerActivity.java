@@ -30,9 +30,7 @@ public class TimerActivity extends AppCompatActivity implements NumberPicker.OnV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
-
         init();
-
         changeStatusBarColor(R.color.activity_call_toolbar);
     }
 
@@ -136,7 +134,8 @@ public class TimerActivity extends AppCompatActivity implements NumberPicker.OnV
                     btn_stop.setEnabled(true);
                     btn_stop.setAlpha(1f);
                     View parentLayout = findViewById(android.R.id.content);
-                    Snackbar.make(parentLayout, "Timer started for " + hms((int) time), Snackbar.LENGTH_LONG)
+                    Toast.makeText(this, "Timer started for " + hms((int) time), Toast.LENGTH_SHORT).show();
+                    /*Snackbar.make(parentLayout, "Timer started for " + hms((int) time), Snackbar.LENGTH_LONG)
                             .setAction("CLOSE", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
@@ -145,6 +144,7 @@ public class TimerActivity extends AppCompatActivity implements NumberPicker.OnV
                             })
                             .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
                             .show();
+                    */
                     startTimer((int) time, (int) SETTINGS.TIMER.INTERVAL);
                 }
                 break;
@@ -211,9 +211,12 @@ public class TimerActivity extends AppCompatActivity implements NumberPicker.OnV
 
     private void stopTimer() {
         isRunning = false;
-        btn_stop.setEnabled(false);
-        btn_stop.setAlpha(0.5f);
-        btn_start.setText("START");
+        try {
+            btn_stop.setEnabled(false);
+            btn_stop.setAlpha(0.5f);
+            btn_start.setText("START");
+        } catch (Exception e) {
+        }
         Log.e(TAG, "stopTimer: ");
     }
 

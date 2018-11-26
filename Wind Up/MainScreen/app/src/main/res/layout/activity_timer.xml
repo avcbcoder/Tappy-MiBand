@@ -206,7 +206,9 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:layout_weight="1"
-            android:background="@color/activity_call_toolbar"
+            android:background="@drawable/ic_start_bkg"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:text="START"
             android:textColor="@color/white"
             android:textSize="16sp" />
