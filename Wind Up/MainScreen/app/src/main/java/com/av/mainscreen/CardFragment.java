@@ -58,31 +58,9 @@ public class CardFragment extends Fragment {
         // Find properties(widgets) of this fragment
         TextView title = view.findViewById(R.id.card_tap_title);
 
-        /*capture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Log.e(TAG, "run: sleeping" );
-                            Thread.sleep(10000);
-                            Log.e(TAG, "run: sleep over" );
-                            Instrumentation inst = new Instrumentation();
-                            inst.sendKeyDownUpSync(KeyEvent.KEYCODE_VOLUME_UP);
-                            Log.e(TAG, "run: clicked" );
-                        }catch(Exception e){
-                            Log.e(TAG, "run: "+e );
-                        }
-                    }
-                }).start();
-            }
-        });*/
-
         RecyclerView recyclerView=view.findViewById(R.id.card_tap_recyclerView);
-        recyclerView.setAdapter(new IconAdapter(getContext()));
+        recyclerView.setAdapter(new IconAdapter(getContext(),pos));
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
-//        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.spacing);
         recyclerView.addItemDecoration(new SpacesItemDecoration(10));
 
         // set properties accordingly

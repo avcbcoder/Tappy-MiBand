@@ -87,7 +87,7 @@ public class SETTINGS {
         public boolean SWITCH;
         public int VOL; // 0->Nothing 1->Inc 2->Dec
         public int MUSIC; // 0->Nothing 1->Next 2-> Prev 3-> play/pause
-        public int VIBRATE; // 0-> yes 1->no
+        public int VIBRATE; // 0-> no 1->yes
         public int VIBRATE_DELAY;
         public int VIBRATE_REPEAT;
         public int CALL;// 0->Nothing 1->Mute 2->Reply || only for two taps

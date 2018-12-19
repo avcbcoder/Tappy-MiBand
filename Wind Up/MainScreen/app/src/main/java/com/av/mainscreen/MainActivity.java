@@ -166,8 +166,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        // Selected Item at beginning
         navigationView.setCheckedItem(R.id.nav_quickAccess);
-
+        //Transparency of nav
+        navigationView.getBackground().setAlpha(180);
         AppBarLayout appBarLayout = findViewById(R.id.app_bar);
         appBarLayout.bringToFront();
     }
