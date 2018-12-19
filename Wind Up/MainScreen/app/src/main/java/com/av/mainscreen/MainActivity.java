@@ -25,6 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -33,6 +34,7 @@ import com.av.mainscreen.activity.TimerActivity;
 import com.av.mainscreen.constants.SETTINGS;
 import com.av.mainscreen.database.SyncWithDB;
 import com.av.mainscreen.service.ForegroundService;
+import com.codemybrainsout.ratingdialog.RatingDialog;
 import com.rm.rmswitch.RMSwitch;
 
 import static com.av.mainscreen.constants.SETTINGS.COMMON_SETTING;
@@ -61,6 +63,9 @@ public class MainActivity extends AppCompatActivity
             spinner_singleDelay, spinner_singleRepeat,
             spinner_doubleDelay, spinner_doubleRepeat,
             spinner_trippleDelay, spinner_trippleRepeat;
+
+    /*rate us section of nav*/
+    private LinearLayout rateUs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,9 +174,33 @@ public class MainActivity extends AppCompatActivity
         // Selected Item at beginning
         navigationView.setCheckedItem(R.id.nav_quickAccess);
         //Transparency of nav
-        navigationView.getBackground().setAlpha(180);
+        navigationView.getBackground().setAlpha(255);
         AppBarLayout appBarLayout = findViewById(R.id.app_bar);
         appBarLayout.bringToFront();
+
+        //rate us section
+        rateUs=findViewById(R.id.nav_rateUs);
+        rateUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e(TAG, "onClick: raterrrrrrrrrrrrr" );
+                rateUsClicked();
+            }
+        });
+    }
+
+    private void rateUsClicked() {
+        // show ratings dialog
+        final RatingDialog ratingDialog = new RatingDialog.Builder(this)
+                .threshold(3)
+                .onRatingBarFormSumbit(new RatingDialog.Builder.RatingDialogFormListener() {
+                    @Override
+                    public void onFormSubmitted(String feedback) {
+                        Log.e(TAG, "onFormSubmitted: "+feedback );
+                    }
+                }).build();
+
+        ratingDialog.show();
     }
 
     private void changeStatusBarColor() {
