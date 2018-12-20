@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity
         setupToolbar();
         init();
         setupBottomSheet();
-        changeStatusBarColor();
+        changeStatusBarColor(R.color.notificationBar);
         setupNavDrawer();
         setupCards();
         setupSettings();
@@ -167,6 +167,31 @@ public class MainActivity extends AppCompatActivity
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawer.addDrawerListener(toggle);
+        mDrawer.addDrawerListener(
+                new DrawerLayout.DrawerListener() {
+                    @Override
+                    public void onDrawerSlide(View drawerView, float slideOffset) {
+                        // Respond when the drawer's position changes
+                        changeStatusBarColor(R.color.drawerOpen_notificationBar);
+                    }
+
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                        // Respond when the drawer is opened
+                    }
+
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+                        // Respond when the drawer is closed
+                        changeStatusBarColor(R.color.drawerClose_notificationBar);
+                    }
+
+                    @Override
+                    public void onDrawerStateChanged(int newState) {
+                        // Respond when the drawer motion state changes
+                    }
+                }
+        );
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -183,11 +208,12 @@ public class MainActivity extends AppCompatActivity
         rateUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e(TAG, "onClick: raterrrrrrrrrrrrr" );
                 rateUsClicked();
             }
         });
     }
+
+
 
     private void rateUsClicked() {
         // show ratings dialog
@@ -203,11 +229,11 @@ public class MainActivity extends AppCompatActivity
         ratingDialog.show();
     }
 
-    private void changeStatusBarColor() {
+    private void changeStatusBarColor(int c) {
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this, R.color.notificationBar));
+        window.setStatusBarColor(ContextCompat.getColor(this, c));
     }
 
     private void setupToolbar() {
