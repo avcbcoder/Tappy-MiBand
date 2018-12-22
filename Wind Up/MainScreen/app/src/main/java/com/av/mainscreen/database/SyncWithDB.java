@@ -2,6 +2,7 @@ package com.av.mainscreen.database;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.av.mainscreen.constants.SETTINGS;
 import com.av.mainscreen.constants.STRINGS;
@@ -11,6 +12,8 @@ import com.av.mainscreen.constants.STRINGS;
  */
 
 public class SyncWithDB {
+    private static final String TAG = "SyncWithDB";
+
     private static Context ctx;
     private static SharedPreferences sharedpreferences;
 
@@ -29,6 +32,8 @@ public class SyncWithDB {
      * Put all data from SETTINGS to DB
      */
     public static void putSettingsInDB(Context context) {
+        Log.e(TAG, "putSettingsInDB: "+SETTINGS.taps[1].getStringForm());
+
         sharedpreferences = context.getSharedPreferences(STRINGS.SETTINGS, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString(STRINGS.MAC_ADDRESS, SETTINGS.MAC_ADDRESS);
@@ -70,6 +75,8 @@ public class SyncWithDB {
 
         /*update timer setting*/
         SETTINGS.TIMER.setSettingFromString(timerSetting);
+
+        Log.e(TAG, "extractSettingsFromDB: oneTap: "+oneTap );
     }
 
 }

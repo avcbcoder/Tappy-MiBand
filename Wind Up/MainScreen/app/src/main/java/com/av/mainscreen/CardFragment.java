@@ -18,6 +18,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -58,20 +59,27 @@ public class CardFragment extends Fragment {
         // Find properties(widgets) of this fragment
         TextView title = view.findViewById(R.id.card_tap_title);
 
-        RecyclerView recyclerView=view.findViewById(R.id.card_tap_recyclerView);
-        recyclerView.setAdapter(new IconAdapter(getContext(),pos));
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
+        RecyclerView recyclerView = view.findViewById(R.id.card_tap_recyclerView);
+        final IconAdapter iconAdapter=new IconAdapter(getContext(), pos);
+        recyclerView.setAdapter(iconAdapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         recyclerView.addItemDecoration(new SpacesItemDecoration(10));
-
+        //callback after recycle view is rendered completely
+        recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                iconAdapter.sync();
+            }
+        });
         // set properties accordingly
         switch (pos) {
-            case 0:
+            case 1:
                 title.setText("Single Tap");
                 break;
-            case 1:
+            case 2:
                 title.setText("Double Tap");
                 break;
-            case 2:
+            case 3:
                 title.setText("Tripple Tap");
                 break;
             default:

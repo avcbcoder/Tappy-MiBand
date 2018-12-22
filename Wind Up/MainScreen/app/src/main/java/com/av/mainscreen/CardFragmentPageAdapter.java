@@ -24,7 +24,7 @@ public class CardFragmentPageAdapter extends FragmentStatePagerAdapter implement
         mFragments = new ArrayList<>();
         mBaseElevation = baseElevation;
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 1; i <= 3; i++)
             mFragments.add(CardFragment.newInstance(i));
     }
 

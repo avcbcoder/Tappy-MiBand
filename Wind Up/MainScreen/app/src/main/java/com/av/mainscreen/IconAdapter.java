@@ -53,6 +53,7 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconVH> {
         holder.icon.setImageResource(iconPack[positionInArray]);
         holder.title.setText(title[positionInArray]);
 
+
         holder.icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,7 +66,8 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconVH> {
     }
 
     private void saveSetting(SwitchIconView icon, int positionInArray) {
-        boolean isEnabled = icon.isEnabled();
+        boolean isEnabled = !icon.isIconEnabled();
+        Log.e(TAG, "saveSetting: icon:"+icon.isIconEnabled()+" act:"+icon.isActivated()+" enab:"+icon.isEnabled() );
         switch (positionInArray) {
             case 0: // Increase Volume
                 volumeSetting(1, isEnabled);
@@ -86,9 +88,11 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconVH> {
                 break;
             case 6:
                 SETTINGS.taps[pos].VIBRATE = isEnabled ? 1 : 0;
+                holderHashMap.get(6).icon.setIconEnabled(isEnabled);
                 break;
             case 7:
-                SETTINGS.taps[pos].TIMER = isEnabled ;
+                SETTINGS.taps[pos].TIMER = isEnabled;
+                holderHashMap.get(7).icon.setIconEnabled(isEnabled);
                 break;
         }
         SyncWithDB.putSettingsInDB(ctx);
@@ -96,22 +100,34 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconVH> {
 
     private void musicSetting(int state, boolean isEnabled) {
         int curr = !isEnabled ? 0 : state;
+        Log.e(TAG, "musicSetting: " + curr);
         SETTINGS.taps[pos].MUSIC = curr;
-        holderHashMap.get(3).icon.setEnabled(curr == 3);
-        holderHashMap.get(4).icon.setEnabled(curr == 1);
-        holderHashMap.get(5).icon.setEnabled(curr == 2);
+        holderHashMap.get(3).icon.setIconEnabled(curr == 3);
+        holderHashMap.get(4).icon.setIconEnabled(curr == 1);
+        holderHashMap.get(5).icon.setIconEnabled(curr == 2);
     }
 
     private void volumeSetting(int state, boolean isEnabled) {
+        Log.e(TAG, "volumeSetting: " + pos);
         int curr = (isEnabled) ? state : 0; // what should be the state
         SETTINGS.taps[pos].VOL = curr;// update settings
-        holderHashMap.get(0).icon.setEnabled(curr == 1);
-        holderHashMap.get(1).icon.setEnabled(curr == 2);
+        holderHashMap.get(0).icon.setIconEnabled(curr == 1);
+        holderHashMap.get(1).icon.setIconEnabled(curr == 2);
     }
 
     @Override
     public int getItemCount() {
         return iconPack.length;
+    }
+
+    public void sync() {
+        holderHashMap.get(0).icon.setIconEnabled(SETTINGS.taps[pos].VOL == 1);
+        holderHashMap.get(1).icon.setIconEnabled(SETTINGS.taps[pos].VOL == 2);
+        holderHashMap.get(3).icon.setIconEnabled(SETTINGS.taps[pos].MUSIC == 3);
+        holderHashMap.get(4).icon.setIconEnabled(SETTINGS.taps[pos].MUSIC == 1);
+        holderHashMap.get(5).icon.setIconEnabled(SETTINGS.taps[pos].MUSIC == 2);
+        holderHashMap.get(6).icon.setIconEnabled(SETTINGS.taps[pos].VIBRATE == 1);
+        holderHashMap.get(7).icon.setIconEnabled(SETTINGS.taps[pos].TIMER);
     }
 
     public class IconVH extends RecyclerView.ViewHolder {

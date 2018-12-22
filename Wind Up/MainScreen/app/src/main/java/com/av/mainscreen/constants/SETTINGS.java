@@ -81,7 +81,7 @@ public class SETTINGS {
     public static final String DEF_CALL_SETTING = "0 (Can't talk to you right now! CALL me later?)";
     public static final String DEF_TIMER_SETTING = "1 1 300 2 300 1 1800 0";
 
-    public static TAP[] taps = {null, new TAP(DEF_ONE_TAP), new TAP(DEF_TWO_TAP), new TAP(DEF_THREE_TAP)};
+    public static TAP[] taps = { null,new TAP(DEF_ONE_TAP), new TAP(DEF_TWO_TAP), new TAP(DEF_THREE_TAP)};
 
     public static class TAP {
         public boolean SWITCH;
