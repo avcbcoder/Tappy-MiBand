@@ -43,7 +43,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activity.TimerSettingActivity"></activity>
+        <activity android:name=".activity.TimerSettingActivity" />
+        <activity android:name=".activity.HowToConnectActivity"></activity>
     </application>
 
 </manifest>

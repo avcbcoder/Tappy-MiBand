@@ -30,6 +30,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.av.mainscreen.activity.CallActivity;
+import com.av.mainscreen.activity.HowToConnectActivity;
 import com.av.mainscreen.activity.TimerActivity;
 import com.av.mainscreen.constants.SETTINGS;
 import com.av.mainscreen.database.SyncWithDB;
@@ -204,7 +205,7 @@ public class MainActivity extends AppCompatActivity
         appBarLayout.bringToFront();
 
         //rate us section
-        rateUs=findViewById(R.id.nav_rateUs);
+        rateUs = findViewById(R.id.nav_rateUs);
         rateUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -214,7 +215,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     private void rateUsClicked() {
         // show ratings dialog
         final RatingDialog ratingDialog = new RatingDialog.Builder(this)
@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity
                 .onRatingBarFormSumbit(new RatingDialog.Builder.RatingDialogFormListener() {
                     @Override
                     public void onFormSubmitted(String feedback) {
-                        Log.e(TAG, "onFormSubmitted: "+feedback );
+                        Log.e(TAG, "onFormSubmitted: " + feedback);
                     }
                 }).build();
 
@@ -343,8 +343,9 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_quickAccess) {
+        if (id == R.id.nav_howToConnect) {
+            startActivity(new Intent(this, HowToConnectActivity.class));
+        } else if (id == R.id.nav_quickAccess) {
 
         } else if (id == R.id.nav_Call) {
             Intent i = new Intent(MainActivity.this, CallActivity.class);

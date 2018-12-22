@@ -5,6 +5,10 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_howToConnect"
+            android:icon="@drawable/nav_question"
+            android:title="How to connect" />
+        <item
             android:id="@+id/nav_quickAccess"
             android:icon="@drawable/nav_quick_access"
             android:title="Quick Access" />
