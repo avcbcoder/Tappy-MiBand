@@ -14,7 +14,7 @@
         <shape android:shape="rectangle">
             <!-- put your background color here-->
             <corners android:radius="3dp" />
-            <solid android:color="@color/activity_call_toolbar" />
+            <solid android:color="@color/toolbar" />
         </shape>
     </item>
 

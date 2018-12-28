@@ -86,7 +86,7 @@ public class ForegroundService extends Service {
 
         // Create notification default intent.
         // leave empty if nothing needs to be done on click on notification
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent();// this, MainActivity.class
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         Bitmap largeIconBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.timer_icon);

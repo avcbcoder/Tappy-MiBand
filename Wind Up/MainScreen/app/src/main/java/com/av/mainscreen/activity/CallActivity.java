@@ -51,7 +51,7 @@ public class CallActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_call);
 
         // changing color of status bar
-        changeStatusBarColor(R.color.activity_call_toolbar);
+        changeStatusBarColor(R.color.toolbar);
 
         // ask for all the permissions required
         ActivityCompat.requestPermissions(CallActivity.this,

@@ -110,7 +110,7 @@ public class PerformCommands {
         lastRepliedCall = CallReceiver.INCOMING_callStartTime;
         try {
             String msg = SETTINGS.CALL.TEXT.length() == 0 ? SETTINGS.CALL.DEF_TEXT : SETTINGS.CALL.TEXT;
-            //MessageHandling.sendMessage(CallReceiver.savedNumber, msg);
+            MessageHandling.sendMessage(CallReceiver.savedNumber, msg);
             String nameOfCaller = MessageHandling.extractName(CallReceiver.savedNumber, serviceContext);
             displayOnBand("Replied " + nameOfCaller);
         } catch (Exception e) {
@@ -123,7 +123,7 @@ public class PerformCommands {
     }
 
     private void musicControl(SETTINGS.TAP tap) {
-        Log.e(TAG, "syncMusic: ");
+        Log.e(TAG, "syncMusic: "+tap.MUSIC);
         if (mAudioManager == null)
             mAudioManager = (AudioManager) serviceContext.getSystemService(Context.AUDIO_SERVICE);
         long eventtime = SystemClock.uptimeMillis();

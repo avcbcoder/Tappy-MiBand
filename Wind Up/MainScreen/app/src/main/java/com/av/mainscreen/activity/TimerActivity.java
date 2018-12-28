@@ -31,7 +31,7 @@ public class TimerActivity extends AppCompatActivity implements NumberPicker.OnV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
         init();
-        changeStatusBarColor(R.color.activity_call_toolbar);
+        changeStatusBarColor(R.color.toolbar);
     }
 
     @Override
