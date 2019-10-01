@@ -9,7 +9,7 @@ Tappy is built for helping Mi Band users to controll their device remotely using
 #### COMPATIBLE WITH : ![](https://img.shields.io/badge/-Mi%20Band%202%2C%20Mi%20Band%20HRX%20Edition%2C%20Mi%20Band%203-important)
 <br/>
 <p align="center">
-<img src="https://i.imgur.com/x9IAst2.png" height="350" title="Tappy">
+<img src="https://i.imgur.com/AIrACBo.png" height="500" title="Tappy">
 </p>
 
 ## Features
