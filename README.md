@@ -7,12 +7,10 @@ Tappy is built for helping Mi Band users to controll their device remotely using
 #### Build with  ![](https://img.shields.io/badge/-Java-orange) ![](https://img.shields.io/badge/-kotlin-informational) ![](https://img.shields.io/badge/-Android-active) ![](https://img.shields.io/badge/-Bluetooth-red) ![](https://img.shields.io/badge/-BLE-9cf)
 #### Stable release version : ![](https://img.shields.io/badge/version-1.1.3-blue)
 #### COMPATIBLE WITH : ![](https://img.shields.io/badge/-Mi%20Band%202%2C%20Mi%20Band%20HRX%20Edition%2C%20Mi%20Band%203-important)
-
 <br/>
 <p align="center">
 <img src="https://i.imgur.com/x9IAst2.png" height="350" title="Tappy">
 </p>
-<br/>
 
 ## Features
 - [x] **Controll Music** (next/prev/pause/play) and volume. 
@@ -20,7 +18,8 @@ Tappy is built for helping Mi Band users to controll their device remotely using
 - [x] **Take screenshots** : in case you want to see someone else's activity on your phone.
 - [x] **SOS** - Tap multiple times continuously for 5 sec to enable this. It sends your current location along with a help message to selected contacts.
 
-### More
+## Screenshots
+
 <br/>
 <p align="center">
 <img src="https://i.imgur.com/7M9OJdA.gif" height="350" title="Tappy">
