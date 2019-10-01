@@ -10,7 +10,7 @@ Tappy is built for helping Mi Band users to controll their device remotely using
 
 <br/>
 <p align="center">
-<img src="https://i.imgur.com/7M9OJdA.gif" height="350" title="Tappy">
+<img src="https://i.imgur.com/x9IAst2.png" height="350" title="Tappy">
 </p>
 <br/>
 
@@ -20,8 +20,10 @@ Tappy is built for helping Mi Band users to controll their device remotely using
 - [x] **Take screenshots** : in case you want to see someone else's activity on your phone.
 - [x] **SOS** - Tap multiple times continuously for 5 sec to enable this. It sends your current location along with a help message to selected contacts.
 
+### More
 <br/>
 <p align="center">
-<img src="https://i.imgur.com/x9IAst2.png" height="350" title="Tappy">
+<img src="https://i.imgur.com/7M9OJdA.gif" height="350" title="Tappy">
 </p>
 <br/>
+
